@@ -34,6 +34,16 @@ Then at the project level I can use linter, stylus, or html validator to block m
 
 ## Usage Instructions
 
+### Commands
+
+| Command             | Description                                                                |
+| ------------------- | -------------------------------------------------------------------------- |
+| `npm run build`     | Build the app using tsdown                                                 |
+| `npm run test`      | Runs native TS tests using happy-dom                                       |
+| `npm run storybook` | runs storybook which shows the components                                  |
+| `npm run clean`     | Cleans the code with prettier                                              |
+| `npm run validate`  | Validates the project using typescript compiler, prettier and spellchecker |
+
 ### General Usage
 
 To add library to html

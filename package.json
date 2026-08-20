@@ -23,6 +23,8 @@
   "scripts": {
     "prebuild": "prettier . --check && tsc --noEmit",
     "build": "tsdown src/index.ts --format esm --dts --clean --external styled-components,react",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "clean": "prettier . --write",
     "validate": "prettier . --check && tsc --noEmit && npx cspell README.md",
     "test": "node --import tsx --import ./src/test-setup.ts --test src/**/*.test.{ts,tsx}",
@@ -30,6 +32,8 @@
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^20.11.6",
+    "@storybook/react": "^10.5.10",
+    "@storybook/react-vite": "^10.5.10",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^16.0.0",
     "@tsdown/css": "^0.22.14",
@@ -43,10 +47,12 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router": "^8.2.0",
+    "storybook": "^10.5.10",
     "styled-components": "^6.5.3",
     "tsdown": "^0.22.14",
     "tsx": "^4.23.12",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
