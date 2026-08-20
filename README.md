@@ -21,7 +21,7 @@ I prefer this
 
 ```JSX
 <Toast></Toast>
-<div className="Container">
+<div className="container">
   <main className="page">
     <section className="card">
       <h1> Hello World</h1>
@@ -30,4 +30,4 @@ I prefer this
 </div>
 ```
 
-Then at the project level I can use linkter stylus, html validator to block mistakes. 
+Then at the project level I can use linter, stylus, or html validator to block mistakes. 
