@@ -74,13 +74,6 @@ To avoid website blinking, you need a loading div before JS app fully loads. Imp
 <html>
   <head>
     ...
-    <style>
-      :root {
-        body-background-color: "#000000";
-        card-background-color: "#ffffff";
-        fnt-color: "#000000";
-      }
-    </style>
     <link rel="stylesheet" href="simple-component-library/loading.css" />
     ...
   </head>
