@@ -1,3 +1,1 @@
-import "./main.css";
-
-export { default as Loading } from "./Loading.tsx";
+export { default as Loading } from "./components/Loading.tsx";
