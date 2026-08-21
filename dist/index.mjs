@@ -23,7 +23,7 @@ const ButtonBarDiv = styled.div`
     return props.$position;
   }};
 `;
-function ButtonBar({ children, position = "center" }) {
+function ButtonBar({ children, position = "end" }) {
   return /* @__PURE__ */ jsx(ButtonBarDiv, {
     $position: position,
     children,

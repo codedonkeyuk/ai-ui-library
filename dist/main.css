@@ -27,7 +27,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: var(--spinner-container-height);
+  height: 100%;
+  width: 100%;
   background-color: var(--spinner-container-bg);
 }
 

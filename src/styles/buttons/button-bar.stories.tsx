@@ -1,0 +1,42 @@
+import React from "react";
+import type { Meta, StoryObj } from "@storybook/react";
+import "./buttons.css";
+
+const meta: Meta = {
+  title: "Styles/Buttons.css/button-bar",
+};
+
+export default meta;
+
+export const Default: StoryObj = {
+  render: (): React.JSX.Element => (
+    <div className="button-bar">
+      <a href="#" className="btn">
+        Standard Link
+      </a>{" "}
+      <button className="btn">Standard Button</button>
+    </div>
+  ),
+};
+
+export const Right: StoryObj = {
+  render: (): React.JSX.Element => (
+    <div className="button-bar start">
+      <a href="#" className="btn">
+        Standard Link
+      </a>{" "}
+      <button className="btn">Standard Button</button>
+    </div>
+  ),
+};
+
+export const Center: StoryObj = {
+  render: (): React.JSX.Element => (
+    <div className="button-bar center">
+      <a href="#" className="btn">
+        Standard Link
+      </a>{" "}
+      <button className="btn">Standard Button</button>
+    </div>
+  ),
+};

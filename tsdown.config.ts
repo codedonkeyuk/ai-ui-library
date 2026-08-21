@@ -5,5 +5,14 @@ export default defineConfig({
     index: "src/index.ts",
   },
   format: ["esm"],
-  copy: [{ from: "src/styles/main.css", to: "dist/" }],
+  copy: [
+    {
+      from: "src/styles/main/main.css",
+      to: "dist/",
+    },
+    {
+      from: "src/styles/buttons/buttons.css",
+      to: "dist/",
+    },
+  ],
 });

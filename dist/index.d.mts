@@ -4,7 +4,7 @@ import { JSX as JSX$1, ReactNode } from "react";
 declare function Loading(): JSX.Element;
 //#endregion
 //#region src/components/ButtonBar.d.ts
-type ButtonBarPosition = "start" | "center" | "end" | "space-between";
+type ButtonBarPosition = "start" | "center" | "end";
 interface Props {
   children: ReactNode;
   position?: ButtonBarPosition;

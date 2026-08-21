@@ -10,7 +10,6 @@
 
 :root {
   --spinner-container-bg: #f9f9f9;
-  --spinner-container-height: 100vh;
 
   --spinner-size: 50px;
   --spinner-thickness: 5px;
@@ -27,7 +26,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: var(--spinner-container-height);
+  height: 100%;
+  width: 100%;
   background-color: var(--spinner-container-bg);
 }
 

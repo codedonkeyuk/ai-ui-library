@@ -15,7 +15,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./main.css": "./dist/main.css"
+    "./main.css": "./dist/main.css",
+    "./buttons.css": "./dist/buttons.css"
   },
   "files": [
     "dist"
@@ -32,14 +33,15 @@
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^20.11.6",
-    "@storybook/react": "^10.5.10",
     "@storybook/react-vite": "^10.5.10",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^16.0.0",
     "@tsdown/css": "^0.22.14",
     "@types/node": "^26.2.0",
     "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.2.4",
     "@types/styled-components": "^5.1.36",
+    "@whitespace/storybook-addon-html": "^9.0.0",
     "cspell": "^10.0.1",
     "happy-dom": "^20.11.6",
     "husky": "^9.1.7",

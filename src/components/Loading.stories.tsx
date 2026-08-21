@@ -4,8 +4,18 @@ import Loading from "./Loading.tsx";
 const meta: Meta<typeof Loading> = {
   title: "Components/Loading",
   component: Loading,
+  decorators: [
+    (Story) => (
+      <div style={{ height: "300px", width: "300px" }}>
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     layout: "centered",
+    html: {
+      disable: true,
+    },
   },
   tags: ["autodocs"],
 };
