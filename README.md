@@ -34,6 +34,29 @@ Then at the project level I can use linter, stylus, or html validator to block m
 
 ## Usage Instructions
 
+### WARNING
+
+I don't distribute code on NPM. To use this library locally you need to check it out locally and link it to your project.
+
+Check out you code, open terminal, in root of simple-component-library
+
+```bash
+npm link
+```
+
+Within the root of your consuming project
+
+```bash
+npm link simple-component-library
+```
+
+use it within your project
+
+```ts
+import { MyComponent } from "simple-component-library";
+import "simple-component-library/main.css";
+```
+
 ### Commands
 
 | Command             | Description                                                                |
