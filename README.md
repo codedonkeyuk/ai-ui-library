@@ -44,6 +44,15 @@ Then at the project level I can use linter, stylus, or html validator to block m
 | `npm run clean`     | Cleans the code with prettier                                              |
 | `npm run validate`  | Validates the project using typescript compiler, prettier and spellchecker |
 
+### Project Structure
+
+### Commands
+
+| Command         | Description                                                                                                                           |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `/src/main.css` | Contains global variable declarations that can be over written, and loading style                                                     |
+| `/src/index.ts` | Main export point. If you create a component you must reference it here. You also need to import css files if you wish to export them |
+
 ### General Usage
 
 To add library to html
@@ -74,7 +83,7 @@ To avoid website blinking, you need a loading div before JS app fully loads. Imp
 <html>
   <head>
     ...
-    <link rel="stylesheet" href="simple-component-library/loading.css" />
+    <link rel="stylesheet" href="simple-component-library/main.css" />
     ...
   </head>
   <body>
