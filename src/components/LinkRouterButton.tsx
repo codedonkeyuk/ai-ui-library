@@ -5,11 +5,13 @@ import type {
   Component,
 } from "react";
 import { Link, type LinkProps } from "react-router";
-import styled from "styled-components";
+import sc from "styled-components";
 import type {
   IStyledComponentBase,
   CSSPropertiesWithVars,
 } from "styled-components/dist/types";
+
+const styled = (sc as any).default || sc;
 
 const RouterLinkButton: IStyledComponentBase<
   "web",
