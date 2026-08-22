@@ -79,3 +79,16 @@ h3 {
     transform: rotate(360deg);
   }
 }
+
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.error-info {
+  border: 2px solid black;
+  padding: 15px;
+}

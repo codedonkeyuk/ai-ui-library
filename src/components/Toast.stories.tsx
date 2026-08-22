@@ -19,7 +19,7 @@ const ToastTestComponent = (): JSX.Element => {
         >
           Trigger Info
         </button>
-      </p>{" "}
+      </p>
       <p>
         <button
           className="btn"

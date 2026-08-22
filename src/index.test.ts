@@ -15,7 +15,7 @@ describe("Module Export Tests", () => {
 
   test("should have exactly the expected number of exports", () => {
     const exportNames = Object.keys(Testee);
-    const EXPECTED_EXPORT_COUNT = 6;
+    const EXPECTED_EXPORT_COUNT = 9;
     assert.strictEqual(
       exportNames.length,
       EXPECTED_EXPORT_COUNT,
@@ -40,5 +40,14 @@ describe("Module Export Tests", () => {
   });
   test("should successfully export the useToast component", () => {
     assertExportIsValid(Testee.useToast, "useToast");
+  });
+  test("should successfully export the ErrorBoundary component", () => {
+    assertExportIsValid(Testee.ErrorBoundary, "ErrorBoundary");
+  });
+  test("should successfully export the ErrorPage component", () => {
+    assertExportIsValid(Testee.ErrorPage, "ErrorPage");
+  });
+  test("should successfully export the handleJsError component", () => {
+    assertExportIsValid(Testee.handleJsError, "handleJsError");
   });
 });

@@ -1,10 +1,10 @@
-[10:24:14.199] [INFO] storybook v10.5.10
-[10:24:14.538] [DEBUG] Getting package.json info for /Users/leighgordy/workspace/simple-component-library/package.json...
-[10:24:14.744] [DEBUG] Could not determine @babel/preset-env version in use. In case of runtime errors with @babel/preset-env, you may need to set the babelRemoveBugfixes feature flag in your `main.ts` file.
-[10:24:14.952] [INFO] Starting...
-[10:24:15.014] [DEBUG] Starting preview..
-[10:24:15.034] [WARN] 🚨 Unable to index ./src/components/LinkRouterButton.stories.tsx,./src/components/Toast.stories.tsx:
-  Error: Duplicate stories with id: components-linkrouterbutton--default
+[20:26:17.809] [INFO] storybook v10.5.10
+[20:26:18.801] [DEBUG] Getting package.json info for /Users/leighgordy/workspace/simple-component-library/package.json...
+[20:26:19.001] [DEBUG] Could not determine @babel/preset-env version in use. In case of runtime errors with @babel/preset-env, you may need to set the babelRemoveBugfixes feature flag in your `main.ts` file.
+[20:26:19.186] [INFO] Starting...
+[20:26:19.274] [DEBUG] Starting preview..
+[20:26:19.292] [WARN] 🚨 Unable to index ./src/components/ErrorBoundary.stories.tsx,./src/components/Toast.stories.tsx:
+  Error: Duplicate stories with id: components-toast--default
     at _StoryIndexGenerator.chooseDuplicate (file:///Users/leighgordy/workspace/simple-component-library/node_modules/storybook/dist/core-server/index.js:19362:13)
     at file:///Users/leighgordy/workspace/simple-component-library/node_modules/storybook/dist/core-server/index.js:19421:52
     at Array.forEach (<anonymous>)
@@ -15,8 +15,8 @@
     at async resolveConfig (file:///Users/leighgordy/workspace/simple-component-library/node_modules/vite/dist/node/chunks/node.js:36606:11)
     at async _createServer (file:///Users/leighgordy/workspace/simple-component-library/node_modules/vite/dist/node/chunks/node.js:26388:65)
     at async Module.start (file:///Users/leighgordy/workspace/simple-component-library/node_modules/@storybook/builder-vite/dist/index.js:1621:17)
-[10:24:15.038] [ERROR] Failed to build the preview
-[10:24:15.038] [ERROR] Error: Unable to index ./src/components/LinkRouterButton.stories.tsx,./src/components/Toast.stories.tsx
+[20:26:19.295] [ERROR] Failed to build the preview
+[20:26:19.295] [ERROR] Error: Unable to index ./src/components/ErrorBoundary.stories.tsx,./src/components/Toast.stories.tsx
     at _StoryIndexGenerator.getIndexAndStats (file://./node_modules/storybook/dist/core-server/index.js:19426:15)
     at async _StoryIndexGenerator.getIndex (file://./node_modules/storybook/dist/core-server/index.js:19405:13)
     at async BasicMinimalPluginContext.config (file://./node_modules/@storybook/builder-vite/dist/_node-chunks/chunk-I2LYMCPD.js:188:19)
@@ -27,5 +27,5 @@
     at async storybookDevServer (file://./node_modules/storybook/dist/core-server/index.js:11225:59)
     at async buildOrThrow (file://./node_modules/storybook/dist/core-server/index.js:8331:12)
     at async buildDevStandalone (file://./node_modules/storybook/dist/core-server/index.js:11990:41)
-[10:24:15.039] [WARN] Broken build, fix the error above.
+[20:26:19.296] [WARN] Broken build, fix the error above.
 You may need to refresh the browser.
