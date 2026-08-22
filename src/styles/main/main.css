@@ -16,6 +16,37 @@
   --spinner-track-color: #e0e0e0;
   --spinner-accent-color: #3498db;
   --spinner-speed: 1s;
+
+  --font-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --font-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem);
+  --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);
+  --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);
+  --line-height-body: 1.6;
+  --line-height-heading: 1.25;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: var(--font-body);
+  line-height: var(--line-height-body);
+  color: #1a1a1a;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font-size: var(--font-h1);
+  line-height: var(--line-height-heading);
+  font-weight: 800;
+}
+h2 {
+  font-size: var(--font-h2);
+  line-height: var(--line-height-heading);
+  font-weight: 700;
+}
+h3 {
+  font-size: var(--font-h3);
+  line-height: var(--line-height-heading);
+  font-weight: 600;
 }
 
 /*
