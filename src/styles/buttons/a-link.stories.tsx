@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import "./buttons.css";
 
 const meta: Meta = {
-  title: "Styles/Buttons.css/link",
+  title: "Styles/Buttons.css/a-link",
 };
 
 export default meta;
