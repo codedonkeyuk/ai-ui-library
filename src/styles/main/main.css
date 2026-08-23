@@ -9,7 +9,7 @@
 */
 
 :root {
-  --spinner-container-bg: #f9f9f9;
+  --container-bg: #f9f9f9;
 
   --spinner-size: 50px;
   --spinner-thickness: 5px;
@@ -53,13 +53,32 @@ h3 {
  Loading styles
 */
 
-.spinner-container {
+.message-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
-  background-color: var(--spinner-container-bg);
+  background-color: var(--container-bg);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+  background-color: var(--container-bg);
+}
+
+.page {
+  width: 1200px;
+}
+
+@media (max-width: 1200px) {
+  .page {
+    width: 100%;
+  }
 }
 
 .loading-spinner {
@@ -78,14 +97,6 @@ h3 {
   100% {
     transform: rotate(360deg);
   }
-}
-
-.error-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
 }
 
 .error-info {

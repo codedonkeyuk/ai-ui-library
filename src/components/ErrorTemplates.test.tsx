@@ -27,7 +27,7 @@ describe("ErrorTemplates", () => {
     assert.strictEqual(
       target.innerHTML,
       `
-  <div class="error-container">
+  <div class="message-container">
     <div class="error-info">
       <h1>500 - Internal Error</h1>
       <p>
