@@ -7,3 +7,4 @@ export { default as ErrorBoundary } from "./components/ErrorBoundary.tsx";
 export { ErrorPage, handleJsError } from "./components/ErrorTemplates.tsx";
 export { default as Input } from "./components/Input.tsx";
 export { default as InputCheckboxGroup } from "./components/InputCheckboxGroup.tsx";
+export { default as InputRadioGroup } from "./components/InputRadioGroup.tsx";
