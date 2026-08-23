@@ -15,7 +15,7 @@ describe("Module Export Tests", () => {
 
   test("should have exactly the expected number of exports", () => {
     const exportNames = Object.keys(Testee);
-    const EXPECTED_EXPORT_COUNT = 10;
+    const EXPECTED_EXPORT_COUNT = 11;
     assert.strictEqual(
       exportNames.length,
       EXPECTED_EXPORT_COUNT,
@@ -52,5 +52,8 @@ describe("Module Export Tests", () => {
   });
   test("should successfully export the Input component", () => {
     assertExportIsValid(Testee.Input, "Input");
+  });
+  test("should successfully export the InputCheckboxGroup component", () => {
+    assertExportIsValid(Testee.InputCheckboxGroup, "InputCheckboxGroup");
   });
 });

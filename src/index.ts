@@ -6,3 +6,4 @@ export { ToastProvider, useToast } from "./components/ToastProvider.tsx";
 export { default as ErrorBoundary } from "./components/ErrorBoundary.tsx";
 export { ErrorPage, handleJsError } from "./components/ErrorTemplates.tsx";
 export { default as Input } from "./components/Input.tsx";
+export { default as InputCheckboxGroup } from "./components/InputCheckboxGroup.tsx";
