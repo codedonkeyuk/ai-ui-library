@@ -1,0 +1,34 @@
+# 📦 Simple Component Library
+
+I am not a fan of over engineered ui libraries. I appreciate that bundling CSS in components is seen as efficient and stops style bleed. Speaking as someone who knows both HTML and CSS, I find they slow me down. They get in the way when you are trying to make a page accessible.
+
+This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography). So really a Highbred between old school css and more modern components.
+
+## 🚀 Getting Started
+
+I don't distribute code on NPM. To use this library locally you need to check it out locally and link it to your project.
+
+Check out you code, open terminal, in root of simple-component-library
+
+```bash
+npm link
+```
+
+Within the root of your consuming project
+
+```bash
+npm link simple-component-library
+```
+
+use it within your project
+
+```ts
+import { MyComponent } from "simple-component-library";
+import "simple-component-library/main.css";
+```
+
+## 🛠️ Project Details
+
+- **Engine:** Vite
+- **Exported Library:** React JS
+- **Environment:** Storybook 10

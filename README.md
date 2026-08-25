@@ -2,7 +2,7 @@
 
 I am not a fan of over engineered ui libraries. I appreciate that bundling CSS in components is seen as efficient and stops style bleed. Speaking as someone who knows both HTML and CSS, I find they slow me down. They get in the way when you are trying to make a page accessible.
 
-This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography). So really a Highbred between old scroll css and components.
+This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography). So really a Highbred between old school css and more modern components.
 
 This syntax makes me sad!
 
