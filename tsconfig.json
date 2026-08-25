@@ -19,5 +19,10 @@
     "isolatedDeclarations": true,
     "declarationMap": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "declarations.d.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "declarations.d.ts",
+    "src/styled-components-shim.mjs"
+  ]
 }
