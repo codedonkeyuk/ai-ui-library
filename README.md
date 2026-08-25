@@ -1,8 +1,10 @@
 # simple-component-library
 
-I don't like large opinionated CSS libraries. I've deliberately designed this one to only give me the functional components that I need, and simple CSS for decorative components.
+I am not a fan of over engineered ui libraries. I appreciate that bundling CSS in components is seen as efficient and stops style bleed. Speaking as someone who knows both HTML and CSS, I find they slow me down. They get in the way when you are trying to make a page accessible.
 
-THis syntax makes me cringe!
+This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography). So really a Highbred between old scroll css and components.
+
+This syntax makes me sad!
 
 ```JSX
 <Toast></Toast>
@@ -15,7 +17,7 @@ THis syntax makes me cringe!
 </Container>
 ```
 
-Only component is a functional component, why wrap the rest, its cryptic if you are new. Why slow you project development down!
+Only component is a functional component, why wrap the rest, its cryptic.
 
 I prefer this
 
@@ -25,12 +27,12 @@ I prefer this
   <main className="page">
     <section className="card">
       <h1> Hello World</h1>
-    </Card>
-  </Page>
+    </section>
+  </main>
 </div>
 ```
 
-Then at the project level I can use linter, stylus, or html validator to block mistakes.
+Then at the project level I can use linter, stylus, or html validator to police the mistakes.
 
 ## Usage Instructions
 
