@@ -5,9 +5,11 @@ import Input from "./Input.tsx";
 const meta: Meta<typeof Input> = {
   title: "Components/Input",
   component: Input,
+  tags: ['autodocs'],
   parameters: {
     layout: "centered",
   },
+  
   args: {
     label: "Example field",
     name: "example",
