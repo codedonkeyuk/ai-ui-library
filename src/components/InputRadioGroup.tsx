@@ -55,11 +55,15 @@ const RadioDiv = styled.div`
 `;
 
 interface Props {
+  /** Name of the group of fildes, becomes the fieldsets legend */
   legend: string;
+  /** The array of radios which are rendered, min which state is kept */
   radios: Radio[];
+  /** Is triggered when a radio is selected, you must update the state using the recieved id */
   radioSelected: (id: string) => void;
 }
 
+/** Renders a Fieldset containing multiple radio buttons */
 export default function InputRadioGroup({
   legend,
   radios,

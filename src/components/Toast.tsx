@@ -11,7 +11,9 @@ export interface ToastOptions {
 }
 
 interface ToastProps extends ToastOptions {
+  /** Show the toast */
   isVisible: boolean;
+  /** Do something on close. Its up to you to make isVisible false */
   onClose?: () => void;
 }
 
@@ -79,6 +81,7 @@ const StyledToast = styled.div<{ variant: ToastVariant }>`
   }
 `;
 
+/** Toast warning for all situations */
 const Toast = ({
   isVisible,
   message,

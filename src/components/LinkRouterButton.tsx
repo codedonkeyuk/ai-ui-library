@@ -27,4 +27,5 @@ const RouterLinkButton: IStyledComponentBase<
   className: "btn",
 })``;
 
+/** Decorates react-router link with css */
 export default RouterLinkButton;

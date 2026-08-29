@@ -19,6 +19,7 @@ interface ToastContextType {
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
 
+/** Provider used to show and destroy toasts fired within the application. */
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {

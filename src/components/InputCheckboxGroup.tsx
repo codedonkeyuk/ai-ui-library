@@ -58,11 +58,15 @@ const CheckboxDiv = styled.div`
 `;
 
 interface Props {
+  /** The name of the group of fields. Legen belonging to the wrapping fieldset. */
   legend: string;
+  /** The array of checkboxes from which the group is rendered */
   checkboxes: Checkbox[];
+  /** When a checkbox is selected this function will retrun the id and new state. Its upto you to update the checkboxes array*/
   checkboxSelected: (id: string, selected: boolean) => void;
 }
 
+/** Renders a Fieldset containing multiple checkboxes */
 export default function InputCheckboxGroup({
   legend,
   checkboxes,

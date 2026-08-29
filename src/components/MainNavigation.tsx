@@ -226,9 +226,13 @@ const RenderLinks = ({
 );
 
 interface Props {
+  /** Nesed array representing the links for the menu. Level one shows on tool bar. AQll other levels are grouped popovers */
   links: NavigationLink[];
 }
 
+/**
+ * Main navigation for use on a website, which should be added ot a page header. Its been designed to be responsive and respect every platform. So it renders the menu options on a desktop and hamburger on a mobile device.
+ */
 export default function MainNavigation({ links }: Props): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toggleMenu = () => setIsOpen((prev) => !prev);

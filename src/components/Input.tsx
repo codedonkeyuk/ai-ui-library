@@ -19,10 +19,17 @@ const FormWarning = styled.p`
 `;
 
 interface Props extends ComponentPropsWithoutRef<"input"> {
+  /** The label text for the input field */
   label: string;
+  /** The message that should be show if an error occurs */
   warningMessage?: string;
 }
 
+/**
+ * Input component is a accessible input field that can show various states.
+ * It should be be used for any singualar input item a textfield, datefield for example.
+ * Multiple inputs like checkboxes or radio buttons should be use InputCheckboxGroup or InputRadioGroup respectivley.
+ */
 export default function Input({
   id,
   label,

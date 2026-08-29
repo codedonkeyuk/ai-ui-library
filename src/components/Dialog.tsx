@@ -4,19 +4,16 @@ import styled from "styled-components";
 const DialogStyled = styled.dialog``;
 
 interface DialogProps {
+  /** Controls the visibility of the native dialog element. */
   isOpen: boolean;
-  children: React.ReactNode;
+  /** Required callback for the dialog close event. */
   onClose: () => void;
+  /** The content to be rendered inside the dialog. */
+  children: React.ReactNode;
 }
 
 /**
  * HTML Dialog Component
- *
- * @param {Object} props - The component props.
- * @param {boolean} props.isOpen - Controls the visibility of the native dialog element.
- * @param {() => void} props.onClose - Required callback for the dialog close event (e.g., native Escape key or programmatic close).
- * @param {React.ReactNode} props.children - The content to be rendered inside the dialog, including any close buttons.
- * @returns {JSX.Element} A controlled native HTML dialog component.
  */
 export default function Dialog({
   isOpen,
