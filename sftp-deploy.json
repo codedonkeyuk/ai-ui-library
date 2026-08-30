@@ -1,5 +1,5 @@
 {
   "keychainService": "codedonkey-sftp-deploy",
   "localSource": "./storybook-static",
-  "remoteDestination": "/simple-component-librarysim"
+  "remoteDestination": "/simple-component-library"
 }
