@@ -25,7 +25,7 @@
     "prebuild": "prettier . --check && tsc --noEmit",
     "build": "tsdown src/index.ts --format esm --dts --clean --external styled-components,react",
     "storybook": "storybook dev -p 6006",
-    "buildStorybook": "storybook build && cp .htaccess storybook-static/",
+    "buildStorybook": "storybook build && cp assets/* storybook-static/",
     "serveStorybook": "npx http-server storybook-static",
     "clean": "prettier . --write",
     "validate": "prettier . --check && tsc --noEmit && npx cspell README.md",
