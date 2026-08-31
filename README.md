@@ -2,8 +2,6 @@
 
 This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography). Hybrid between old school css and more modern components.
 
-I will be using this throughout my projects in future because I hate rewriting stuff.
-
 This example is typical of most commercial component libraries. Steep learning curve, hard coded logic which is terrible for accessibility.
 
 ```JSX
@@ -94,6 +92,7 @@ export default function App(): React.JSX.Element {
 
 Using a single global.css is more efficient than adding a tag to each of the projects, as that would increase the bundle size of each. You can take advantage of global scope too, but native css is still more efficient in the browser.
 
+```html
 <html>
   <head>
     ...
@@ -101,6 +100,7 @@ Using a single global.css is more efficient than adding a tag to each of the pro
     ...
   </head>
 </html>
+```
 
 ### Commands
 
