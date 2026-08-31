@@ -1,7 +1,6 @@
 import type { Preview } from "@storybook/react-vite";
-
-import "../src/styles/main/main.css";
-import "../src/styles/buttons/buttons.css";
+import "../src/styles/loading/loading.css";
+import GlobalStyle from "../src/styles/global/GlobalStyle";
 
 const preview: Preview = {
   parameters: {
@@ -16,5 +15,13 @@ const preview: Preview = {
       test: "todo",
     },
   },
+  decorators: [
+    (Story) => (
+      <>
+        <GlobalStyle />
+        <Story />
+      </>
+    ),
+  ],
 };
 export default preview;

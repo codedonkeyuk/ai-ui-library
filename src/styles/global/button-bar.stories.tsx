@@ -1,9 +1,8 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import "./buttons.css";
 
 const meta: Meta = {
-  title: "Styles/Buttons.css/button-bar",
+  title: "Styles/Global/button-bar",
 };
 
 export default meta;

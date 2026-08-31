@@ -7,12 +7,16 @@ export default defineConfig({
   format: ["esm"],
   copy: [
     {
-      from: "src/styles/main/main.css",
+      from: "src/styles/loading/loading.css",
       to: "dist/",
     },
     {
-      from: "src/styles/buttons/buttons.css",
+      from: "src/styles/global/global.css",
       to: "dist/",
     },
   ],
+  loader: {
+    ".css": "text",
+    css: "text",
+  },
 });

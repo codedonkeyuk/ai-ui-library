@@ -1,9 +1,9 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import "./main.css";
+import "./loading.css";
 
 const meta: Meta = {
-  title: "Styles/Main.css/loading",
+  title: "Styles/Loading.css",
   decorators: [
     (Story) => (
       <div style={{ height: "100vh", width: "100vw" }}>

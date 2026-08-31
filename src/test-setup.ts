@@ -8,14 +8,13 @@ if (typeof (styledComponents as any).default === "function") {
   Object.assign(styledComponents, (styledComponents as any).default);
 }
 
-const cssStub = "data:text/javascript,export default {};";
-
 module.registerHooks({
   resolve(specifier, context, nextResolve) {
-    if (specifier.endsWith(".css")) {
+    if (specifier.includes(".css")) {
       return {
         shortCircuit: true,
-        url: cssStub,
+        format: "module",
+        url: "data:text/javascript,export default '';",
       };
     }
     return nextResolve(specifier, context);

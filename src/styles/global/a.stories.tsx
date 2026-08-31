@@ -1,15 +1,16 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import "./buttons.css";
 
 const meta: Meta = {
-  title: "Styles/Buttons.css/button",
+  title: "Styles/Global/a-link",
 };
 
 export default meta;
 
 export const Default: StoryObj = {
   render: (): React.JSX.Element => (
-    <button className="btn">Standard Button</button>
+    <a href="#" className="btn">
+      Standard Link
+    </a>
   ),
 };

@@ -1,16 +1,5 @@
-/**
-* Variables and styles used by the loading page are defined here.
-* This project has been designed to allow CSS overrides. which is why all the variables are defined here
-* instead of within the component library.
-**/
-
-/*
- Site wide variables
-*/
-
 :root {
-  --spinner-container-bg: #f9f9f9;
-  --spinner-container-height: 100vh;
+  --container-bg: #f9f9f9;
 
   --spinner-size: 50px;
   --spinner-thickness: 5px;
@@ -19,17 +8,13 @@
   --spinner-speed: 1s;
 }
 
-/*
- Loading styles
-*/
-
-.spinner-container {
+.message-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
-  background-color: var(--spinner-container-bg);
+  background-color: var(--container-bg);
 }
 
 .loading-spinner {

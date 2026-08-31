@@ -22,7 +22,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "declarations.d.ts",
+    "*.d.ts",
     "src/styled-components-shim.mjs"
   ]
 }

@@ -1,9 +1,8 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import "./main.css";
 
 const meta: Meta = {
-  title: "Styles/Main.css/page",
+  title: "Styles/Global/page",
   decorators: [
     (Story) => (
       <div style={{ height: "100vh", width: "100vw" }}>
@@ -18,7 +17,7 @@ export default meta;
 export const Default: StoryObj = {
   render: (): React.JSX.Element => (
     <div className="container">
-      <div className="page" role="status" aria-label="Loading">
+      <div className="page">
         <h1>Hello World</h1>
         <p>This is a paragrph.</p>
       </div>

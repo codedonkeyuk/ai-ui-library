@@ -1,10 +1,10 @@
 # simple-component-library
 
-I am not a fan of over engineered ui libraries. I appreciate that bundling CSS in components is efficient and stops style bleed. Speaking as someone who knows both HTML and CSS, I find components slow me down. They also get in the way when you are trying to make a page accessible.
+This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography). Hybrid between old school css and more modern components.
 
-This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography). So really a Highbred between old school css and more modern components.
+I will be using this throughout my projects in future because I hate rewriting stuff.
 
-This syntax makes me sad!
+This example is typical of most commercial component libraries. Steep learning curve, hard coded logic which is terrible for accessibility.
 
 ```JSX
 <Toast></Toast>
@@ -17,9 +17,7 @@ This syntax makes me sad!
 </Container>
 ```
 
-Only component is a functional component, why wrap the rest, its cryptic.
-
-I prefer this
+My library does it this way, much simpler, not as steep a learning curve, great for accessibility.
 
 ```JSX
 <Toast></Toast>
@@ -32,11 +30,9 @@ I prefer this
 </div>
 ```
 
-Then at the project level I can use linter, stylus, or html validator to police the mistakes.
-
 ## Usage Instructions
 
-### WARNING
+### Installing the Project
 
 I don't distribute code on NPM. To use this library locally you need to check it out locally and link it to your project.
 
@@ -52,12 +48,59 @@ Within the root of your consuming project
 npm link simple-component-library
 ```
 
-use it within your project
+### How do install in project
 
-```ts
-import { MyComponent } from "simple-component-library";
-import "simple-component-library/main.css";
+#### Adding loading div
+
+Below is a basic example of an html page for a single page React app. React would typically hook onto id=root and replace the loading HTML content.
+
+```html
+<html>
+  <head>
+    ...
+    <link rel="stylesheet" href="simple-component-library/loading.css" />
+    ...
+  </head>
+  <body>
+    <main id="root">
+      <div class="message-container">
+        <div class="loading-spinner" role="status" aria-label="Loading"></div>
+      </div>
+    </main>
+  </body>
+</html>
 ```
+
+#### Import into a Single Page Application
+
+If you are building a standalone single page site: Then within the root of your tsx project (Typically App.tsx or Index.tsx), add the `<GlobalStyle />` tag within your component.
+
+```tsx
+// src/App.tsx
+import React from "react";
+import GlobalStyle from "../src/styles/global/GlobalStyle";
+
+export default function App(): React.JSX.Element {
+  return (
+    <>
+      <GlobalStyle />
+      <div>Hello World!</div>
+    </>
+  );
+}
+```
+
+#### Hybrid App or Island Architecture (A static site with multiple react components)
+
+Using a single global.css is more efficient than adding a tag to each of the projects, as that would increase the bundle size of each. You can take advantage of global scope too, but native css is still more efficient in the browser.
+
+<html>
+  <head>
+    ...
+    <link rel="stylesheet" href="simple-component-library/global.css" />
+    ...
+  </head>
+</html>
 
 ### Commands
 
@@ -68,55 +111,5 @@ import "simple-component-library/main.css";
 | `npm run storybook` | runs storybook which shows the components                                  |
 | `npm run clean`     | Cleans the code with prettier                                              |
 | `npm run validate`  | Validates the project using typescript compiler, prettier and spellchecker |
-
-### Project Structure
-
-### Commands
-
-| Command         | Description                                                                                                                           |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `/src/main.css` | Contains global variable declarations that can be over written, and loading style                                                     |
-| `/src/index.ts` | Main export point. If you create a component you must reference it here. You also need to import css files if you wish to export them |
-
-### General Usage
-
-To add library to html
-
-```html
-<head>
-  ...
-  <link rel="stylesheet" href="simple-component-library/loading.css" />
-  ...
-</head>
-```
-
-in TS
-
-```typescript
-import { Button } from "simple-component-library"; // A styled component
-import "simple-component-library/theme.css"; // raw css
-import "simple-component-library/button.css"; // raw css
-```
-
-### Setup loading div in index.html
-
-To avoid website blinking, you need a loading div before JS app fully loads. Importing this stylesheet and and applying the HTMl will do that for you.
-
-- So `<main id=root>` is where you react app hooks. The html get replaces when the app fully loads.
-
-```html
-<html>
-  <head>
-    ...
-    <link rel="stylesheet" href="simple-component-library/main.css" />
-    ...
-  </head>
-  <body>
-    <main id="root">
-      <div class="spinner-container">
-        <div class="loading-spinner" role="status" aria-label="Loading"></div>
-      </div>
-    </main>
-  </body>
-</html>
-```
+| `buildStorybook`    | Build a storybook demo static site                                         |
+| `serveStorybook`    | Serve the which has been built by `buildStorybook`                         |
