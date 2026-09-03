@@ -2,7 +2,7 @@ import { jsx, jsxs } from "react/jsx-runtime";
 import { Link, NavLink } from "react-router";
 import sc, { createGlobalStyle, styled } from "styled-components";
 import { Component, createContext, useCallback, useContext, useEffect, useState } from "react";
-//#region src/components/Loading.tsx
+//#region src/lib/components/Loading.tsx
 /** Renders a accessible loading div. Necessary for dynamic import react suspend logic*/
 function Loading() {
 	return /* @__PURE__ */ jsx("div", {
@@ -15,10 +15,10 @@ function Loading() {
 	});
 }
 //#endregion
-//#region src/components/LinkRouterButton.tsx
+//#region src/lib/components/LinkRouterButton.tsx
 const RouterLinkButton = (sc.default || sc)(Link).attrs({ className: "btn" })``;
 //#endregion
-//#region src/components/Toast.tsx
+//#region src/lib/components/Toast.tsx
 const CloseButton = sc.button`
   background: transparent;
   border: none;
@@ -110,7 +110,7 @@ const Toast = ({ isVisible, message, variant = "info", duration = 3e3, onClose }
 	});
 };
 //#endregion
-//#region src/components/ToastProvider.tsx
+//#region src/lib/components/ToastProvider.tsx
 const ToastFlex = sc.div`
   position: fixed;
   display: flex;
@@ -155,7 +155,7 @@ const useToast = () => {
 	return context;
 };
 //#endregion
-//#region src/components/ErrorTemplates.tsx
+//#region src/lib/components/ErrorTemplates.tsx
 /**
 * Generates HTML content for an error page based on the provided error message.
 * @param {Error} error - The error object containing the error message.
@@ -189,7 +189,7 @@ const handleJsError = (error, target) => {
 	target.innerHTML = errorPageHtml(error);
 };
 //#endregion
-//#region src/components/ErrorBoundary.tsx
+//#region src/lib/components/ErrorBoundary.tsx
 /**
 * @class ErrorBoundary
 * @description A React component that catches and displays errors within its children.
@@ -222,7 +222,7 @@ var ErrorBoundary = class extends Component {
 	}
 };
 //#endregion
-//#region src/components/InputCommon.tsx
+//#region src/lib/components/InputCommon.tsx
 const FormLabel = sc.label`
   color: #263238;
   font-size: 0.9rem;
@@ -265,7 +265,7 @@ const FormInput = sc.input`
   }
 `;
 //#endregion
-//#region src/components/Input.tsx
+//#region src/lib/components/Input.tsx
 const FormDiv = sc.div`
   display: flex;
   flex-direction: column;
@@ -306,7 +306,7 @@ function Input({ id, label, name, type, warningMessage, ...inputProps }) {
 	] });
 }
 //#endregion
-//#region src/components/InputCheckboxGroup.tsx
+//#region src/lib/components/InputCheckboxGroup.tsx
 const CheckboxFieldset = sc.fieldset`
   display: flex;
   flex-direction: column;
@@ -344,7 +344,7 @@ function InputCheckboxGroup({ legend, checkboxes, checkboxSelected }) {
 	})] }, checkbox.id))] });
 }
 //#endregion
-//#region src/components/InputRadioGroup.tsx
+//#region src/lib/components/InputRadioGroup.tsx
 const RadioFieldset = sc.fieldset`
   display: flex;
   flex-direction: column;
@@ -386,7 +386,7 @@ function InputRadioGroup({ legend, radios, radioSelected }) {
 	}) })] });
 }
 //#endregion
-//#region src/components/MainNavigation.tsx
+//#region src/lib/components/MainNavigation.tsx
 const BREAKPOINT = "768px";
 const MainNavStyled = styled.nav`
   display: flex;
@@ -603,7 +603,7 @@ function MainNavigation({ links }) {
 	});
 }
 //#endregion
-//#region src/styles/global/GlobalStyle.tsx
+//#region src/lib/styles/global/GlobalStyle.tsx
 const GlobalStyle = createGlobalStyle`${":root {\n  --font-body: clamp(1rem, .95rem + .2vw, 1.125rem);\n  --font-h3: clamp(1.25rem, 1.1rem + .6vw, 1.75rem);\n  --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);\n  --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);\n  --line-height-body: 1.6;\n  --line-height-heading: 1.25;\n}\n\nbody {\n  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;\n  font-size: var(--font-body);\n  line-height: var(--line-height-body);\n  color: #1a1a1a;\n  -webkit-font-smoothing: antialiased;\n}\n\nh1 {\n  font-size: var(--font-h1);\n  line-height: var(--line-height-heading);\n  font-weight: 800;\n}\n\nh2 {\n  font-size: var(--font-h2);\n  line-height: var(--line-height-heading);\n  font-weight: 700;\n}\n\nh3 {\n  font-size: var(--font-h3);\n  line-height: var(--line-height-heading);\n  font-weight: 600;\n}\n\n.container {\n  background-color: var(--container-bg);\n  justify-content: center;\n  align-items: flex-start;\n  width: 100%;\n  height: 100%;\n  display: flex;\n}\n\n.page {\n  width: 1200px;\n}\n\n@media (width <= 1200px) {\n  .page {\n    width: 100%;\n  }\n}\n\n.error-info {\n  border: 2px solid #000;\n  padding: 15px;\n}\n\n.btn {\n  text-align: center;\n  vertical-align: middle;\n  color: #fff;\n  cursor: pointer;\n  user-select: none;\n  box-sizing: border-box;\n  background-color: #06c;\n  border: none;\n  border-radius: 8px;\n  justify-content: center;\n  align-items: center;\n  width: auto;\n  min-height: 48px;\n  padding: 0 24px;\n  font-family: inherit;\n  font-size: 16px;\n  font-weight: 600;\n  text-decoration: none;\n  transition: background-color .2s, transform .1s;\n  display: inline-flex;\n}\n\n.btn:hover {\n  background-color: #0052a3;\n}\n\n.btn:active {\n  transform: scale(.98);\n}\n\n.button-bar {\n  flex-wrap: wrap;\n  justify-content: flex-end;\n  gap: 12px;\n  width: 100%;\n  display: flex;\n}\n\n.button-bar.start {\n  justify-content: flex-start;\n}\n\n.button-bar.center {\n  justify-content: center;\n}\n\n@media (width <= 600px) {\n  .button-bar {\n    flex-direction: column;\n  }\n\n  .btn {\n    width: 100%;\n    display: flex;\n  }\n}\n"}`;
 //#endregion
 export { ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, RouterLinkButton as LinkRouterButton, Loading, MainNavigation, Toast, ToastProvider, handleJsError, useToast };

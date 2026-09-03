@@ -1,3 +1,6 @@
 .vscode
 node_modules
 Modelfile
+*storybook.log
+storybook-static
+debug-storybook.log

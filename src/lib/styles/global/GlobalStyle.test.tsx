@@ -32,7 +32,7 @@ test("GlobalStyle exports and mounts without throwing errors", async (t) => {
 
     root.unmount();
     documentContext.body.removeChild(container);
-    (globalThis as any).window = undefined;
+    //(globalThis as any).window = undefined;
     (globalThis as any).document = undefined;
   });
 });

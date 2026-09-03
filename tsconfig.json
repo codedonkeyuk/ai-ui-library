@@ -1,12 +1,28 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "rewriteRelativeImportExtensions": true,
+    "noUncheckedSideEffectImports": false,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "sourceMap": true,
+    "declaration": true,
     "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "types": ["node"]
+    "jsx": "react-jsx",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "types": ["node"],
+    "isolatedDeclarations": true,
+    "declarationMap": true
   },
-  "exclude": ["apps/**/*", "packages/**/*"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "*.d.ts",
+    "src/styled-components-shim.mjs"
+  ]
 }

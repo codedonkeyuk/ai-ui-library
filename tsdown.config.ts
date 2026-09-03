@@ -2,16 +2,16 @@ import { defineConfig } from "tsdown";
 
 export default defineConfig({
   entry: {
-    index: "src/index.ts",
+    index: "src/lib/index.ts",
   },
   format: ["esm"],
   copy: [
     {
-      from: "src/styles/loading/loading.css",
+      from: "src/lib/styles/loading/loading.css",
       to: "dist/",
     },
     {
-      from: "src/styles/global/global.css",
+      from: "src/lib/styles/global/global.css",
       to: "dist/",
     },
   ],

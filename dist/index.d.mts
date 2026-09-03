@@ -2,16 +2,16 @@ import { JSX } from "react/jsx-runtime";
 import { LinkProps } from "react-router";
 import React, { CSSProperties, Component, ComponentPropsWithoutRef, ErrorInfo, ForwardRefExoticComponent, JSX as JSX$1, ReactNode, RefAttributes } from "react";
 import { CSSPropertiesWithVars, IStyledComponentBase } from "styled-components/dist/types";
-//#region src/components/Loading.d.ts
+//#region src/lib/components/Loading.d.ts
 /** Renders a accessible loading div. Necessary for dynamic import react suspend logic*/
 declare function Loading(): JSX.Element;
 //#endregion
-//#region src/components/LinkRouterButton.d.ts
+//#region src/lib/components/LinkRouterButton.d.ts
 declare const RouterLinkButton: IStyledComponentBase<"web", Omit<LinkProps & RefAttributes<HTMLAnchorElement>, "style"> & {
   style?: CSSProperties | CSSPropertiesWithVars | undefined;
 }> & string & Omit<ForwardRefExoticComponent<LinkProps & RefAttributes<HTMLAnchorElement>>, keyof Component<any, {}, any>>;
 //#endregion
-//#region src/components/Toast.d.ts
+//#region src/lib/components/Toast.d.ts
 type ToastVariant = "success" | "warning" | "error" | "info";
 interface ToastOptions {
   id?: string;
@@ -28,7 +28,7 @@ interface ToastProps extends ToastOptions {
 /** Toast warning for all situations */
 declare const Toast: ({ isVisible, message, variant, duration, onClose }: ToastProps) => JSX$1.Element | null;
 //#endregion
-//#region src/components/ToastProvider.d.ts
+//#region src/lib/components/ToastProvider.d.ts
 interface ToastContextType {
   show: (options: ToastOptions) => void;
 }
@@ -38,7 +38,7 @@ declare const ToastProvider: React.FC<{
 }>;
 declare const useToast: () => ToastContextType;
 //#endregion
-//#region src/components/ErrorBoundary.d.ts
+//#region src/lib/components/ErrorBoundary.d.ts
 interface Props$5 {
   children: ReactNode;
 }
@@ -70,7 +70,7 @@ declare class ErrorBoundary extends Component<Props$5, State> {
   render(): ReactNode;
 }
 //#endregion
-//#region src/components/ErrorTemplates.d.ts
+//#region src/lib/components/ErrorTemplates.d.ts
 /**
  * @interface Props
  * @description Properties for the ErrorPage component.
@@ -93,7 +93,7 @@ declare const ErrorPage: React.FC<Props$4>;
  */
 declare const handleJsError: (error: Error, target: HTMLElement) => void;
 //#endregion
-//#region src/components/Input.d.ts
+//#region src/lib/components/Input.d.ts
 interface Props$3 extends ComponentPropsWithoutRef<"input"> {
   /** The label text for the input field */
   label: string;
@@ -107,7 +107,7 @@ interface Props$3 extends ComponentPropsWithoutRef<"input"> {
  */
 declare function Input({ id, label, name, type, warningMessage, ...inputProps }: Props$3): JSX.Element;
 //#endregion
-//#region src/components/InputCheckboxGroup.d.ts
+//#region src/lib/components/InputCheckboxGroup.d.ts
 type Checkbox = {
   id: string;
   label: string;
@@ -124,7 +124,7 @@ interface Props$2 {
 /** Renders a Fieldset containing multiple checkboxes */
 declare function InputCheckboxGroup({ legend, checkboxes, checkboxSelected }: Props$2): JSX.Element;
 //#endregion
-//#region src/components/InputRadioGroup.d.ts
+//#region src/lib/components/InputRadioGroup.d.ts
 type Radio = {
   id: string;
   label: string;
@@ -141,7 +141,7 @@ interface Props$1 {
 /** Renders a Fieldset containing multiple radio buttons */
 declare function InputRadioGroup({ legend, radios, radioSelected }: Props$1): JSX.Element;
 //#endregion
-//#region src/components/MainNavigation.d.ts
+//#region src/lib/components/MainNavigation.d.ts
 interface NavigationLink {
   to: string;
   name: string;
@@ -156,7 +156,7 @@ interface Props {
  */
 declare function MainNavigation({ links }: Props): JSX.Element;
 //#endregion
-//#region src/styles/global/GlobalStyle.d.ts
+//#region src/lib/styles/global/GlobalStyle.d.ts
 declare const GlobalStyle: React.ComponentType;
 //#endregion
 export { ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, RouterLinkButton as LinkRouterButton, Loading, MainNavigation, Toast, ToastProvider, handleJsError, useToast };

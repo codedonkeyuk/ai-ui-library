@@ -1,6 +1,6 @@
 import type { Preview } from "@storybook/react-vite";
-import "../src/styles/loading/loading.css";
-import GlobalStyle from "../src/styles/global/GlobalStyle";
+import "../src/lib/styles/loading/loading.css";
+import GlobalStyle from "../src/lib/styles/global/GlobalStyle";
 
 const preview: Preview = {
   parameters: {

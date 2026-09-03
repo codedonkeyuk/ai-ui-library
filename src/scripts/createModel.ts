@@ -110,10 +110,7 @@ function extractComponentBlueprints(srcPath: string): string {
 }
 
 const createModel = (): string => {
-  const componentWorkspaceSrc = path.resolve(
-    process.cwd(),
-    "packages/simple-component-library/src",
-  );
+  const componentWorkspaceSrc = path.resolve(process.cwd(), "./src/lib");
   const componentBlueprints = extractComponentBlueprints(componentWorkspaceSrc);
 
   const fullSystemPrompt = `

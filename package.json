@@ -1,46 +1,72 @@
 {
-  "name": "llm-style-guide",
-  "version": "1.0.0",
-  "description": "",
-  "repository": {
-    "type": "git",
-    "url": "git@192.168.52.200:leighgordy/simple-component-library.git"
-  },
-  "workspaces": [
-    "packages/simple-component-library"
-  ],
+  "name": "simple-component-library",
+  "version": "0.0.1",
+  "description": "A simple component library for my projects to use",
   "license": "MIT",
-  "private": true,
-  "author": "leigh (codedonkey.uk)",
+  "author": "Leigh",
   "type": "module",
-  "main": "index.js",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./loading.css": "./dist/loading.css",
+    "./global.css": "./dist/global.css"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "prebuild": "npm run validate && npm run test",
-    "build": "npm run build --workspaces && npm run buildStorybook && npm run model:generate",
-    "test": "npm run test --workspaces",
-    "posttest": "node --import tsx --test src/**/*.test.{ts,tsx}",
-    "prevalidate": "prettier . --check && tsc --noEmit && npx cspell README.md",
-    "validate": "npm run validate --workspaces",
-    "buildStorybook": "npm run buildStorybook --workspace=simple-component-library",
-    "serveStorybook": "npm run serveStorybook --workspace=simple-component-library",
-    "storybook": "npm run storybook --workspace=simple-component-library",
-    "preclean": "prettier . --write",
-    "clean": "npm run clean --workspaces",
-    "model:generate": "node src/app.ts",
+    "prebuild": "prettier . --check && tsc --noEmit",
+    "build": "tsdown src/lib/index.ts --format esm --dts --clean --external styled-components,react && npm run model:generate",
+    "storybook": "storybook dev -p 6006",
+    "buildStorybook": "storybook build && cp assets/* storybook-static/",
+    "serveStorybook": "npx http-server storybook-static",
+    "clean": "prettier . --write",
+    "validate": "prettier . --check && tsc --noEmit && npx cspell README.md",
+    "test": "node --import tsx --import ./src/test-setup.ts --test src/**/*.test.{ts,tsx}",
+    "model:generate": "node src/scripts/app.ts",
     "model:register": "ollama create library-bot -f ./Modelfile",
     "prepare": "husky"
   },
   "devDependencies": {
-    "@types/node": "^26.4.1",
+    "@happy-dom/global-registrator": "^20.11.6",
+    "@storybook/addon-a11y": "^10.5.10",
+    "@storybook/addon-docs": "^10.5.10",
+    "@storybook/addon-vitest": "^10.5.10",
+    "@storybook/react-vite": "^10.5.10",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^16.0.0",
+    "@tsdown/css": "^0.22.14",
+    "@types/node": "^26.2.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.2.4",
+    "@types/styled-components": "^5.1.36",
     "acorn": "^8.18.0",
     "acorn-loose": "^8.5.2",
     "cspell": "^10.0.1",
+    "happy-dom": "^20.11.6",
     "husky": "^9.1.7",
     "prettier": "3.9.6",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-router": "^8.2.0",
+    "storybook": "^10.5.10",
+    "styled-components": "^6.5.3",
+    "tsdown": "^0.22.14",
     "tsx": "^4.23.12",
+    "typedoc": "^0.28.20",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
+  },
+  "overrides": {
     "typescript": "^7.0.2"
   },
-  "dependencies": {
-    "typedoc": "^0.28.20"
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "react-router": ">=8.0.0",
+    "styled-components": ">=6.0.0"
   }
 }

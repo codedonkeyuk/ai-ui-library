@@ -11,12 +11,7 @@ describe("createModel generation pipeline", () => {
 
   before(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "component-lib-test-"));
-    const srcPath = path.join(
-      tempDir,
-      "packages",
-      "simple-component-library",
-      "src",
-    );
+    const srcPath = path.join(tempDir, "src", "lib");
     fs.mkdirSync(srcPath, { recursive: true });
 
     originalCwd = process.cwd;
@@ -70,7 +65,6 @@ describe("createModel generation pipeline", () => {
       "Should output accurate completion stop rules",
     );
 
-    // ✅ FIXED: Updated to match the new simple-component-library header text
     assert.match(
       result,
       /### Package element from simple-component-library \(MockComponent\.tsx\):/,
@@ -91,7 +85,6 @@ describe("createModel generation pipeline", () => {
   test("ignores non-component tooling like stories and test files", async () => {
     const result = await createModel();
 
-    // ✅ FIXED: Updated to match the new simple-component-library header text
     assert.match(
       result,
       /Package element from simple-component-library \(Button\.tsx\)/,
