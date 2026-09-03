@@ -7,8 +7,7 @@
     "url": "git@192.168.52.200:leighgordy/simple-component-library.git"
   },
   "workspaces": [
-    "packages/simple-component-library",
-    "apps/react-spa"
+    "packages/simple-component-library"
   ],
   "license": "MIT",
   "private": true,
