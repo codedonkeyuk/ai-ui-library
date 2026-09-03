@@ -7,7 +7,7 @@ interface ModelSettings {
 }
 
 export const settings: ModelSettings = {
-  from: "codellama:7b",
+  from: "qwen2.5-coder:3b",
   temperature: 0.3,
   top_p: 0.9,
   stop: "SUCCESS",
@@ -22,5 +22,9 @@ export const settings: ModelSettings = {
 
     When answering architectural questions, prioritize scannability with clear headers, bold text, and comparison tables if multiple solutions exist.
   
+    CRITICAL IMPORT RULES:
+    - Always use single-line NAMED imports from the root package "simple-component-library".
+    - NEVER use default imports or split deep path imports (e.g. do NOT do: import Dialog from 'simple-component-library/Dialog').
+    - Example of the ONLY acceptable import format: import { Dialog, Input, InputCheckboxGroup } from "simple-component-library";
   `,
 };

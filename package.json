@@ -19,6 +19,7 @@
     "build": "npm run test --workspaces",
     "postbuild": "node src/app.ts",
     "test": "npm run test --workspaces",
+    "posttest": "node --import tsx --test src/**/*.test.{ts,tsx}",
     "prevalidate": "prettier . --check && tsc --noEmit && npx cspell README.md",
     "validate": "npm run validate --workspaces",
     "buildStorybook": "npm run buildStorybook --workspace=simple-component-library",
@@ -26,14 +27,22 @@
     "storybook": "npm run storybook --workspace=simple-component-library",
     "preclean": "prettier . --write",
     "clean": "npm run clean --workspaces",
+    "model:generate": "node src/app.ts",
+    "model:register": "ollama create library-bot -f ./Modelfile",
+    "model:build": "npm run model:generate && npm run model:register",
     "prepare": "husky"
   },
   "devDependencies": {
     "@types/node": "^26.4.1",
+    "acorn": "^8.18.0",
+    "acorn-loose": "^8.5.2",
     "cspell": "^10.0.1",
     "husky": "^9.1.7",
     "prettier": "3.9.6",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "typedoc": "^0.28.20"
   }
 }
