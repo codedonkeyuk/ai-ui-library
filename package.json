@@ -1,7 +1,7 @@
 {
-  "name": "simple-component-library",
+  "name": "ai-ui-library",
   "version": "0.0.1",
-  "description": "A simple component library for my projects to use",
+  "description": "A UI library that generates a UI library, storybook demo site, and LLM ModelFile",
   "license": "MIT",
   "author": "Leigh",
   "type": "module",

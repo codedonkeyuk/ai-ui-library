@@ -1,8 +1,19 @@
-# simple-component-library
+# AI-UI-LIBRARY
 
-This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography). Hybrid between old school css and more modern components.
+This UI library contains a number of React elements for use on other projects, this also generates a LLM Model file that knows how to use the library.
+Its does this through a process known as Context Injection were you stuff information directly into the LLM Model.
 
-This example is typical of most commercial component libraries. Steep learning curve, hard coded logic which is terrible for accessibility.
+**WARNING** If you have multiple component libraries and don't have a ton of memory, I recommend using one component library per LLM. Then load the LLM you need per project. Its much simpler!
+
+## Modelfile
+
+[You can download that from here](./assets/Modelfile)
+
+## Why is the library a mix of CSS and Components
+
+This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography).
+Its for use on both single page websites and multiple page web sites that use multiple React components.
+Not to mention I hate nothing but component libraries, here is a typical example of most commercial component libraries. Steep learning curve, hard coded logic which is terrible for accessibility.
 
 ```JSX
 <Toast></Toast>
