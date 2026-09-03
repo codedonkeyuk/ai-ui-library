@@ -12,8 +12,9 @@ Its does this through a process known as Context Injection were you stuff inform
 ## Why is the library a mix of CSS and Components
 
 This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography).
-Its for use on both single page websites and multiple page web sites that use multiple React components.
-Not to mention I hate nothing but component libraries, here is a typical example of most commercial component libraries. Steep learning curve, hard coded logic which is terrible for accessibility.
+Its for use on both single page websites, and multiple page web sites that use multiple React components.
+
+Here is a typical example of most commercial component libraries. Steep learning curve, hard coded logic which is terrible for accessibility.
 
 ```JSX
 <Toast></Toast>
