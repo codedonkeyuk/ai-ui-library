@@ -1,5 +1,2 @@
-/.vscode
-/node_modules
-*storybook.log
-storybook-static
-debug-storybook.log
+.vscode
+node_modules

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en-gb">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Core SEO -->
+    <meta name="description" content="<%- warningMessage %>" />
+
+    <!-- Open Graph Protocol (Facebook, LinkedIn, Discord) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="<%- publicSiteAddress %>" />
+    <meta property="og:title" content="<%- title %>" />
+    <meta property="og:description" content="<%- warningMessage %>" />
+    <meta
+      property="og:image"
+      content="<%- publicSiteAddress %>/logo-square.png"
+    />
+
+    <!-- Twitter / X Cards Optimization -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="<%- title %>" />
+    <meta name="twitter:description" content="<%- warningMessage %>" />
+    <meta
+      name="twitter:image"
+      content="<%- publicSiteAddress %>/logo-square.png"
+    />
+
+    <link rel="stylesheet" href="/main.css" />
+    <title><%- title %></title>
+  </head>
+  <body>
+    <div class="warning">
+      <main>
+        <div class="warning-card">
+          <h1><%- warningHeader %></h1>
+          <p><%- warningMessage %></p>
+          <a class="warning-link" href="/">Return to Main Page</a>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

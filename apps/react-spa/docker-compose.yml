@@ -1,0 +1,9 @@
+services:
+  apache:
+    image: httpd:2.4
+    container_name: dice
+    ports:
+      - "8080:80"
+    volumes:
+      - ./http-override.conf:/usr/local/apache2/conf.d/http-override.conf:ro
+      - ./dist:/usr/local/apache2/htdocs
