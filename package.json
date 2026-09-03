@@ -15,8 +15,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "build": "npm run test --workspaces",
-    "postbuild": "node src/app.ts",
+    "prebuild": "npm run validate && npm run test",
+    "build": "npm run build --workspaces && npm run buildStorybook && npm run model:generate",
     "test": "npm run test --workspaces",
     "posttest": "node --import tsx --test src/**/*.test.{ts,tsx}",
     "prevalidate": "prettier . --check && tsc --noEmit && npx cspell README.md",
@@ -28,7 +28,6 @@
     "clean": "npm run clean --workspaces",
     "model:generate": "node src/app.ts",
     "model:register": "ollama create library-bot -f ./Modelfile",
-    "model:build": "npm run model:generate && npm run model:register",
     "prepare": "husky"
   },
   "devDependencies": {

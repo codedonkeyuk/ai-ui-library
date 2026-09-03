@@ -40,27 +40,57 @@ declare const useToast: () => ToastContextType;
 //#endregion
 //#region src/components/ErrorBoundary.d.ts
 interface Props$5 {
-  /** The content to be rendered if error is not thrown. */
   children: ReactNode;
 }
 interface State {
   error: Error | null;
 }
 /**
- * ErrorBoundary to catch react errors in a clean way
+ * @class ErrorBoundary
+ * @description A React component that catches and displays errors within its children.
  */
 declare class ErrorBoundary extends Component<Props$5, State> {
   state: State;
+  /**
+   * @static getDerivedStateFromError(error)
+   * @param {Error} error - The error caught by the component.
+   * @returns {State} The new state with the caught error.
+   */
   static getDerivedStateFromError(error: Error): State;
+  /**
+   * @public componentDidCatch(error, errorInfo)
+   * @param {Error} error - The error caught by the component.
+   * @param {ErrorInfo} errorInfo - Additional information about the error.
+   */
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void;
+  /**
+   * @public render()
+   * @returns {ReactNode} The rendered component or an error page if an error is caught.
+   */
   render(): ReactNode;
 }
 //#endregion
 //#region src/components/ErrorTemplates.d.ts
+/**
+ * @interface Props
+ * @description Properties for the ErrorPage component.
+ */
 interface Props$4 {
   error: Error;
 }
+/**
+ * @function ErrorPage
+ * @description A React functional component that displays an error page with a message.
+ * @param {Props} props - The properties of the component, including the error object.
+ * @returns {React.FC<Props>} The rendered component.
+ */
 declare const ErrorPage: React.FC<Props$4>;
+/**
+ * @function handleJsError
+ * @description Handles JavaScript errors by displaying an error page in the specified target element.
+ * @param {Error} error - The error object containing the error message.
+ * @param {HTMLElement} target - The HTML element where the error page should be displayed.
+ */
 declare const handleJsError: (error: Error, target: HTMLElement) => void;
 //#endregion
 //#region src/components/Input.d.ts

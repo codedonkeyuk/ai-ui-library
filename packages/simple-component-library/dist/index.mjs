@@ -156,6 +156,11 @@ const useToast = () => {
 };
 //#endregion
 //#region src/components/ErrorTemplates.tsx
+/**
+* Generates HTML content for an error page based on the provided error message.
+* @param {Error} error - The error object containing the error message.
+* @returns {string} The HTML content of the error page.
+*/
 const errorPageHtml = (error) => `
   <div class="message-container">
     <div class="error-info">
@@ -165,25 +170,52 @@ const errorPageHtml = (error) => `
       </p>
     </div>
   </div>`;
+/**
+* @function ErrorPage
+* @description A React functional component that displays an error page with a message.
+* @param {Props} props - The properties of the component, including the error object.
+* @returns {React.FC<Props>} The rendered component.
+*/
 const ErrorPage = ({ error }) => {
 	return /* @__PURE__ */ jsx("div", { dangerouslySetInnerHTML: { __html: errorPageHtml(error) } });
 };
+/**
+* @function handleJsError
+* @description Handles JavaScript errors by displaying an error page in the specified target element.
+* @param {Error} error - The error object containing the error message.
+* @param {HTMLElement} target - The HTML element where the error page should be displayed.
+*/
 const handleJsError = (error, target) => {
 	target.innerHTML = errorPageHtml(error);
 };
 //#endregion
 //#region src/components/ErrorBoundary.tsx
 /**
-* ErrorBoundary to catch react errors in a clean way
+* @class ErrorBoundary
+* @description A React component that catches and displays errors within its children.
 */
 var ErrorBoundary = class extends Component {
 	state = { error: null };
+	/**
+	* @static getDerivedStateFromError(error)
+	* @param {Error} error - The error caught by the component.
+	* @returns {State} The new state with the caught error.
+	*/
 	static getDerivedStateFromError(error) {
 		return { error };
 	}
+	/**
+	* @public componentDidCatch(error, errorInfo)
+	* @param {Error} error - The error caught by the component.
+	* @param {ErrorInfo} errorInfo - Additional information about the error.
+	*/
 	componentDidCatch(error, errorInfo) {
 		console.error("ErrorBoundary caught an error", error, errorInfo);
 	}
+	/**
+	* @public render()
+	* @returns {ReactNode} The rendered component or an error page if an error is caught.
+	*/
 	render() {
 		if (this.state.error) return /* @__PURE__ */ jsx(ErrorPage, { error: this.state.error });
 		return this.props.children;
