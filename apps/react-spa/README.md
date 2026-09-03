@@ -1,4 +1,4 @@
-# react-template
+# react-spa
 
 Simple react / vite template containing. Starting point for future React apps.
 

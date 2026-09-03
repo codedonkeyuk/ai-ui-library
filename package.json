@@ -13,20 +13,27 @@
   "license": "MIT",
   "private": true,
   "author": "leigh (codedonkey.uk)",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "build": "npm run test --workspaces",
+    "postbuild": "node src/app.ts",
     "test": "npm run test --workspaces",
+    "prevalidate": "prettier . --check && tsc --noEmit && npx cspell README.md",
     "validate": "npm run validate --workspaces",
     "buildStorybook": "npm run buildStorybook --workspace=simple-component-library",
     "serveStorybook": "npm run serveStorybook --workspace=simple-component-library",
     "storybook": "npm run storybook --workspace=simple-component-library",
+    "preclean": "prettier . --write",
     "clean": "npm run clean --workspaces",
     "prepare": "husky"
   },
   "devDependencies": {
+    "@types/node": "^26.4.1",
     "cspell": "^10.0.1",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "prettier": "3.9.6",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
   }
 }
