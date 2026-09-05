@@ -47,9 +47,6 @@ const StyledToast = styled.div<{ variant: ToastVariant }>`
   align-items: center;
   justify-content: space-between;
   min-width: 300px;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
 
   background-color: ${(props) => {
     switch (props.variant) {

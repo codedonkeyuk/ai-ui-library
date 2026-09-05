@@ -1,5 +1,6 @@
 import type { JSX } from "react/jsx-runtime";
 import type { OutputProps } from "./Types";
+import { SyntaxHighlighter } from "storybook/internal/components";
 
 export default function OpenAiOutput({
   modelName,
@@ -22,5 +23,9 @@ export default function OpenAiOutput({
     null,
     2,
   );
-  return <pre>{code}</pre>;
+  return (
+    <SyntaxHighlighter language="json" bordered={true} copyable format={true}>
+      {code}
+    </SyntaxHighlighter>
+  );
 }

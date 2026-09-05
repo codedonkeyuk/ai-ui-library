@@ -1,15 +1,40 @@
 import { useState, useEffect } from "react";
 import type { JSX } from "react/jsx-runtime";
-import { Input } from "../lib";
+import { Input } from "../lib/index.ts";
 import styled from "styled-components";
-import Pills from "../lib/components/Pills";
-import OpenAiOutput from "./OpenAiOutput";
-import OllamaOutput from "./OllamaOutput";
+import Pills from "../lib/components/Pills.tsx";
+import OpenAiOutput from "./OpenAiOutput.tsx";
+import OllamaOutput from "./OllamaOutput.tsx";
+import GlobalStyle from "../lib/styles/global/GlobalStyle.tsx";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  font-size: 13px;
+`;
 
 const FieldsRow = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
+`;
+
+/** My own components bleed into page needed to keep code style consistent with other storybook blocks*/
+const IgnoreMyStyles = styled.div`
+  &,
+  & *:not(button) {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    font-family:
+      ui-monospace, Menlo, Monaco, "Roboto Mono", "Oxygen Mono",
+      "Ubuntu Monospace", "Source Code Pro", "Droid Sans Mono", "Courier New",
+      monospace !important;
+  }
 `;
 
 interface Props {
@@ -43,25 +68,26 @@ export default function ModelGenerator({ configUrl }: Props): JSX.Element {
   ]);
 
   const [error, setError] = useState<string | null>(null);
-
   const [modelName, setModelName] = useState<string>("");
   const [temperature, setTemperature] = useState<number>(0.3);
   const [topP, setTopP] = useState<number>(0.9);
 
   useEffect(() => {
-    fetch(configUrl)
-      .then((response) => {
+    (async () => {
+      try {
+        const response = await fetch(configUrl);
         if (!response.ok)
           throw new Error(`Failed to load file: ${response.statusText}`);
-        return response.json();
-      })
-      .then((data: ConfigPayload) => {
+        const data: ConfigPayload = await response.json();
+
         setConfigData(data);
         setModelName(data.baseModel);
         setTemperature(data.parameters.temperature);
         setTopP(data.parameters.top_p);
-      })
-      .catch((err) => setError(err.message));
+      } catch (err: any) {
+        setError(err.message);
+      }
+    })();
   }, [configUrl]);
 
   if (error) return <h1>Error: {error}</h1>;
@@ -82,42 +108,16 @@ export default function ModelGenerator({ configUrl }: Props): JSX.Element {
 
   const handleSingleSelect = (clickedId: string | number) => {
     setPills((prev) =>
-      prev.map((item) => ({
-        ...item,
-        selected: item.id === clickedId,
-      })),
+      prev.map((item) => ({ ...item, selected: item.id === clickedId })),
     );
   };
 
-  const Output = () => {
-    const selectedPlatform = pills.find((pill) => pill.selected === true);
-
-    const fullSystemPrompt = `${configData.systemSettings.trim()}\n\n## AVAILABLE COMPONENTS INVENTORY\n${formattedInventory.trim()}`;
-
-    if (selectedPlatform?.id === "openai") {
-      return (
-        <OpenAiOutput
-          modelName={modelName}
-          configData={configData}
-          temperature={temperature}
-          topP={topP}
-          fullSystemPrompt={fullSystemPrompt}
-        />
-      );
-    }
-    return (
-      <OllamaOutput
-        modelName={modelName}
-        configData={configData}
-        temperature={temperature}
-        topP={topP}
-        fullSystemPrompt={fullSystemPrompt}
-      />
-    );
-  };
+  const selectedPlatform = pills.find((pill) => pill.selected === true);
+  const fullSystemPrompt = `${configData.systemSettings.trim()}\n\n## AVAILABLE COMPONENTS INVENTORY\n${formattedInventory.trim()}`;
 
   return (
-    <div>
+    <Container>
+      <GlobalStyle />
       <h3>Model Controls</h3>
 
       <FieldsRow>
@@ -129,7 +129,6 @@ export default function ModelGenerator({ configUrl }: Props): JSX.Element {
             onChange={(e) => setModelName(e.target.value)}
           />
         </div>
-
         <div>
           <Input
             label="Temperature"
@@ -141,7 +140,6 @@ export default function ModelGenerator({ configUrl }: Props): JSX.Element {
             onChange={(e) => setTemperature(parseFloat(e.target.value) || 0)}
           />
         </div>
-
         <div>
           <Input
             label="Top P"
@@ -154,8 +152,28 @@ export default function ModelGenerator({ configUrl }: Props): JSX.Element {
           />
         </div>
       </FieldsRow>
+
       <Pills items={pills} onChange={handleSingleSelect} position="center" />
-      <Output />
-    </div>
+      <IgnoreMyStyles>
+        {selectedPlatform?.id === "openai" && (
+          <OpenAiOutput
+            modelName={modelName}
+            configData={configData}
+            temperature={temperature}
+            topP={topP}
+            fullSystemPrompt={fullSystemPrompt}
+          />
+        )}
+        {selectedPlatform?.id === "ollama" && (
+          <OllamaOutput
+            modelName={modelName}
+            configData={configData}
+            temperature={temperature}
+            topP={topP}
+            fullSystemPrompt={fullSystemPrompt}
+          />
+        )}
+      </IgnoreMyStyles>
+    </Container>
   );
 }

@@ -7,8 +7,17 @@ const FormDiv = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
+
+  flex: 1 1 200px;
+  min-width: 0;
   width: 100%;
-  max-width: 28rem;
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+  }
 `;
 
 const FormWarning = styled.p`

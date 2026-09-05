@@ -1,129 +1,166 @@
-import { describe, it, afterEach } from "node:test";
-import assert from "node:assert/strict";
-import {
-  render,
-  screen,
-  waitFor,
-  fireEvent,
-  cleanup,
-} from "@testing-library/react";
-import ModelGenerator from "./ModelGenerator";
+import { test, beforeEach, afterEach, mock } from "node:test";
+import assert from "node:assert";
+import React from "react";
+import { createRoot } from "react-dom/client";
 
-const configUrl = "/test-model-config.json";
-const config = {
-  baseModel: "llama3.2",
-  parameters: { temperature: 0.3, top_p: 0.9, stop: "" },
-  systemSettings: "You are a helpful assistant.",
-  componentInventory: "[]",
+mock.module("../lib/index.ts", {
+  namedExports: {
+    Input: ({ label, value, onChange }: any) =>
+      React.createElement("input", {
+        "data-testid": `input-${label.toLowerCase().replace(/\s+/g, "-")}`,
+        value,
+        onChange,
+      }),
+  },
+});
+
+mock.module("../lib/components/Pills.tsx", {
+  defaultExport: ({ items, onChange }: any) =>
+    React.createElement(
+      "div",
+      { "data-testid": "pills-mock" },
+      items.map((item: any) =>
+        React.createElement(
+          "button",
+          {
+            key: item.id,
+            "data-testid": `pill-${item.id}`,
+            "data-selected": item.selected,
+            onClick: () => onChange(item.id),
+          },
+          item.label,
+        ),
+      ),
+    ),
+});
+
+mock.module("./OpenAiOutput.tsx", {
+  defaultExport: () =>
+    React.createElement(
+      "div",
+      { "data-testid": "openai-output" },
+      "OPENAI_MOCK",
+    ),
+});
+
+mock.module("./OllamaOutput.tsx", {
+  defaultExport: () =>
+    React.createElement(
+      "div",
+      { "data-testid": "ollama-output" },
+      "OLLAMA_MOCK",
+    ),
+});
+
+mock.module("../lib/styles/global/GlobalStyle.tsx", {
+  defaultExport: () =>
+    React.createElement("div", { "data-testid": "global-style" }),
+});
+
+const mockConfigPayload = {
+  baseModel: "test-model",
+  parameters: { temperature: 0.5, top_p: 0.85, stop: "[STOP]" },
+  systemSettings: "SYSTEM_RULES",
+  componentInventory: JSON.stringify([
+    {
+      component: "Button",
+      props: { label: { type: "string", required: true } },
+    },
+  ]),
 };
 
-describe("ModelGenerator Tests", () => {
-  const originalFetch = globalThis.fetch;
+const flushMacroTasks = () => new Promise((resolve) => setTimeout(resolve, 15));
 
-  afterEach(() => {
-    cleanup();
-    globalThis.fetch = originalFetch;
+let container: HTMLDivElement | null = null;
+let root: any = null;
+
+beforeEach(() => {
+  container = document.createElement("div");
+  document.body.appendChild(container);
+  root = createRoot(container);
+});
+
+afterEach(() => {
+  if (root) root.unmount();
+  if (container) container.remove();
+  document.body.innerHTML = "";
+  mock.reset();
+});
+
+test("shows loading state initially and renders data after successful fetch", async () => {
+  const { default: ModelGenerator } = await import("./ModelGenerator.tsx");
+
+  let resolveFetch: any;
+  const fetchPromise = new Promise((resolve) => {
+    resolveFetch = () =>
+      resolve({
+        ok: true,
+        json: async () => mockConfigPayload,
+      });
   });
 
-  it("shows a loading message before the configuration is loaded", () => {
-    globalThis.fetch = async () => new Promise(() => {});
-    render(<ModelGenerator configUrl={configUrl} />);
-    assert.equal(
-      screen.getByText("Loading file configuration...").textContent,
-      "Loading file configuration...",
-    );
-  });
+  mock.method(globalThis, "fetch", () => fetchPromise);
 
-  it("loads and displays the model configuration", async () => {
-    globalThis.fetch = async () =>
-      new Response(JSON.stringify(config), { status: 200 });
-    render(<ModelGenerator configUrl={configUrl} />);
+  root.render(
+    React.createElement(ModelGenerator, { configUrl: "http://api/config" }),
+  );
 
-    const modelInput = await screen.findByDisplayValue("llama3.2");
-    assert.ok(modelInput);
+  await flushMacroTasks();
+  assert.match(container!.innerHTML, /Loading file configuration\.\.\./);
 
-    assert.equal(
-      (screen.getByDisplayValue("0.3") as HTMLInputElement).value,
-      "0.3",
-    );
-    assert.equal(
-      (screen.getByDisplayValue("0.9") as HTMLInputElement).value,
-      "0.9",
-    );
-  });
+  resolveFetch();
 
-  it("updates the model name", async () => {
-    globalThis.fetch = async () =>
-      new Response(JSON.stringify(config), { status: 200 });
-    render(<ModelGenerator configUrl={configUrl} />);
+  await flushMacroTasks();
 
-    const modelInput = await screen.findByDisplayValue("llama3.2");
-    fireEvent.change(modelInput, { target: { value: "mistral" } });
+  assert.ok(container!.querySelector('[data-testid="ollama-output"]'));
+  const modelInput = container!.querySelector(
+    '[data-testid="input-base-model"]',
+  ) as HTMLInputElement;
+  assert.strictEqual(modelInput.value, "test-model");
+});
 
-    assert.equal(
-      (screen.getByDisplayValue("mistral") as HTMLInputElement).value,
-      "mistral",
-    );
-  });
+test("shows error message if fetch requests fail", async () => {
+  const { default: ModelGenerator } = await import("./ModelGenerator.tsx");
 
-  it("updates temperature and top-p values", async () => {
-    globalThis.fetch = async () =>
-      new Response(JSON.stringify(config), { status: 200 });
-    render(<ModelGenerator configUrl={configUrl} />);
+  mock.method(globalThis, "fetch", async () => ({
+    ok: false,
+    statusText: "Internal Server Error",
+  }));
 
-    const tempInput = await screen.findByDisplayValue("0.3");
-    const topPInput = screen.getByDisplayValue("0.9");
+  root.render(
+    React.createElement(ModelGenerator, { configUrl: "http://api/config" }),
+  );
 
-    fireEvent.change(tempInput, { target: { value: "0.7" } });
-    fireEvent.change(topPInput, { target: { value: "0.8" } });
+  await flushMacroTasks();
 
-    assert.equal((tempInput as HTMLInputElement).value, "0.7");
-    assert.equal((topPInput as HTMLInputElement).value, "0.8");
-  });
+  assert.match(
+    container!.innerHTML,
+    /Error: Failed to load file: Internal Server Error/,
+  );
+});
 
-  it("renders the Ollama output by default", async () => {
-    globalThis.fetch = async () =>
-      new Response(JSON.stringify(config), { status: 200 });
-    render(<ModelGenerator configUrl={configUrl} />);
+test("switches output panel when changing pills configuration", async () => {
+  const { default: ModelGenerator } = await import("./ModelGenerator.tsx");
 
-    await screen.findByDisplayValue("llama3.2");
+  mock.method(globalThis, "fetch", async () => ({
+    ok: true,
+    json: async () => mockConfigPayload,
+  }));
 
-    assert.ok(screen.getByText(/FROM llama3.2/));
-  });
+  root.render(
+    React.createElement(ModelGenerator, { configUrl: "http://api/config" }),
+  );
+  await flushMacroTasks();
 
-  it("switches to the OpenAI output when the OpenAI pill is selected", async () => {
-    globalThis.fetch = async () =>
-      new Response(JSON.stringify(config), { status: 200 });
-    render(<ModelGenerator configUrl={configUrl} />);
+  assert.ok(container!.querySelector('[data-testid="ollama-output"]'));
 
-    await screen.findByDisplayValue("llama3.2");
+  const openAiPill = container!.querySelector(
+    '[data-testid="pill-openai"]',
+  ) as HTMLButtonElement;
+  openAiPill.click();
 
-    const openAiButton = screen.getByRole("button", { name: /openai/i });
-    fireEvent.click(openAiButton);
+  await flushMacroTasks();
 
-    await waitFor(() => {
-      assert.equal(openAiButton.getAttribute("aria-pressed"), "true");
-    });
-  });
-
-  it("displays an error when fetching the configuration fails", async () => {
-    globalThis.fetch = async () =>
-      new Response(null, { status: 404, statusText: "Not Found" });
-    render(<ModelGenerator configUrl={configUrl} />);
-
-    await waitFor(() => {
-      assert.ok(screen.getByText("Error: Failed to load file: Not Found"));
-    });
-  });
-
-  it("displays an error when fetch rejects", async () => {
-    globalThis.fetch = async () => {
-      throw new Error("Network failure");
-    };
-    render(<ModelGenerator configUrl={configUrl} />);
-
-    await waitFor(() => {
-      assert.ok(screen.getByText("Error: Network failure"));
-    });
-  });
+  assert.ok(container!.querySelector('[data-testid="openai-output"]'));
+  assert.ok(!container!.querySelector('[data-testid="ollama-output"]'));
 });

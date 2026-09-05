@@ -48,9 +48,6 @@ const StyledToast = sc.div`
   align-items: center;
   justify-content: space-between;
   min-width: 300px;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
 
   background-color: ${(props) => {
 	switch (props.variant) {
@@ -270,8 +267,17 @@ const FormDiv = sc.div`
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
+
+  flex: 1 1 200px;
+  min-width: 0;
   width: 100%;
-  max-width: 28rem;
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    box-sizing: border-box;
+  }
 `;
 const FormWarning = sc.p`
   margin: 0.1rem 0 0;
