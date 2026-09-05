@@ -3,9 +3,12 @@ import * as assert from "node:assert/strict";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as os from "node:os";
-import createModelConfig from "./createModelConfig.ts";
+import { settings } from "./model-settings.ts";
+import createModelConfig, {
+  type ComponentBlueprint,
+} from "./createModelConfig.ts";
 
-describe("createModelConfig generation pipeline", () => {
+describe("createModelConfig comprehensive component extraction pipeline", () => {
   let tempDir: string;
   let originalCwd: () => string;
 
@@ -17,26 +20,46 @@ describe("createModelConfig generation pipeline", () => {
     originalCwd = process.cwd;
     process.cwd = () => tempDir;
 
-    const mockComponentCode = `
-      interface MockProps {
-        title: string;
-        disabled?: boolean;
+    // 1. Standard Interface Layout
+    const dialogCode = `
+      export interface DialogProps {
+        isOpen: boolean;
+        onClose: () => void;
       }
     `;
+
+    // 2. Type Alias with Spacing & Equals Sign (Fails basic regex)
+    const navigationCode = `
+      export type MainNavigationProps = {
+        links: NavigationLink[];
+        main?: boolean;
+      };
+    `;
+
+    // 3. Multi-line spacing and comments inside the block (Fails line-by-line cutting)
+    const complexCode = `
+      interface ComplexProps {
+        // Core Identifier
+        id: string;
+
+        /* Visual look and feel */
+        variant?: "primary" | "secondary";
+        
+        size: "sm" | "md" | "lg";
+      }
+    `;
+
+    fs.writeFileSync(path.join(srcPath, "Dialog.tsx"), dialogCode);
+    fs.writeFileSync(path.join(srcPath, "MainNavigation.tsx"), navigationCode);
+    fs.writeFileSync(path.join(srcPath, "ComplexComponent.tsx"), complexCode);
+
+    // Artifacts that must be ignored
     fs.writeFileSync(
-      path.join(srcPath, "MockComponent.tsx"),
-      mockComponentCode,
-    );
-    fs.writeFileSync(
-      path.join(srcPath, "Button.tsx"),
-      "interface ButtonProps { label: string; }",
-    );
-    fs.writeFileSync(
-      path.join(srcPath, "Button.stories.tsx"),
+      path.join(srcPath, "Dialog.stories.tsx"),
       "interface StoryProps {}",
     );
     fs.writeFileSync(
-      path.join(srcPath, "Button.test.tsx"),
+      path.join(srcPath, "Dialog.test.tsx"),
       "interface TestProps {}",
     );
   });
@@ -46,67 +69,84 @@ describe("createModelConfig generation pipeline", () => {
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
 
-  test("compiles a valid model config object matching component interfaces", () => {
+  test("extracts values perfectly matching the configuration object keys", () => {
     const config = createModelConfig();
 
-    // Verify root-level structural configuration object properties
-    assert.ok(
-      config.baseModel,
-      "Should provide a base LLM parent layer (baseModel)",
-    );
-    assert.equal(
-      typeof config.parameters.temperature,
-      "number",
-      "Should configure temperature guidelines as a number",
-    );
-    assert.match(
-      config.parameters.stop,
-      /^\[\w+\]$/,
-      "Should output accurate completion stop rules with brackets",
-    );
-    assert.equal(
-      typeof config.systemSettings,
-      "string",
-      "Should contain system setting instructions",
-    );
-
-    // Verify component configuration details inside the inventory text
-    const result = config.componentInventory;
-    assert.match(
-      result,
-      /### Package element from simple-component-library \(MockComponent\.tsx\):/,
-      "Should isolate custom file headings",
-    );
-    assert.match(
-      result,
-      /interface MockProps \{[\s\S]*?\}/,
-      "Should capture bracketed props parameters",
-    );
-    assert.match(
-      result,
-      /export const MockComponent: React\.FC<MockProps>;/,
-      "Should synthesize component signature",
-    );
+    assert.equal(config.baseModel, settings.from);
+    assert.equal(config.parameters.temperature, settings.temperature);
+    assert.equal(config.parameters.top_p, settings.top_p);
+    assert.equal(config.parameters.stop, `[${settings.stop}]`);
+    assert.equal(config.systemSettings, settings.system.trim());
   });
 
-  test("ignores non-component tooling like stories and test files", () => {
+  test("captures every single valid component regardless of formatting variations", () => {
     const config = createModelConfig();
-    const result = config.componentInventory;
+    const inventory: ComponentBlueprint[] = JSON.parse(
+      config.componentInventory,
+    );
 
-    assert.match(
-      result,
-      /Package element from simple-component-library \(Button\.tsx\)/,
-      "Should map primary components",
+    // Assert that all 3 components are found (was failing at 2)
+    assert.equal(
+      inventory.length,
+      3,
+      "Pipeline must capture all three unique structural component configurations",
+    );
+
+    // 1. Verify standard interface extraction
+    const dialog = inventory.find((item) => item.component === "Dialog");
+    assert.ok(dialog, "Should find Dialog component");
+    assert.deepEqual(dialog.props.isOpen, { type: "boolean", required: true });
+
+    // 2. Verify type alias assignment with equals sign extraction
+    const nav = inventory.find((item) => item.component === "MainNavigation");
+    assert.ok(nav, "Should find MainNavigation type alias component");
+    assert.deepEqual(nav.props.links, {
+      type: "NavigationLink[]",
+      required: true,
+    });
+    assert.deepEqual(nav.props.main, { type: "boolean", required: false });
+
+    // 3. Verify multi-line, comment-insulated block extraction
+    const complex = inventory.find(
+      (item) => item.component === "ComplexComponent",
+    );
+    assert.ok(
+      complex,
+      "Should scan past formatting blocks to isolate complex property profiles",
+    );
+    assert.deepEqual(complex.props.id, { type: "string", required: true });
+    assert.deepEqual(complex.props.variant, {
+      type: '"primary" | "secondary"',
+      required: false,
+    });
+    assert.deepEqual(complex.props.size, {
+      type: '"sm" | "md" | "lg"',
+      required: true,
+    });
+  });
+
+  test("filters toolchain noise like stories and unit test files out completely", () => {
+    const config = createModelConfig();
+    const inventory: ComponentBlueprint[] = JSON.parse(
+      config.componentInventory,
+    );
+
+    const hasStories = inventory.some((item) =>
+      item.component.toLowerCase().includes("story"),
+    );
+    const hasTests = inventory.some((item) =>
+      item.component.toLowerCase().includes("test"),
+    );
+
+    assert.equal(
+      hasStories,
+      false,
+      "Should completely exclude design story files",
     );
     assert.equal(
-      result.includes("Button.stories.tsx"),
+      hasTests,
       false,
-      "Should completely drop story file blocks",
-    );
-    assert.equal(
-      result.includes("Button.test.tsx"),
-      false,
-      "Should completely drop test file blocks",
+      "Should completely drop component verification test blocks",
     );
   });
 });
