@@ -1,3 +1,5 @@
+import ModelGenerator from "./ModelGenerator";
+
 # AI-UI-LIBRARY
 
 This UI library contains a number of React elements for use on other projects, this also generates a LLM config file that knows how to use the library.
@@ -7,10 +9,7 @@ Its does this through a process known as Context Injection were you stuff inform
 
 ## Modelfile
 
-<a href="./model-config.json" target="_blank" rel="noreferrer">
-  {" "}
-  You can download that from here{" "}
-</a>
+<ModelGenerator configUrl="./model-config.json" />
 
 ## Why is the library a mix of CSS and Components
 

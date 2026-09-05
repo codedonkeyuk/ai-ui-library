@@ -25,7 +25,7 @@
     "serveStorybook": "npx http-server storybook-static",
     "clean": "prettier . --write",
     "validate": "prettier . --check && tsc --noEmit && npx cspell README.md",
-    "test": "node --import tsx --import ./src/test-setup.ts --test src/**/*.test.{ts,tsx}",
+    "test": "node --import tsx --experimental-test-module-mocks --import ./src/test-setup.ts --test src/**/*.test.{ts,tsx}",
     "model:generate": "node src/scripts/app.ts",
     "model:register": "ollama create library-bot -f ./Modelfile",
     "prepare": "husky"
