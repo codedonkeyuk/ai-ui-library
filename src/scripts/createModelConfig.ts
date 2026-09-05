@@ -2,10 +2,17 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { settings } from "./model-settings.ts";
 
-/**
- * Traverses a directory recursively to grab valid component source files.
- * Explicitly ignores build artifacts, tests, and stories.
- */
+export interface ModelConfig {
+  baseModel: string;
+  parameters: {
+    temperature: number;
+    top_p: number;
+    stop: string;
+  };
+  systemSettings: string;
+  componentInventory: string;
+}
+
 function getFilesRecursive(dir: string, fileList: string[] = []): string[] {
   if (!fs.existsSync(dir)) return fileList;
   const files = fs.readdirSync(dir);
@@ -37,9 +44,6 @@ function getFilesRecursive(dir: string, fileList: string[] = []): string[] {
   return fileList;
 }
 
-/**
- * Cleanly extracts only components and their types based on clean structural text blocks.
- */
 function extractComponentBlueprints(srcPath: string): string {
   const files = getFilesRecursive(srcPath);
   let context = "";
@@ -72,8 +76,6 @@ function extractComponentBlueprints(srcPath: string): string {
         if (match) {
           const currentTypeName = match[1];
 
-          // CRITICAL FILTER: Only capture if it's explicitly 'Props' or ends with 'Props'
-          // This stops 'State' or internal definitions from hijacking the component signature
           if (
             currentTypeName === "Props" ||
             currentTypeName.endsWith("Props")
@@ -109,29 +111,20 @@ function extractComponentBlueprints(srcPath: string): string {
   return context.trim();
 }
 
-const createModel = (): string => {
+const createModelConfig = (): ModelConfig => {
   const componentWorkspaceSrc = path.resolve(process.cwd(), "./src/lib");
   const componentBlueprints = extractComponentBlueprints(componentWorkspaceSrc);
 
-  const fullSystemPrompt = `
-${settings.system.trim()}
-
-## Available Components Inventory:
-You are strictly allowed to output layouts using ONLY the components declared in this inventory list. Never use generic HTML strings or unlisted elements:
-
-${componentBlueprints}
-`.trim();
-
-  return `
-FROM ${settings.from}
-
-PARAMETER temperature ${settings.temperature}
-PARAMETER top_p ${settings.top_p}
-PARAMETER stop "[${settings.stop}]"
-SYSTEM """
-${fullSystemPrompt}
-"""
-`.trim();
+  return {
+    baseModel: settings.from,
+    parameters: {
+      temperature: settings.temperature,
+      top_p: settings.top_p,
+      stop: `[${settings.stop}]`,
+    },
+    systemSettings: settings.system.trim(),
+    componentInventory: componentBlueprints,
+  };
 };
 
-export default createModel;
+export default createModelConfig;

@@ -1,9 +1,13 @@
 import { writeFile } from "node:fs/promises";
-import createModel from "./createModel.ts";
+import createModelConfig from "./createModelConfig.ts";
 
 try {
-  const modelContent = await createModel();
-  await writeFile("assets/Modelfile", modelContent, "utf8");
+  const modelContent = await createModelConfig();
+  await writeFile(
+    "assets/model-config.json",
+    JSON.stringify(modelContent),
+    "utf8",
+  );
   console.log("File written successfully!");
 } catch (error) {
   console.error("Error writing file:", error);

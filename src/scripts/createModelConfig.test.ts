@@ -3,9 +3,9 @@ import * as assert from "node:assert/strict";
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as os from "node:os";
-import createModel from "./createModel.ts";
+import createModelConfig from "./createModelConfig.ts";
 
-describe("createModel generation pipeline", () => {
+describe("createModelConfig generation pipeline", () => {
   let tempDir: string;
   let originalCwd: () => string;
 
@@ -46,25 +46,32 @@ describe("createModel generation pipeline", () => {
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
 
-  test("compiles a valid Modelfile system prompt matching component interfaces", async () => {
-    const result = await createModel();
+  test("compiles a valid model config object matching component interfaces", () => {
+    const config = createModelConfig();
 
-    assert.match(
-      result,
-      /FROM\s+[\w-:]+/i,
-      "Should declare a base LLM parent layer (FROM)",
+    // Verify root-level structural configuration object properties
+    assert.ok(
+      config.baseModel,
+      "Should provide a base LLM parent layer (baseModel)",
+    );
+    assert.equal(
+      typeof config.parameters.temperature,
+      "number",
+      "Should configure temperature guidelines as a number",
     );
     assert.match(
-      result,
-      /PARAMETER temperature \d\.\d/,
-      "Should configure temperature guidelines",
+      config.parameters.stop,
+      /^\[\w+\]$/,
+      "Should output accurate completion stop rules with brackets",
     );
-    assert.match(
-      result,
-      /PARAMETER stop "\[\w+\]"/,
-      "Should output accurate completion stop rules",
+    assert.equal(
+      typeof config.systemSettings,
+      "string",
+      "Should contain system setting instructions",
     );
 
+    // Verify component configuration details inside the inventory text
+    const result = config.componentInventory;
     assert.match(
       result,
       /### Package element from simple-component-library \(MockComponent\.tsx\):/,
@@ -82,8 +89,9 @@ describe("createModel generation pipeline", () => {
     );
   });
 
-  test("ignores non-component tooling like stories and test files", async () => {
-    const result = await createModel();
+  test("ignores non-component tooling like stories and test files", () => {
+    const config = createModelConfig();
+    const result = config.componentInventory;
 
     assert.match(
       result,
