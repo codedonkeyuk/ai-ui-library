@@ -1,4 +1,3 @@
-// Input.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react";
 import Input from "./Input.tsx";
 
@@ -9,7 +8,6 @@ const meta: Meta<typeof Input> = {
   parameters: {
     layout: "centered",
   },
-
   args: {
     label: "Example field",
     name: "example",
@@ -47,10 +45,9 @@ const meta: Meta<typeof Input> = {
       control: "text",
     },
   },
-} satisfies Meta<typeof Input>;
+};
 
 export default meta;
-
 type Story = StoryObj<typeof meta>;
 
 export const Text: Story = {
@@ -225,6 +222,16 @@ export const WithWarning: Story = {
     label: "Email",
     type: "email",
     warningMessage: "Please enter a valid email address.",
+  },
+};
+
+export const WithDescription: Story = {
+  args: {
+    id: "description",
+    name: "description",
+    label: "Email Address",
+    type: "email",
+    description: "Enter your primary email address to receive updates.",
   },
 };
 

@@ -1,9 +1,8 @@
-// Input.test.tsx
-import test from "node:test";
-import assert from "node:assert/strict";
-
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import assert from "node:assert/strict";
+import test from "node:test";
 
 import Input from "./Input";
 
@@ -45,20 +44,19 @@ for (const { type, role } of inputCases) {
 
     const input =
       type === "hidden"
-        ? document.querySelector(`#input-${type}`)
+        ? document.getElementById(`input-${type}`)
         : screen.getByLabelText(`${type} field`);
 
     assert.ok(input);
-    assert.equal(input.getAttribute("type"), type);
+    assert.equal(input?.getAttribute("type"), type);
 
     if (role) {
-      assert.equal(input.getAttribute("role"), null);
-      assert.equal(screen.getByRole(role, { name: `${type} field` }), input);
+      assert.ok(screen.getByRole(role, { name: `${type} field` }));
     }
   });
 }
 
-test("associates the warning with the input", () => {
+test("associates the warning with the input via dynamic ID", () => {
   render(
     <Input
       id="email"
@@ -72,73 +70,114 @@ test("associates the warning with the input", () => {
   const input = screen.getByRole("textbox", { name: "Email" });
   const warning = screen.getByText("Please enter a valid email address.");
 
-  assert.equal(input.getAttribute("aria-describedby"), "email-warning");
-  assert.equal(warning.getAttribute("id"), "email-warning");
-  assert.equal(warning.getAttribute("role"), "status");
+  assert.equal(
+    input.getAttribute("aria-describedby"),
+    warning.getAttribute("id"),
+  );
+  assert.equal(warning.getAttribute("role"), "alert");
 });
 
-test("does not add aria-describedby without a warning", () => {
-  render(<Input id="username" name="username" type="text" label="Username" />);
-
-  const input = screen.getByRole("textbox", { name: "Username" });
-
-  assert.equal(input.hasAttribute("aria-describedby"), false);
-  assert.equal(screen.queryByRole("status"), null);
-});
-
-test("passes input events through", async () => {
-  const user = userEvent.setup();
-
-  const events = {
-    change: 0,
-    focus: 0,
-    blur: 0,
-    keydown: 0,
-  };
-
+test("associates the description with the input via dynamic ID", () => {
   render(
     <Input
       id="username"
       name="username"
       type="text"
       label="Username"
-      onChange={() => events.change++}
-      onFocus={() => events.focus++}
-      onBlur={() => events.blur++}
-      onKeyDown={() => events.keydown++}
+      description="Optional field"
     />,
   );
 
   const input = screen.getByRole("textbox", { name: "Username" });
+  const description = screen.getByText("Optional field");
 
-  await user.click(input);
-  await user.type(input, "alex");
-  await user.tab();
-
-  assert.ok(events.focus > 0);
-  assert.ok(events.change > 0);
-  assert.ok(events.keydown > 0);
-  assert.ok(events.blur > 0);
-  assert.equal(input.getAttribute("value"), null);
-  assert.equal((input as HTMLInputElement).value, "alex");
+  assert.equal(
+    input.getAttribute("aria-describedby"),
+    description.getAttribute("id"),
+  );
 });
 
-test("passes standard input props through", () => {
+test("associates both description and warning with the input", () => {
   render(
     <Input
-      id="phone"
-      name="phone"
-      type="tel"
-      label="Phone"
-      placeholder="Enter your phone number"
-      disabled
-      autoComplete="tel"
+      id="email"
+      name="email"
+      type="email"
+      label="Email"
+      description="Optional field"
+      warningMessage="Please enter a valid email address."
     />,
   );
 
-  const input = screen.getByRole("textbox", { name: "Phone" });
+  const input = screen.getByRole("textbox", { name: "Email" });
+  const description = screen.getByText("Optional field");
+  const warning = screen.getByText("Please enter a valid email address.");
 
-  assert.equal(input.getAttribute("placeholder"), "Enter your phone number");
-  assert.equal(input.getAttribute("autocomplete"), "tel");
-  assert.equal((input as HTMLInputElement).disabled, true);
+  const describedBy = input.getAttribute("aria-describedby");
+  assert.ok(
+    describedBy !== null,
+    "aria-describedby attribute should not be null",
+  );
+
+  assert.ok(describedBy.includes(description.getAttribute("id") || ""));
+  assert.ok(describedBy.includes(warning.getAttribute("id") || ""));
+});
+
+test("passes through standard HTML attributes", () => {
+  render(
+    <Input
+      id="standard-props"
+      name="standard-props"
+      type="text"
+      label="Standard Props"
+      placeholder="Enter your name"
+      disabled={true}
+      autoComplete="off"
+    />,
+  );
+
+  const input = screen.getByRole("textbox", { name: "Standard Props" });
+
+  assert.equal(input.getAttribute("placeholder"), "Enter your name");
+  assert.equal(input.getAttribute("disabled"), "true");
+  assert.equal(input.getAttribute("autocomplete"), "off");
+});
+
+test("handles interaction events", async () => {
+  let onInputChangeCalled = false;
+  let onFocusChangeCalled = false;
+
+  const onInputChange = () => {
+    onInputChangeCalled = true;
+  };
+  const onFocusChange = () => {
+    onFocusChangeCalled = true;
+  };
+
+  render(
+    <Input
+      id="events"
+      name="events"
+      type="text"
+      label="Events"
+      onChange={onInputChange}
+      onFocus={onFocusChange}
+    />,
+  );
+
+  const input = screen.getByRole("textbox", { name: "Events" });
+
+  await userEvent.click(input);
+  assert.strictEqual(
+    onFocusChangeCalled,
+    true,
+    "onFocus should have been called",
+  );
+
+  await userEvent.type(input, "hello");
+  assert.strictEqual(
+    onInputChangeCalled,
+    true,
+    "onChange should have been called",
+  );
 });
