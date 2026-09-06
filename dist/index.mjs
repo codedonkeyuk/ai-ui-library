@@ -1,7 +1,7 @@
 import { jsx, jsxs } from "react/jsx-runtime";
-import { Link, NavLink } from "react-router";
-import sc, { createGlobalStyle, styled } from "styled-components";
 import { Component, createContext, useCallback, useContext, useEffect, useId, useState } from "react";
+import styled, { createGlobalStyle, styled as styled$1 } from "styled-components";
+import { Link, NavLink } from "react-router";
 //#region src/lib/components/Loading.tsx
 /** Renders a accessible loading div. Necessary for dynamic import react suspend logic*/
 function Loading() {
@@ -15,11 +15,8 @@ function Loading() {
 	});
 }
 //#endregion
-//#region src/lib/components/LinkRouterButton.tsx
-const RouterLinkButton = (sc.default || sc)(Link).attrs({ className: "btn" })``;
-//#endregion
 //#region src/lib/components/Toast.tsx
-const CloseButton = sc.button`
+const CloseButton = styled.button`
   background: transparent;
   border: none;
   color: inherit;
@@ -37,7 +34,7 @@ const CloseButton = sc.button`
     color: inherit;
   }
 `;
-const StyledToast = sc.div`
+const StyledToast = styled.div`
   padding: 16px 24px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -108,7 +105,7 @@ const Toast = ({ isVisible, message, variant = "info", duration = 3e3, onClose }
 };
 //#endregion
 //#region src/lib/components/ToastProvider.tsx
-const ToastFlex = sc.div`
+const ToastFlex = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column-reverse;
@@ -220,13 +217,13 @@ var ErrorBoundary = class extends Component {
 };
 //#endregion
 //#region src/lib/components/InputCommon.tsx
-const FormLabel = sc.label`
+const FormLabel = styled.label`
   color: #263238;
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.4;
 `;
-const FormInput = sc.input`
+const FormInput = styled.input`
   width: 100%;
   padding: 0.7rem 0.8rem;
 
@@ -263,7 +260,7 @@ const FormInput = sc.input`
 `;
 //#endregion
 //#region src/lib/components/Input.tsx
-const FormDiv = sc.div`
+const FormDiv = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
@@ -278,13 +275,13 @@ const FormDiv = sc.div`
     box-sizing: border-box;
   }
 `;
-const FormWarning = sc.p`
+const FormWarning = styled.p`
   margin: 0.1rem 0 0;
   color: #a33a3a;
   font-size: 0.825rem;
   line-height: 1.4;
 `;
-const FormDescription = sc.p`
+const FormDescription = styled.p`
   margin: 0.1rem 0 0;
   color: #666;
   font-size: 0.825rem;
@@ -321,7 +318,7 @@ function Input({ id, label, name, type, description, warningMessage, required, .
 }
 //#endregion
 //#region src/lib/components/InputCheckboxGroup.tsx
-const CheckboxFieldset = sc.fieldset`
+const CheckboxFieldset = styled.fieldset`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -332,7 +329,7 @@ const CheckboxFieldset = sc.fieldset`
   border: 1px solid #b8c2cc;
   border-radius: 0.35rem;
 `;
-const CheckboxLegend = sc.legend`
+const CheckboxLegend = styled.legend`
   padding: 0 0.25rem;
 
   color: #263238;
@@ -340,7 +337,7 @@ const CheckboxLegend = sc.legend`
   font-weight: 600;
   line-height: 1.4;
 `;
-const CheckboxDiv = sc.div`
+const CheckboxDiv = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
@@ -359,7 +356,7 @@ function InputCheckboxGroup({ legend, checkboxes, checkboxSelected }) {
 }
 //#endregion
 //#region src/lib/components/InputRadioGroup.tsx
-const RadioFieldset = sc.fieldset`
+const RadioFieldset = styled.fieldset`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -370,7 +367,7 @@ const RadioFieldset = sc.fieldset`
   border: 1px solid #b8c2cc;
   border-radius: 0.35rem;
 `;
-const RadioLegend = sc.legend`
+const RadioLegend = styled.legend`
   padding: 0 0.25rem;
 
   color: #263238;
@@ -378,7 +375,7 @@ const RadioLegend = sc.legend`
   font-weight: 600;
   line-height: 1.4;
 `;
-const RadioDiv = sc.div`
+const RadioDiv = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
@@ -402,7 +399,7 @@ function InputRadioGroup({ legend, radios, radioSelected }) {
 //#endregion
 //#region src/lib/components/MainNavigation.tsx
 const BREAKPOINT = "768px";
-const MainNavStyled = styled.nav`
+const MainNavStyled = styled$1.nav`
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -413,7 +410,7 @@ const MainNavStyled = styled.nav`
   width: 100%;
   box-sizing: border-box;
 `;
-const UlStyled = styled.ul`
+const UlStyled = styled$1.ul`
   display: flex;
   list-style: none;
   margin: 0;
@@ -459,7 +456,7 @@ const UlStyled = styled.ul`
     `}
   }
 `;
-const LiStyled = styled.li`
+const LiStyled = styled$1.li`
   position: relative;
   margin: 0;
 
@@ -481,7 +478,7 @@ const LiStyled = styled.li`
     }
   }
 `;
-const LinkStyled = styled(NavLink)`
+const LinkStyled = styled$1(NavLink)`
   text-decoration: none;
   color: #333333;
   font-weight: 500;
@@ -529,7 +526,7 @@ const LinkStyled = styled(NavLink)`
     }
   }
 `;
-const HamburgerButton = styled.button`
+const HamburgerButton = styled$1.button`
   display: none;
   flex-direction: column;
   justify-content: space-around;
@@ -617,9 +614,79 @@ function MainNavigation({ links }) {
 	});
 }
 //#endregion
-//#region src/lib/styles/global/GlobalStyle.tsx
-const GlobalStyle = createGlobalStyle`${":root {\n  --font-body: clamp(1rem, .95rem + .2vw, 1.125rem);\n  --font-h3: clamp(1.25rem, 1.1rem + .6vw, 1.75rem);\n  --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);\n  --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);\n  --line-height-body: 1.6;\n  --line-height-heading: 1.25;\n}\n\nbody {\n  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;\n  font-size: var(--font-body);\n  line-height: var(--line-height-body);\n  color: #1a1a1a;\n  -webkit-font-smoothing: antialiased;\n}\n\nh1 {\n  font-size: var(--font-h1);\n  line-height: var(--line-height-heading);\n  font-weight: 800;\n}\n\nh2 {\n  font-size: var(--font-h2);\n  line-height: var(--line-height-heading);\n  font-weight: 700;\n}\n\nh3 {\n  font-size: var(--font-h3);\n  line-height: var(--line-height-heading);\n  font-weight: 600;\n}\n\n.container {\n  background-color: var(--container-bg);\n  justify-content: center;\n  align-items: flex-start;\n  width: 100%;\n  height: 100%;\n  display: flex;\n}\n\n.page {\n  width: 1200px;\n}\n\n@media (width <= 1200px) {\n  .page {\n    width: 100%;\n  }\n}\n\n.error-info {\n  border: 2px solid #000;\n  padding: 15px;\n}\n\n.btn {\n  text-align: center;\n  vertical-align: middle;\n  color: #fff;\n  cursor: pointer;\n  user-select: none;\n  box-sizing: border-box;\n  background-color: #06c;\n  border: none;\n  border-radius: 8px;\n  justify-content: center;\n  align-items: center;\n  width: auto;\n  min-height: 48px;\n  padding: 0 24px;\n  font-family: inherit;\n  font-size: 16px;\n  font-weight: 600;\n  text-decoration: none;\n  transition: background-color .2s, transform .1s;\n  display: inline-flex;\n}\n\n.btn:hover {\n  background-color: #0052a3;\n}\n\n.btn:active {\n  transform: scale(.98);\n}\n\n.button-bar {\n  flex-wrap: wrap;\n  justify-content: flex-end;\n  gap: 12px;\n  width: 100%;\n  display: flex;\n}\n\n.button-bar.start {\n  justify-content: flex-start;\n}\n\n.button-bar.center {\n  justify-content: center;\n}\n\n@media (width <= 600px) {\n  .button-bar {\n    flex-direction: column;\n  }\n\n  .btn {\n    width: 100%;\n    display: flex;\n  }\n}\n"}`;
+//#region src/lib/components/Button.tsx
+const StyledButton = styled.button`
+  background-color: ${(props) => props.$primary ? "#007bff" : "#ccc"};
+  color: ${(props) => props.$primary ? "white" : "black"};
+  border: none;
+  padding: ${(props) => {
+	switch (props.$size) {
+		case "small": return "5px 10px";
+		case "large": return "15px 30px";
+		default: return "10px 20px";
+	}
+}};
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: ${(props) => {
+	switch (props.$size) {
+		case "small": return "14px";
+		case "large": return "18px";
+		default: return "16px";
+	}
+}};
+  margin: 4px 2px;
+  cursor: ${(props) => props.$disabled ? "not-allowed" : "pointer"};
+  border-radius: 5px;
+  opacity: ${(props) => props.$disabled ? "0.6" : "1"};
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: ${(props) => props.$primary ? "#0056b3" : "#999"};
+  }
+`;
+function Button({ children, primary = false, disabled = false, size = "medium", type = "button", ariaLabel, ...props }) {
+	return /* @__PURE__ */ jsx(StyledButton, {
+		type,
+		$primary: primary,
+		$disabled: disabled,
+		$size: size,
+		disabled,
+		"aria-label": ariaLabel,
+		"aria-disabled": disabled ? "true" : "false",
+		...props,
+		children
+	});
+}
+function ButtonLink({ href, children, primary = false, size = "medium", ariaLabel, ariaCurrent, ...props }) {
+	return /* @__PURE__ */ jsx(StyledButton, {
+		as: "a",
+		href,
+		$primary: primary,
+		$size: size,
+		"aria-label": ariaLabel,
+		"aria-current": ariaCurrent,
+		...props,
+		children
+	});
+}
+function ButtonRouterLink({ to, children, primary = false, size = "medium", ariaLabel, ariaCurrent, ...props }) {
+	return /* @__PURE__ */ jsx(StyledButton, {
+		as: Link,
+		to,
+		$primary: primary,
+		$size: size,
+		"aria-label": ariaLabel,
+		"aria-current": ariaCurrent,
+		...props,
+		children
+	});
+}
 //#endregion
-export { ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, RouterLinkButton as LinkRouterButton, Loading, MainNavigation, Toast, ToastProvider, handleJsError, useToast };
+//#region src/lib/styles/global/GlobalStyle.tsx
+const GlobalStyle = createGlobalStyle`${":root {\n  --font-body: clamp(1rem, .95rem + .2vw, 1.125rem);\n  --font-h3: clamp(1.25rem, 1.1rem + .6vw, 1.75rem);\n  --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);\n  --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);\n  --line-height-body: 1.6;\n  --line-height-heading: 1.25;\n}\n\nbody {\n  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;\n  font-size: var(--font-body);\n  line-height: var(--line-height-body);\n  color: #1a1a1a;\n  -webkit-font-smoothing: antialiased;\n}\n\nh1 {\n  font-size: var(--font-h1);\n  line-height: var(--line-height-heading);\n  font-weight: 800;\n}\n\nh2 {\n  font-size: var(--font-h2);\n  line-height: var(--line-height-heading);\n  font-weight: 700;\n}\n\nh3 {\n  font-size: var(--font-h3);\n  line-height: var(--line-height-heading);\n  font-weight: 600;\n}\n\n.container {\n  background-color: var(--container-bg);\n  justify-content: center;\n  align-items: flex-start;\n  width: 100%;\n  height: 100%;\n  display: flex;\n}\n\n.page {\n  width: 1200px;\n}\n\n@media (width <= 1200px) {\n  .page {\n    width: 100%;\n  }\n}\n\n.error-info {\n  border: 2px solid #000;\n  padding: 15px;\n}\n\n.button-bar {\n  flex-wrap: wrap;\n  justify-content: flex-end;\n  gap: 12px;\n  width: 100%;\n  display: flex;\n}\n\n.button-bar.start {\n  justify-content: flex-start;\n}\n\n.button-bar.center {\n  justify-content: center;\n}\n\n@media (width <= 600px) {\n  .button-bar {\n    flex-direction: column;\n  }\n\n  .btn {\n    width: 100%;\n    display: flex;\n  }\n}\n"}`;
+//#endregion
+export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Toast, ToastProvider, handleJsError, useToast };
 
 //# sourceMappingURL=index.mjs.map

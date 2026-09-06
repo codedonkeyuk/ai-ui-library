@@ -1,5 +1,4 @@
 export { default as Loading } from "./components/Loading.tsx";
-export { default as LinkRouterButton } from "./components/LinkRouterButton.tsx";
 export { default as Toast } from "./components/Toast.tsx";
 export { ToastProvider, useToast } from "./components/ToastProvider.tsx";
 export { default as ErrorBoundary } from "./components/ErrorBoundary.tsx";
@@ -8,4 +7,10 @@ export { default as Input } from "./components/Input.tsx";
 export { default as InputCheckboxGroup } from "./components/InputCheckboxGroup.tsx";
 export { default as InputRadioGroup } from "./components/InputRadioGroup.tsx";
 export { default as MainNavigation } from "./components/MainNavigation.tsx";
+export {
+  default as Button,
+  ButtonLink,
+  ButtonRouterLink,
+} from "./components/Button.tsx";
+
 export { default as GlobalStyle } from "./styles/global/GlobalStyle.tsx";

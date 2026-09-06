@@ -1,15 +1,8 @@
 import { JSX } from "react/jsx-runtime";
-import { LinkProps } from "react-router";
-import React, { CSSProperties, Component, ComponentPropsWithoutRef, ErrorInfo, ForwardRefExoticComponent, JSX as JSX$1, ReactNode, RefAttributes } from "react";
-import { CSSPropertiesWithVars, IStyledComponentBase } from "styled-components/dist/types";
+import React, { Component, ComponentPropsWithoutRef, ErrorInfo, JSX as JSX$1, ReactNode } from "react";
 //#region src/lib/components/Loading.d.ts
 /** Renders a accessible loading div. Necessary for dynamic import react suspend logic*/
 declare function Loading(): JSX.Element;
-//#endregion
-//#region src/lib/components/LinkRouterButton.d.ts
-declare const RouterLinkButton: IStyledComponentBase<"web", Omit<LinkProps & RefAttributes<HTMLAnchorElement>, "style"> & {
-  style?: CSSProperties | CSSPropertiesWithVars | undefined;
-}> & string & Omit<ForwardRefExoticComponent<LinkProps & RefAttributes<HTMLAnchorElement>>, keyof Component<any, {}, any>>;
 //#endregion
 //#region src/lib/components/Toast.d.ts
 type ToastVariant = "success" | "warning" | "error" | "info";
@@ -39,7 +32,7 @@ declare const ToastProvider: React.FC<{
 declare const useToast: () => ToastContextType;
 //#endregion
 //#region src/lib/components/ErrorBoundary.d.ts
-interface Props$5 {
+interface Props$6 {
   children: ReactNode;
 }
 interface State {
@@ -49,7 +42,7 @@ interface State {
  * @class ErrorBoundary
  * @description A React component that catches and displays errors within its children.
  */
-declare class ErrorBoundary extends Component<Props$5, State> {
+declare class ErrorBoundary extends Component<Props$6, State> {
   state: State;
   /**
    * @static getDerivedStateFromError(error)
@@ -75,7 +68,7 @@ declare class ErrorBoundary extends Component<Props$5, State> {
  * @interface Props
  * @description Properties for the ErrorPage component.
  */
-interface Props$4 {
+interface Props$5 {
   error: Error;
 }
 /**
@@ -84,7 +77,7 @@ interface Props$4 {
  * @param {Props} props - The properties of the component, including the error object.
  * @returns {React.FC<Props>} The rendered component.
  */
-declare const ErrorPage: React.FC<Props$4>;
+declare const ErrorPage: React.FC<Props$5>;
 /**
  * @function handleJsError
  * @description Handles JavaScript errors by displaying an error page in the specified target element.
@@ -94,14 +87,14 @@ declare const ErrorPage: React.FC<Props$4>;
 declare const handleJsError: (error: Error, target: HTMLElement) => void;
 //#endregion
 //#region src/lib/components/Input.d.ts
-interface Props$3 extends ComponentPropsWithoutRef<"input"> {
+interface Props$4 extends ComponentPropsWithoutRef<"input"> {
   label: string;
   description?: string;
   warningMessage?: string;
   /** If true, adds a * to the label and sets aria-required/required */
   required?: boolean;
 }
-declare function Input({ id, label, name, type, description, warningMessage, required, ...inputProps }: Props$3): JSX.Element;
+declare function Input({ id, label, name, type, description, warningMessage, required, ...inputProps }: Props$4): JSX.Element;
 //#endregion
 //#region src/lib/components/InputCheckboxGroup.d.ts
 type Checkbox = {
@@ -109,7 +102,7 @@ type Checkbox = {
   label: string;
   selected: boolean;
 };
-interface Props$2 {
+interface Props$3 {
   /** The name of the group of fields. Legen belonging to the wrapping fieldset. */
   legend: string;
   /** The array of checkboxes from which the group is rendered */
@@ -118,7 +111,7 @@ interface Props$2 {
   checkboxSelected: (id: string, selected: boolean) => void;
 }
 /** Renders a Fieldset containing multiple checkboxes */
-declare function InputCheckboxGroup({ legend, checkboxes, checkboxSelected }: Props$2): JSX.Element;
+declare function InputCheckboxGroup({ legend, checkboxes, checkboxSelected }: Props$3): JSX.Element;
 //#endregion
 //#region src/lib/components/InputRadioGroup.d.ts
 type Radio = {
@@ -126,7 +119,7 @@ type Radio = {
   label: string;
   selected: boolean;
 };
-interface Props$1 {
+interface Props$2 {
   /** Name of the group of fildes, becomes the fieldsets legend */
   legend: string;
   /** The array of radios which are rendered, min which state is kept */
@@ -135,7 +128,7 @@ interface Props$1 {
   radioSelected: (id: string) => void;
 }
 /** Renders a Fieldset containing multiple radio buttons */
-declare function InputRadioGroup({ legend, radios, radioSelected }: Props$1): JSX.Element;
+declare function InputRadioGroup({ legend, radios, radioSelected }: Props$2): JSX.Element;
 //#endregion
 //#region src/lib/components/MainNavigation.d.ts
 interface NavigationLink {
@@ -143,17 +136,41 @@ interface NavigationLink {
   name: string;
   sublinks?: NavigationLink[];
 }
-interface Props {
+interface Props$1 {
   /** Nesed array representing the links for the menu. Level one shows on tool bar. AQll other levels are grouped popovers */
   links: NavigationLink[];
 }
 /**
  * Main navigation for use on a website, which should be added ot a page header. Its been designed to be responsive and respect every platform. So it renders the menu options on a desktop and hamburger on a mobile device.
  */
-declare function MainNavigation({ links }: Props): JSX.Element;
+declare function MainNavigation({ links }: Props$1): JSX.Element;
+//#endregion
+//#region src/lib/components/Button.d.ts
+type AriaCurrentTypes = "page" | "location" | "date";
+interface Props {
+  primary?: boolean;
+  size?: "small" | "medium" | "large";
+  ariaLabel?: string;
+}
+interface ButtonProps extends Props, ComponentPropsWithoutRef<"button"> {
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
+}
+declare function Button({ children, primary, disabled, size, type, ariaLabel, ...props }: ButtonProps): JSX$1.Element;
+interface LinkProps extends Props, ComponentPropsWithoutRef<"a"> {
+  href: string;
+  ariaCurrent?: AriaCurrentTypes;
+}
+declare function ButtonLink({ href, children, primary, size, ariaLabel, ariaCurrent, ...props }: LinkProps): JSX$1.Element;
+interface RouterLinkProps extends Props {
+  to: string | object;
+  ariaCurrent?: AriaCurrentTypes;
+  children: React.ReactNode;
+}
+declare function ButtonRouterLink({ to, children, primary, size, ariaLabel, ariaCurrent, ...props }: RouterLinkProps): JSX$1.Element;
 //#endregion
 //#region src/lib/styles/global/GlobalStyle.d.ts
 declare const GlobalStyle: React.ComponentType;
 //#endregion
-export { ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, RouterLinkButton as LinkRouterButton, Loading, MainNavigation, Toast, ToastProvider, handleJsError, useToast };
+export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Toast, ToastProvider, handleJsError, useToast };
 //# sourceMappingURL=index.d.mts.map
