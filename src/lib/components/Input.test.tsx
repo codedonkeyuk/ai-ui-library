@@ -56,6 +56,58 @@ for (const { type, role } of inputCases) {
   });
 }
 
+test("renders required field with correct attributes and label marker", () => {
+  render(
+    <Input
+      id="required-field"
+      name="required-field"
+      type="text"
+      label="Username"
+      required={true}
+    />,
+  );
+
+  // Verify the label contains the asterisk
+  const label = screen.getByText(/Username \*/);
+  assert.ok(label, "Label should include an asterisk when required is true");
+
+  const input = screen.getByRole("textbox", { name: "Username" });
+
+  // Verify the HTML attributes
+  assert.equal(
+    input.getAttribute("required"),
+    "true",
+    "HTML required attribute should be present",
+  );
+  assert.equal(
+    input.getAttribute("aria-required"),
+    "true",
+    "aria-required attribute should be present",
+  );
+});
+
+test("does not render asterisk when required is false", () => {
+  render(
+    <Input
+      id="optional-field"
+      name="optional-field"
+      type="text"
+      label="Username"
+      required={false}
+    />,
+  );
+
+  const label = screen.getByText("Username");
+  assert.ok(label);
+
+  const input = screen.getByRole("textbox", { name: "Username" });
+  assert.equal(
+    input.getAttribute("required"),
+    null,
+    "Required attribute should not be present if false",
+  );
+});
+
 test("associates the warning with the input via dynamic ID", () => {
   render(
     <Input
@@ -119,8 +171,14 @@ test("associates both description and warning with the input", () => {
     "aria-describedby attribute should not be null",
   );
 
-  assert.ok(describedBy.includes(description.getAttribute("id") || ""));
-  assert.ok(describedBy.includes(warning.getAttribute("id") || ""));
+  assert.ok(
+    describedBy.includes(description.getAttribute("id") || ""),
+    "aria-describedby should include description ID",
+  );
+  assert.ok(
+    describedBy.includes(warning.getAttribute("id") || ""),
+    "aria-describedby should include warning ID",
+  );
 });
 
 test("passes through standard HTML attributes", () => {

@@ -1,7 +1,7 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { Link, NavLink } from "react-router";
 import sc, { createGlobalStyle, styled } from "styled-components";
-import { Component, createContext, useCallback, useContext, useEffect, useState } from "react";
+import { Component, createContext, useCallback, useContext, useEffect, useId, useState } from "react";
 //#region src/lib/components/Loading.tsx
 /** Renders a accessible loading div. Necessary for dynamic import react suspend logic*/
 function Loading() {
@@ -267,7 +267,6 @@ const FormDiv = sc.div`
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
-
   flex: 1 1 200px;
   min-width: 0;
   width: 100%;
@@ -285,28 +284,37 @@ const FormWarning = sc.p`
   font-size: 0.825rem;
   line-height: 1.4;
 `;
-/**
-* Input component is a accessible input field that can show various states.
-* It should be be used for any singualar input item a textfield, datefield for example.
-* Multiple inputs like checkboxes or radio buttons should be use InputCheckboxGroup or InputRadioGroup respectivley.
-*/
-function Input({ id, label, name, type, warningMessage, ...inputProps }) {
-	const warningId = `${id}-warning`;
+const FormDescription = sc.p`
+  margin: 0.1rem 0 0;
+  color: #666;
+  font-size: 0.825rem;
+  line-height: 1.4;
+`;
+function Input({ id, label, name, type, description, warningMessage, required, ...inputProps }) {
+	const descriptionId = useId();
+	const warningId = useId();
+	const describedBy = [description ? descriptionId : null, warningMessage ? warningId : null].filter(Boolean).join(" ");
 	return /* @__PURE__ */ jsxs(FormDiv, { children: [
-		/* @__PURE__ */ jsx(FormLabel, {
+		/* @__PURE__ */ jsxs(FormLabel, {
 			htmlFor: id,
-			children: label
+			children: [label, required && " *"]
 		}),
 		/* @__PURE__ */ jsx(FormInput, {
 			...inputProps,
 			id,
 			name,
 			type,
-			"aria-describedby": warningMessage ? warningId : void 0
+			required,
+			"aria-required": required,
+			"aria-describedby": describedBy
+		}),
+		description && /* @__PURE__ */ jsx(FormDescription, {
+			id: descriptionId,
+			children: description
 		}),
 		warningMessage && /* @__PURE__ */ jsx(FormWarning, {
 			id: warningId,
-			role: "status",
+			role: "alert",
 			children: warningMessage
 		})
 	] });

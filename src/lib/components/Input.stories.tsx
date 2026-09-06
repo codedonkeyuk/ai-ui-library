@@ -246,3 +246,14 @@ export const Disabled: Story = {
     readOnly: true,
   },
 };
+
+// New test case with required field
+export const WithRequiredField: Story = {
+  args: {
+    id: "required",
+    name: "required",
+    label: "Required Field",
+    type: "text",
+    required: true, // Set the required property to true
+  },
+};

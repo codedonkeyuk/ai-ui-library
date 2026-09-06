@@ -35,18 +35,13 @@ const FormDescription = styled.p`
 `;
 
 interface Props extends ComponentPropsWithoutRef<"input"> {
-  /** The label text for the input field */
   label: string;
-  /** Optional help text (e.g., "Password must contain 8 characters") */
   description?: string;
-  /** The message that should be shown if an error occurs */
   warningMessage?: string;
+  /** If true, adds a * to the label and sets aria-required/required */
+  required?: boolean;
 }
 
-/**
- * Input component is an accessible input field that supports
- * both descriptive help text and error warnings.
- */
 export default function Input({
   id,
   label,
@@ -54,13 +49,12 @@ export default function Input({
   type,
   description,
   warningMessage,
+  required,
   ...inputProps
 }: Props): JSX.Element {
-  // Generate stable, unique IDs for both description and warning
   const descriptionId = useId();
   const warningId = useId();
 
-  // Combine IDs for aria-describedby if both exist
   const describedBy = [
     description ? descriptionId : null,
     warningMessage ? warningId : null,
@@ -70,12 +64,17 @@ export default function Input({
 
   return (
     <FormDiv>
-      <FormLabel htmlFor={id}>{label}</FormLabel>
+      <FormLabel htmlFor={id}>
+        {label}
+        {required && " *"}
+      </FormLabel>
       <FormInput
         {...inputProps}
         id={id}
         name={name}
         type={type}
+        required={required}
+        aria-required={required}
         aria-describedby={describedBy}
       />
 

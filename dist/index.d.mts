@@ -95,17 +95,13 @@ declare const handleJsError: (error: Error, target: HTMLElement) => void;
 //#endregion
 //#region src/lib/components/Input.d.ts
 interface Props$3 extends ComponentPropsWithoutRef<"input"> {
-  /** The label text for the input field */
   label: string;
-  /** The message that should be show if an error occurs */
+  description?: string;
   warningMessage?: string;
+  /** If true, adds a * to the label and sets aria-required/required */
+  required?: boolean;
 }
-/**
- * Input component is a accessible input field that can show various states.
- * It should be be used for any singualar input item a textfield, datefield for example.
- * Multiple inputs like checkboxes or radio buttons should be use InputCheckboxGroup or InputRadioGroup respectivley.
- */
-declare function Input({ id, label, name, type, warningMessage, ...inputProps }: Props$3): JSX.Element;
+declare function Input({ id, label, name, type, description, warningMessage, required, ...inputProps }: Props$3): JSX.Element;
 //#endregion
 //#region src/lib/components/InputCheckboxGroup.d.ts
 type Checkbox = {
