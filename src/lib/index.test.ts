@@ -15,7 +15,7 @@ describe("Module Export Tests", () => {
 
   test("should have exactly the expected number of exports", () => {
     const exportNames = Object.keys(Testee);
-    const EXPECTED_EXPORT_COUNT = 15;
+    const EXPECTED_EXPORT_COUNT = 16;
     assert.strictEqual(
       exportNames.length,
       EXPECTED_EXPORT_COUNT,
@@ -67,5 +67,8 @@ describe("Module Export Tests", () => {
   });
   test("should successfully export the ButtonRouterLink component", () => {
     assertExportIsValid(Testee.ButtonRouterLink, "ButtonRouterLink");
+  });
+  test("should successfully export the Tabs component", () => {
+    assertExportIsValid(Testee.Tabs, "Tabs");
   });
 });

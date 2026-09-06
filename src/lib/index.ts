@@ -12,5 +12,6 @@ export {
   ButtonLink,
   ButtonRouterLink,
 } from "./components/Button.tsx";
+export { default as Tabs } from "./components/Tabs.tsx";
 
 export { default as GlobalStyle } from "./styles/global/GlobalStyle.tsx";

@@ -684,9 +684,88 @@ function ButtonRouterLink({ to, children, primary = false, size = "medium", aria
 	});
 }
 //#endregion
+//#region src/lib/components/Tabs.tsx
+const TabBar = styled.div.attrs({ role: "tablist" })`
+  display: flex;
+  gap: 20px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  justify-content: center;
+`;
+const Tab = styled.button`
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-radius: 8px;
+  color: #6c757d;
+
+  &:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+  }
+
+  &:hover {
+    background-color: #e9ecef;
+    color: #000;
+  }
+
+  ${(props) => props.$isActive && `
+    color: #007bff;
+    background-color: #e7f1ff;
+    border: 1px solid #007bff;
+  `}
+`;
+const TabContent = styled.div`
+  padding: 20px;
+  animation: fadeIn 0.3s ease-in;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+const getSafeId = (route) => {
+	return route.replace(/^\/|\/$/g, "").replace(/\//g, "-") || "home";
+};
+function Tabs({ tabs, activeTabId, onTabChange, children }) {
+	const panelId = getSafeId(activeTabId);
+	return /* @__PURE__ */ jsxs("div", {
+		role: "region",
+		"aria-label": "Content Section",
+		children: [/* @__PURE__ */ jsx(TabBar, { children: tabs.map((tab) => {
+			const safeId = getSafeId(tab.id);
+			return /* @__PURE__ */ jsx(Tab, {
+				onClick: () => onTabChange(tab.id),
+				$isActive: tab.id === activeTabId,
+				role: "tab",
+				"aria-selected": tab.id === activeTabId,
+				"aria-controls": `panel-${panelId}`,
+				id: `tab-${safeId}`,
+				tabIndex: tab.id === activeTabId ? 0 : -1,
+				children: tab.label
+			}, safeId);
+		}) }), /* @__PURE__ */ jsx(TabContent, {
+			id: `panel-${panelId}`,
+			role: "tabpanel",
+			"aria-labelledby": `tab-${panelId}`,
+			"aria-live": "polite",
+			children
+		})]
+	});
+}
+//#endregion
 //#region src/lib/styles/global/GlobalStyle.tsx
 const GlobalStyle = createGlobalStyle`${":root {\n  --font-body: clamp(1rem, .95rem + .2vw, 1.125rem);\n  --font-h3: clamp(1.25rem, 1.1rem + .6vw, 1.75rem);\n  --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);\n  --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);\n  --line-height-body: 1.6;\n  --line-height-heading: 1.25;\n}\n\nbody {\n  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;\n  font-size: var(--font-body);\n  line-height: var(--line-height-body);\n  color: #1a1a1a;\n  -webkit-font-smoothing: antialiased;\n}\n\nh1 {\n  font-size: var(--font-h1);\n  line-height: var(--line-height-heading);\n  font-weight: 800;\n}\n\nh2 {\n  font-size: var(--font-h2);\n  line-height: var(--line-height-heading);\n  font-weight: 700;\n}\n\nh3 {\n  font-size: var(--font-h3);\n  line-height: var(--line-height-heading);\n  font-weight: 600;\n}\n\n.container {\n  background-color: var(--container-bg);\n  justify-content: center;\n  align-items: flex-start;\n  width: 100%;\n  height: 100%;\n  display: flex;\n}\n\n.page {\n  width: 1200px;\n}\n\n@media (width <= 1200px) {\n  .page {\n    width: 100%;\n  }\n}\n\n.error-info {\n  border: 2px solid #000;\n  padding: 15px;\n}\n\n.button-bar {\n  flex-wrap: wrap;\n  justify-content: flex-end;\n  gap: 12px;\n  width: 100%;\n  display: flex;\n}\n\n.button-bar.start {\n  justify-content: flex-start;\n}\n\n.button-bar.center {\n  justify-content: center;\n}\n\n@media (width <= 600px) {\n  .button-bar {\n    flex-direction: column;\n  }\n\n  .btn {\n    width: 100%;\n    display: flex;\n  }\n}\n"}`;
 //#endregion
-export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Toast, ToastProvider, handleJsError, useToast };
+export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Tabs, Toast, ToastProvider, handleJsError, useToast };
 
 //# sourceMappingURL=index.mjs.map
