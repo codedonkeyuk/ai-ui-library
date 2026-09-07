@@ -8,23 +8,29 @@ RewriteCond %{HTTP_HOST} !^127\.0\.0\.1 [NC]
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# 3. CLEAN URL EXTENSIONS (SPAs)
+# 3. STORYBOOK ROUTING FIXED (DO NOT ROUTE EVERYTHING TO INDEX.HTML)
+# Storybook is a purely static site with its own explicit HTML files (like iframe.html). 
+# Routing missing files to index.html breaks Storybook's internal structure.
+# Instead, we serve actual files, or default back to a clean 404 page if a resource is missing.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.html [L]
+RewriteRule ^.*$ - [R=404,L]
 
 # 4. REGISTER CUSTOM MIME TYPES
 AddType application/manifest+json .webmanifest
+AddType application/javascript .js .mjs
 
-# 5. IMMUTABLE LONG-TERM CACHING FOR WEBPACK HASHED BUNDLES
-<FilesMatch "\.(js|css)$">
+# 5. CACHING STRATEGY FOR HISTORICAL/HASHED BUNDLES
+# Storybook generates unique hash names for its static manager/preview chunks.
+<FilesMatch "\.(js|css|woff2|png|jpe?g|gif|svg|ico)$">
     <IfModule mod_headers.c>
         Header set Cache-Control "public, max-age=31536000, immutable"
     </IfModule>
 </FilesMatch>
 
-# 6. FORCE NO-CACHE FOR SERVICE WORKER, HTML, MANIFESTS, AND RSS FEEDS
-<FilesMatch "(sw\.js|rss\.xml|\.html|\.webmanifest)$">
+# 6. CRITICAL: FORCE NO-CACHE FOR STORYBOOK CORE HTML & METADATA
+# Storybook relies on iframe.html, index.html, and various JSON definition bundles staying updated.
+<FilesMatch "(index\.html|iframe\.html|\.json|\.webmanifest)$">
     <IfModule mod_headers.c>
         Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
         Header set Pragma "no-cache"
@@ -35,28 +41,29 @@ AddType application/manifest+json .webmanifest
 # 7. SECURITY HEADERS
 <IfModule mod_headers.c>
     Header set X-XSS-Protection "1; mode=block"
-    Header set X-Frame-Options "SAMEORIGIN"
     Header set X-Content-Type-Options "nosniff"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
+    # Note: Storybook uses an iframe architecture to separate the manager UI from your components.
+    # We use "SAMEORIGIN" so it functions perfectly without letting malicious external sites wrap it.
+    Header set X-Frame-Options "SAMEORIGIN"
 </IfModule>
 
 # 8. PERFORMANCE: COMPRESSION
 <IfModule mod_deflate.c>
     SetOutputFilter DEFLATE
-    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript
     AddOutputFilterByType DEFLATE application/javascript application/json application/x-javascript
-    AddOutputFilterByType DEFLATE image/svg+xml application/xml
+    AddOutputFilterByType DEFLATE image/svg+xml
     AddOutputFilterByType DEFLATE application/manifest+json
     SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|ico|zip|gz|mp4)$ no-gzip dont-vary
 </IfModule>
 
-# 9. PERFORMANCE: BROWSER CACHING (FALLBACKS aligned with Section 5)
+# 9. PERFORMANCE: BROWSER CACHING FALLBACKS
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresDefault "access plus 1 month"
     ExpiresByType text/html "access plus 0 seconds"
-    ExpiresByType application/xml "access plus 0 seconds"
-    ExpiresByType text/xml "access plus 0 seconds"
+    ExpiresByType application/json "access plus 0 seconds"
     ExpiresByType application/manifest+json "access plus 0 seconds"
     ExpiresByType text/css "access plus 1 year"
     ExpiresByType text/javascript "access plus 1 year"
