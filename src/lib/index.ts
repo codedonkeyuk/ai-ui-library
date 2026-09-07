@@ -7,6 +7,7 @@ export { default as Input } from "./components/Input.tsx";
 export { default as InputCheckboxGroup } from "./components/InputCheckboxGroup.tsx";
 export { default as InputRadioGroup } from "./components/InputRadioGroup.tsx";
 export { default as MainNavigation } from "./components/MainNavigation.tsx";
+export { default as Table } from "./components/Table.tsx";
 export {
   default as Button,
   ButtonLink,
