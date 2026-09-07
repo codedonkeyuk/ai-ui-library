@@ -4,9 +4,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import * as os from "node:os";
 import { settings } from "./model-settings.ts";
-import createModelConfig, {
-  type ComponentBlueprint,
-} from "./createModelConfig.ts";
+import createModelConfig from "./createModelConfig.ts";
 
 describe("createModelConfig comprehensive component extraction pipeline", () => {
   let tempDir: string;
@@ -14,54 +12,24 @@ describe("createModelConfig comprehensive component extraction pipeline", () => 
 
   before(() => {
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "component-lib-test-"));
-    const srcPath = path.join(tempDir, "src", "lib");
-    fs.mkdirSync(srcPath, { recursive: true });
+    const distPath = path.join(tempDir, "dist");
+    fs.mkdirSync(distPath, { recursive: true });
 
     originalCwd = process.cwd;
     process.cwd = () => tempDir;
 
-    // 1. Standard Interface Layout
-    const dialogCode = `
-      export interface DialogProps {
-        isOpen: boolean;
-        onClose: () => void;
-      }
+    // Simulate exactly what your real bundled dist/index.d.mts output file looks like
+    const mockDtsContent = `
+      /** Global Dialog Layout */
+      export interface DialogProps { isOpen: boolean; onClose: () => void; }
+      export type MainNavigationProps = { links: NavigationLink[]; main?: boolean; };
+      //#region inner component layout
+      interface ComplexProps { id: string; variant?: "primary" | "secondary"; size: "sm" | "md" | "lg"; }
+      //#endregion
+      //# sourceMappingURL=index.d.mts.map
     `;
 
-    // 2. Type Alias with Spacing & Equals Sign (Fails basic regex)
-    const navigationCode = `
-      export type MainNavigationProps = {
-        links: NavigationLink[];
-        main?: boolean;
-      };
-    `;
-
-    // 3. Multi-line spacing and comments inside the block (Fails line-by-line cutting)
-    const complexCode = `
-      interface ComplexProps {
-        // Core Identifier
-        id: string;
-
-        /* Visual look and feel */
-        variant?: "primary" | "secondary";
-        
-        size: "sm" | "md" | "lg";
-      }
-    `;
-
-    fs.writeFileSync(path.join(srcPath, "Dialog.tsx"), dialogCode);
-    fs.writeFileSync(path.join(srcPath, "MainNavigation.tsx"), navigationCode);
-    fs.writeFileSync(path.join(srcPath, "ComplexComponent.tsx"), complexCode);
-
-    // Artifacts that must be ignored
-    fs.writeFileSync(
-      path.join(srcPath, "Dialog.stories.tsx"),
-      "interface StoryProps {}",
-    );
-    fs.writeFileSync(
-      path.join(srcPath, "Dialog.test.tsx"),
-      "interface TestProps {}",
-    );
+    fs.writeFileSync(path.join(distPath, "index.d.mts"), mockDtsContent);
   });
 
   after(() => {
@@ -79,74 +47,46 @@ describe("createModelConfig comprehensive component extraction pipeline", () => 
     assert.equal(config.systemSettings, settings.system.trim());
   });
 
-  test("captures every single valid component regardless of formatting variations", () => {
+  test("captures and minifies the declaration inventory into a valid flat string", () => {
     const config = createModelConfig();
-    const inventory: ComponentBlueprint[] = JSON.parse(
-      config.componentInventory,
-    );
+    const inventory = config.componentInventory;
 
-    // Assert that all 3 components are found (was failing at 2)
-    assert.equal(
-      inventory.length,
-      3,
-      "Pipeline must capture all three unique structural component configurations",
-    );
-
-    // 1. Verify standard interface extraction
-    const dialog = inventory.find((item) => item.component === "Dialog");
-    assert.ok(dialog, "Should find Dialog component");
-    assert.deepEqual(dialog.props.isOpen, { type: "boolean", required: true });
-
-    // 2. Verify type alias assignment with equals sign extraction
-    const nav = inventory.find((item) => item.component === "MainNavigation");
-    assert.ok(nav, "Should find MainNavigation type alias component");
-    assert.deepEqual(nav.props.links, {
-      type: "NavigationLink[]",
-      required: true,
-    });
-    assert.deepEqual(nav.props.main, { type: "boolean", required: false });
-
-    // 3. Verify multi-line, comment-insulated block extraction
-    const complex = inventory.find(
-      (item) => item.component === "ComplexComponent",
+    // 1. Core verification: Ensure everything is forced onto a single flat line
+    assert.ok(
+      !inventory.includes("\n"),
+      "Should completely flatten all newlines",
     );
     assert.ok(
-      complex,
-      "Should scan past formatting blocks to isolate complex property profiles",
-    );
-    assert.deepEqual(complex.props.id, { type: "string", required: true });
-    assert.deepEqual(complex.props.variant, {
-      type: '"primary" | "secondary"',
-      required: false,
-    });
-    assert.deepEqual(complex.props.size, {
-      type: '"sm" | "md" | "lg"',
-      required: true,
-    });
-  });
-
-  test("filters toolchain noise like stories and unit test files out completely", () => {
-    const config = createModelConfig();
-    const inventory: ComponentBlueprint[] = JSON.parse(
-      config.componentInventory,
+      !inventory.includes("\t"),
+      "Should completely drop all tab breaks",
     );
 
-    const hasStories = inventory.some((item) =>
-      item.component.toLowerCase().includes("story"),
+    // 2. Core verification: Verify comments and toolchain maps are stripped out cleanly
+    assert.ok(
+      !inventory.includes("Global Dialog Layout"),
+      "Should strip multi-line JSDoc blocks",
     );
-    const hasTests = inventory.some((item) =>
-      item.component.toLowerCase().includes("test"),
+    assert.ok(
+      !inventory.includes("#region"),
+      "Should strip inner IDE layout comments",
+    );
+    assert.ok(
+      !inventory.includes("sourceMappingURL"),
+      "Should drop source mapping file comments",
     );
 
-    assert.equal(
-      hasStories,
-      false,
-      "Should completely exclude design story files",
+    // 3. Core verification: Ensure the absolute syntax contracts survive the minification filter intact
+    assert.ok(
+      inventory.includes("export interface DialogProps"),
+      "Dialog contracts must exist",
     );
-    assert.equal(
-      hasTests,
-      false,
-      "Should completely drop component verification test blocks",
+    assert.ok(
+      inventory.includes("export type MainNavigationProps"),
+      "Navigation type shapes must exist",
+    );
+    assert.ok(
+      inventory.includes('variant?: "primary" | "secondary"'),
+      "Complex types must exist",
     );
   });
 });

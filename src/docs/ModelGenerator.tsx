@@ -41,11 +41,6 @@ interface Props {
   configUrl: string;
 }
 
-interface ComponentBlueprint {
-  component: string;
-  props: Record<string, { type: string; required: boolean }>;
-}
-
 interface ConfigPayload {
   baseModel: string;
   parameters: {
@@ -93,19 +88,6 @@ export default function ModelGenerator({ configUrl }: Props): JSX.Element {
   if (error) return <h1>Error: {error}</h1>;
   if (!configData) return <h1>Loading file configuration...</h1>;
 
-  const inventory: ComponentBlueprint[] = JSON.parse(
-    configData.componentInventory,
-  );
-
-  let formattedInventory = "";
-  for (const item of inventory) {
-    formattedInventory += `### Component: <${item.component} />\nAllowed Properties:\n`;
-    for (const [propName, meta] of Object.entries(item.props)) {
-      formattedInventory += `  - ${propName} (${meta.required ? "Required" : "Optional"}): ${meta.type}\n`;
-    }
-    formattedInventory += "\n";
-  }
-
   const handleSingleSelect = (clickedId: string | number) => {
     setPills((prev) =>
       prev.map((item) => ({ ...item, selected: item.id === clickedId })),
@@ -113,7 +95,9 @@ export default function ModelGenerator({ configUrl }: Props): JSX.Element {
   };
 
   const selectedPlatform = pills.find((pill) => pill.selected === true);
-  const fullSystemPrompt = `${configData.systemSettings.trim()}\n\n## AVAILABLE COMPONENTS INVENTORY\n${formattedInventory.trim()}`;
+
+  // Directly append the raw minified TypeScript definitions without parsing them as JSON
+  const fullSystemPrompt = `${configData.systemSettings.trim()}\n\n## AVAILABLE COMPONENTS INVENTORY (TYPESCRIPT DEFINITIONS)\n${configData.componentInventory.trim()}`;
 
   return (
     <Container>
