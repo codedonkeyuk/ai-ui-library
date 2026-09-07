@@ -22,14 +22,14 @@ const FormDiv = styled.div`
 
 const FormWarning = styled.p`
   margin: 0.1rem 0 0;
-  color: #a33a3a;
+  color: var(--field-warning-color);
   font-size: 0.825rem;
   line-height: 1.4;
 `;
 
 const FormDescription = styled.p`
   margin: 0.1rem 0 0;
-  color: #666;
+  color: var(--field-desc-color);
   font-size: 0.825rem;
   line-height: 1.4;
 `;

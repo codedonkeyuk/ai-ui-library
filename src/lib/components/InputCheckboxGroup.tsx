@@ -1,6 +1,6 @@
 import type { JSX } from "react/jsx-runtime";
-import { FormInput, FormLabel } from "./InputCommon";
-import styled from "styled-components";
+import { FormInput, FormLabel } from "./InputCommon"; // Keep this import
+import { styled } from "styled-components";
 
 type Checkbox = {
   id: string;
@@ -10,16 +10,6 @@ type Checkbox = {
 
 /**
  * Optional helper function, returns a new checkbox array with one checkbox's `selected` value updated.
- *
- * @param checkboxes - The current checkbox collection.
- * @param id - The ID of the checkbox to update.
- * @param selected - The new selected state.
- * @returns A new array with the matching checkbox updated.
- *
- * @example
- * setCheckboxes(current =>
- *   updateCheckboxArray(current, id, selected)
- * );
  */
 export const updateCheckboxArray = (
   checkboxes: Checkbox[],
@@ -33,40 +23,54 @@ export const updateCheckboxArray = (
 const CheckboxFieldset = styled.fieldset`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-
+  gap: 1.25rem;
   margin: 0;
-  padding: 1rem;
-
-  border: 1px solid #b8c2cc;
-  border-radius: 0.35rem;
+  padding: 1.5rem;
+  border: 1px solid var(--main-bdr-color);
+  border-radius: 0.5rem;
+  width: auto;
+  max-width: 100%;
 `;
 
 const CheckboxLegend = styled.legend`
-  padding: 0 0.25rem;
-
-  color: #263238;
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.4;
+  padding: 0 0.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 `;
 
 const CheckboxDiv = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  width: 100%;
+`;
+
+const CheckboxInput = styled(FormInput)`
+  width: auto;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--prim-btn-bg-color);
+`;
+
+const CheckboxLabel = styled(FormLabel)`
+  flex-grow: 1;
+  text-align: left;
+  cursor: pointer;
 `;
 
 interface Props {
-  /** The name of the group of fields. Legen belonging to the wrapping fieldset. */
+  /** Title of group of checkboxes*/
   legend: string;
-  /** The array of checkboxes from which the group is rendered */
+  /** checkbox data including slected state*/
   checkboxes: Checkbox[];
-  /** When a checkbox is selected this function will retrun the id and new state. Its upto you to update the checkboxes array*/
+  /** when you select a checkbox this fundtion is fired */
   checkboxSelected: (id: string, selected: boolean) => void;
 }
 
-/** Renders a Fieldset containing multiple checkboxes */
+/** Renders a groupd of checkboxes */
 export default function InputCheckboxGroup({
   legend,
   checkboxes,
@@ -77,15 +81,15 @@ export default function InputCheckboxGroup({
       <CheckboxLegend>{legend}</CheckboxLegend>
       {checkboxes.map((checkbox) => (
         <CheckboxDiv key={checkbox.id}>
-          <FormInput
+          <CheckboxLabel htmlFor={`checkbox-${checkbox.id}`}>
+            {checkbox.label}
+          </CheckboxLabel>
+          <CheckboxInput
             id={`checkbox-${checkbox.id}`}
             type="checkbox"
             checked={checkbox.selected}
             onChange={() => checkboxSelected(checkbox.id, !checkbox.selected)}
           />
-          <FormLabel htmlFor={`checkbox-${checkbox.id}`}>
-            {checkbox.label}
-          </FormLabel>
         </CheckboxDiv>
       ))}
     </CheckboxFieldset>

@@ -9,7 +9,7 @@ const TableContainer = styled.div`
   border-radius: 8px;
 
   &:focus-visible {
-    outline: 2px solid #005a9c;
+    outline: 2px solid var(--prim-btn-bg-color);
     outline-offset: 2px;
   }
 `;

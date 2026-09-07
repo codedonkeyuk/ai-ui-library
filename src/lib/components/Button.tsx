@@ -11,8 +11,8 @@ interface StyledButtonProps {
 }
 
 const StyledButton = styled.button<StyledButtonProps>`
-  background-color: ${(props) => (props.$primary ? "#007bff" : "#ccc")};
-  color: ${(props) => (props.$primary ? "white" : "black")};
+  background-color: ${(props) => (props.$primary ? "var(--prim-btn-bg-color)" : "var(--sec-btn-bg-color)")};
+  color: ${(props) => (props.$primary ? "var(--prim-btn-fg-color)" : "var(--sec-btn-fg-color)")};
   border: none;
   padding: ${(props) => {
     switch (props.$size) {
@@ -44,7 +44,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: ${(props) => (props.$primary ? "#0056b3" : "#999")};
+    background-color: ${(props) => (props.$primary ? "var(--prim-btn-hvr-color)" : "var(--sec-btn-hvr-color)")};
   }
 `;
 

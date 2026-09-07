@@ -1,7 +1,11 @@
 import { useRef, useEffect, type JSX } from "react";
 import styled from "styled-components";
 
-const DialogStyled = styled.dialog``;
+const DialogStyled = styled.dialog`
+  background-color: var(--dialog-bg-color);
+  color: var(--dialog-fg-color);
+  border: 1px solid var(--main-bdr-color);
+`;
 
 interface DialogProps {
   /** Determines if the dialog is open and visible */

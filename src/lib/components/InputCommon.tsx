@@ -20,7 +20,7 @@ export const FormLabel: IStyledComponentBase<
   }
 > &
   string = styled.label`
-  color: #263238;
+  color: var(--main-fg-color);
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.4;
@@ -39,9 +39,9 @@ export const FormInput: IStyledComponentBase<
   width: 100%;
   padding: 0.7rem 0.8rem;
 
-  color: #263238;
-  background-color: #fff;
-  border: 1px solid #b8c2cc;
+  color: var(--field-fg-color);
+  background-color: var(--field-bg-color);
+  border: 1px solid var(--main-bdr-color);
   border-radius: 0.35rem;
 
   font: inherit;
@@ -51,22 +51,22 @@ export const FormInput: IStyledComponentBase<
     box-shadow 150ms ease;
 
   &::placeholder {
-    color: #8996a3;
+    color: var(--field-placeholder-color);
   }
 
   &:hover {
-    border-color: #81909d;
+    border-color: var(--prim-btn-bg-color);
   }
 
   &:focus {
     outline: none;
-    border-color: #3478c5;
+    border-color: var(--prim-btn-bg-color);
     box-shadow: 0 0 0 3px rgb(52 120 197 / 16%);
   }
 
   &:disabled {
     cursor: not-allowed;
-    color: #7b8790;
-    background-color: #f2f4f5;
+    color: var(--field-dis-fg-color);
+    background-color: var(--field-dis-bg-color);
   }
 `;

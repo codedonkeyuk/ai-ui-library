@@ -4,14 +4,15 @@ import styled from "styled-components";
 const StyledButton = styled.button<{ $isSelected?: boolean }>`
   padding: 8px 16px;
   border-radius: 20px;
-  border: 1px solid ${(props) => (props.$isSelected ? "transparent" : "gray")};
-  background-color: ${(props) => (props.$isSelected ? "#0066cc" : "white")};
-  color: ${(props) => (props.$isSelected ? "white" : "black")};
+  border: 1px solid
+    ${(props) => (props.$isSelected ? "var(--prim-btn-bdr-color)" : "var(--sec-btn-bdr-color)")};
+  background-color: ${(props) => (props.$isSelected ? "var(--prim-btn-bg-color)" : "var(--sec-btn-bg-color)")};
+  color: ${(props) => (props.$isSelected ? "var(--prim-btn-fg-color)" : "var(--sec-btn-fg-color)")};
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   &:hover {
-    background-color: #0052a3;
-    color: white;
+    background-color: var(--prim-btn-hvr-color);
+    color: var(--prim-btn-fg-color);
   }
 `;
 

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 import Dialog from "./Dialog";
+import Button from "./Button";
 
 const meta: Meta<typeof Dialog> = {
   title: "Components/Dialog",
@@ -31,15 +32,13 @@ export const Default: Story = {
             even though they offer better accessibility!
           </p>
           <div className="button-bar">
-            <button className="btn" onClick={onClose}>
-              Close
-            </button>
+            <Button onClick={onClose}>Close</Button>
           </div>
         </Dialog>
         <p>
-          <button className="btn" onClick={() => setOpen(!open)}>
+          <Button primary onClick={() => setOpen(!open)}>
             {open ? "Close" : "Open"} Dialog
-          </button>
+          </Button>
         </p>
       </>
     );

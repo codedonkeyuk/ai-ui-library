@@ -1,5 +1,5 @@
 import type { JSX } from "react/jsx-runtime";
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 import { FormInput, FormLabel } from "./InputCommon";
 
@@ -30,18 +30,19 @@ export const updateRadioArray = (radios: Radio[], id: string): Radio[] =>
 const RadioFieldset = styled.fieldset`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1.25rem;
 
   margin: 0;
-  padding: 1rem;
+  padding: 1.5rem;
 
-  border: 1px solid #b8c2cc;
-  border-radius: 0.35rem;
+  border: 1px solid var(--main-bdr-color);
+  border-radius: 0.5rem;
+  width: auto;
+  max-width: 100%;
 `;
 
 const RadioLegend = styled.legend`
-  padding: 0 0.25rem;
-
+  padding: 0 0.5rem;
   color: #263238;
   font-size: 0.9rem;
   font-weight: 600;
@@ -51,15 +52,39 @@ const RadioLegend = styled.legend`
 const RadioDiv = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 1.25rem;
+`;
+
+const RadioRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  width: 100%;
+`;
+
+const StyledFormLabel = styled(FormLabel)`
+  flex-grow: 1;
+  text-align: left;
+  cursor: pointer;
+`;
+
+const RadioInput = styled(FormInput)`
+  width: auto;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+
+  accent-color: var(--prim-btn-bg-color);
 `;
 
 interface Props {
-  /** Name of the group of fildes, becomes the fieldsets legend */
+  /** Name of the group of fields, becomes the fieldsets legend */
   legend: string;
-  /** The array of radios which are rendered, min which state is kept */
+  /** The array of radios which are rendered, from which state is kept */
   radios: Radio[];
-  /** Is triggered when a radio is selected, you must update the state using the recieved id */
+  /** Is triggered when a radio is selected, you must update the state using the received id */
   radioSelected: (id: string) => void;
 }
 
@@ -78,17 +103,17 @@ export default function InputRadioGroup({
           const inputId = `radio-${radio.id}`;
 
           return (
-            <div key={radio.id}>
-              <FormInput
+            <RadioRow key={radio.id}>
+              <StyledFormLabel htmlFor={inputId}>{radio.label}</StyledFormLabel>
+
+              <RadioInput
                 id={inputId}
                 name="radio-group"
                 type="radio"
                 checked={radio.selected}
                 onChange={() => radioSelected(radio.id)}
               />
-
-              <FormLabel htmlFor={inputId}>{radio.label}</FormLabel>
-            </div>
+            </RadioRow>
           );
         })}
       </RadioDiv>

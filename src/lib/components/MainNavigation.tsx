@@ -9,7 +9,7 @@ const MainNavStyled = styled.nav`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  background-color: #ffffff;
+  background-color: var(--main-nav-bg-color);
   padding: 1rem 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: relative;
@@ -40,7 +40,7 @@ const UlStyled = styled.ul<{ $main?: boolean; $isOpen?: boolean }>`
     position: absolute;
     top: 100%;
     right: 0;
-    background-color: #ffffff;
+    background-color: var(--main-nav-bg-color);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     min-width: 150px;
@@ -60,7 +60,7 @@ const UlStyled = styled.ul<{ $main?: boolean; $isOpen?: boolean }>`
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ffffff;
+      background-color: var(--main-nav-bg-color);
       padding: 2rem;
       z-index: 99;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -95,7 +95,7 @@ const LiStyled = styled.li`
 
 const LinkStyled = styled(NavLink)`
   text-decoration: none;
-  color: #333333;
+  color: var(--main-fg-color);
   font-weight: 500;
   font-size: 1rem;
   display: inline-block;
@@ -105,7 +105,7 @@ const LinkStyled = styled(NavLink)`
   padding: 0.25rem 0;
 
   &:hover {
-    color: #0066cc;
+    color: var(--prim-btn-hvr-color);
   }
 
   &:focus-visible {
@@ -114,7 +114,7 @@ const LinkStyled = styled(NavLink)`
   }
 
   &.active {
-    color: #0066cc;
+    color: var(--prim-btn-hvr-color);
     font-weight: 600;
 
     &::after {
@@ -124,7 +124,7 @@ const LinkStyled = styled(NavLink)`
       left: 0;
       width: 100%;
       height: 2px;
-      background-color: #0066cc;
+      background-color: var(--prim-btn-hvr-color);
       border-radius: 2px;
     }
   }
@@ -156,14 +156,14 @@ const HamburgerButton = styled.button<{ $isOpen: boolean }>`
   border-radius: 4px;
 
   &:focus-visible {
-    outline: 2px solid #0066cc;
+    outline: 2px solid var(--prim-btn-hvr-color);
     outline-offset: 4px;
   }
 
   div {
     width: 2rem;
     height: 0.25rem;
-    background: #333333;
+    background: var(--main-fg-color);
     border-radius: 10px;
     transition: all 0.3s linear;
     position: relative;

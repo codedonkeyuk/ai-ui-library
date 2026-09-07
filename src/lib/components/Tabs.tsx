@@ -14,56 +14,71 @@ interface Props {
 }
 
 const TabBar = styled.div.attrs({ role: "tablist" })`
-  display: flex;
-  gap: 20px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e0e0e0;
-  justify-content: center;
+  display: inline-flex;
+  gap: 4px;
+  background-color: var(--card-bg-color);
+  justify-content: flex-start;
+  align-items: flex-end;
+  position: relative;
+
+  border-bottom: 1px solid var(--main-bdr-color);
+
+  margin-bottom: -1px;
 `;
 
 const Tab = styled.button<{ $isActive?: boolean }>`
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
-  background: none;
+  background: var(--sec-btn-bg-color);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  border-radius: 8px;
-  color: #6c757d;
+  transition: all 0.2s ease;
+  border-radius: 6px 6px 0 0;
+  color: var(--sec-btn-fg-color);
+  position: relative;
+  background-color: ${(props) => (props.$isActive ? "var(--card-bg-color)" : "var(--sec-btn-bg-color)")};
+  border-bottom: 1px solid var(--main-bdr-color);
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -1px; /* This covers the 1px border of the container */
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: inherit; /* Matches the tab's background */
+  }
 
   &:focus {
-    outline: 2px solid #007bff;
-    outline-offset: 2px;
+    outline: none;
   }
 
   &:hover {
-    background-color: #e9ecef;
-    color: #000;
+    color: var(--prim-btn-fg-color);
+    background-color: var(--prim-btn-hvr-color);
+    border-bottom: 1px solid transparent;
   }
 
   ${(props) =>
     props.$isActive &&
     `
-    color: #007bff;
-    background-color: #e7f1ff;
-    border: 1px solid #007bff;
-  `}
+      color: var(--prim-btn-fg-color);
+      background-color: var(--prim-btn-hvr-color);
+      border-bottom: 1px solid transparent;
+      /* If the active tab has a different color, 
+         ensure the pseudo-element matches it */
+      &::after {
+        background-color: var(--prim-btn-hvr-color);
+      }
+    `}
 `;
 
 const TabContent = styled.div`
-  padding: 20px;
-  animation: fadeIn 0.3s ease-in;
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
+  padding: 40px 20px;
+  animation: fadeIn 0.4s ease-out;
+  border: 1px solid var(--main-bdr-color);
+  border-top: none;
+  background-color: var(--card-bg-color);
 `;
 
 const getSafeId = (route: string) => {
