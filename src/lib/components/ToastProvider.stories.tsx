@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ToastProvider, useToast } from "./ToastProvider";
+import Button from "./Button";
 
 const meta: Meta<typeof ToastProvider> = {
   title: "Components/ToastProvider",
@@ -28,30 +29,26 @@ export const Default: Story = {
           const { show } = useToast();
           return (
             <div className="button-bar start">
-              <button
-                className="btn"
+              <Button
                 onClick={() => show({ message: "Info", variant: "info" })}
               >
                 Info
-              </button>
-              <button
-                className="btn"
+              </Button>
+              <Button
                 onClick={() => show({ message: "Warning", variant: "warning" })}
               >
                 Warning
-              </button>
-              <button
-                className="btn"
+              </Button>
+              <Button
                 onClick={() => show({ message: "Error", variant: "error" })}
               >
                 Error
-              </button>
-              <button
-                className="btn"
+              </Button>
+              <Button
                 onClick={() => show({ message: "Success", variant: "success" })}
               >
                 Success
-              </button>
+              </Button>
             </div>
           );
         })()}

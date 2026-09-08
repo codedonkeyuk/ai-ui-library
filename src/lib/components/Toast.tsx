@@ -51,17 +51,17 @@ const StyledToast = styled.div<{ variant: ToastVariant }>`
   background-color: ${(props) => {
     switch (props.variant) {
       case "success":
-        return "#28a745";
+        return "var(--toast-bg-success-color)";
       case "warning":
-        return "#ffc107";
+        return "var(--toast-bg-warning-color)";
       case "error":
-        return "#dc3545";
+        return "var(--toast-bg-error-color)";
       default:
-        return "#007bff";
+        return "var(--toast-bg-info-color)";
     }
   }};
 
-  color: ${(props) => (props.variant === "warning" ? "#000" : "#fff")};
+  color: ${(props) => (props.variant === "warning" ? "var(--toast-fg-dark-color)" : "var(--toast-fg-light-color)")};
 
   transition: all 0.3s ease-in-out;
   animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;

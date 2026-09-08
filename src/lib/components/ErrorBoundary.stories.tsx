@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import type { JSX } from "react/jsx-runtime";
 import ErrorBoundary from "./ErrorBoundary.tsx";
 import { useState } from "react";
+import Button from "./Button.tsx";
 
 const ErrorTrigger = (): JSX.Element => {
   const [, setError] = useState<Error | null>(null);
@@ -9,8 +10,7 @@ const ErrorTrigger = (): JSX.Element => {
   return (
     <div>
       <p>Click the button to simulate a crash:</p>
-      <button
-        className="btn"
+      <Button
         onClick={() => {
           setError(() => {
             throw new Error("Simulated Crash: Hello World");
@@ -18,7 +18,7 @@ const ErrorTrigger = (): JSX.Element => {
         }}
       >
         Throw Error
-      </button>
+      </Button>
     </div>
   );
 };

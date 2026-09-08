@@ -12,7 +12,15 @@ const meta: Meta<typeof MainNavigation> = {
   decorators: [
     (Story) => (
       <MemoryRouter>
-        <Story />
+        <div
+          style={{
+            height: "550px",
+            overflow: "visible",
+            position: "relative",
+          }}
+        >
+          <Story />
+        </div>
       </MemoryRouter>
     ),
   ],
