@@ -54,25 +54,53 @@ mock.module("./OllamaOutput.tsx", {
 
 mock.module("../../lib/styles/global/GlobalStyle.tsx", {
   defaultExport: () =>
-    React.createElement("div", { "data-testid": "global-style" }),
+    React.createElement("div", {
+      "data-testid": "global-style",
+    }),
 });
 
 const mockConfigPayload = {
   baseModel: "test-model",
-  parameters: { temperature: 0.5, top_p: 0.85, stop: "[STOP]" },
+  parameters: {
+    temperature: 0.5,
+    top_p: 0.85,
+    stop: "[STOP]",
+  },
   systemSettings: "SYSTEM_RULES",
   componentInventory: JSON.stringify([
     {
       component: "Button",
-      props: { label: { type: "string", required: true } },
+      props: {
+        label: {
+          type: "string",
+          required: true,
+        },
+      },
     },
   ]),
 };
 
-const flushMacroTasks = () => new Promise((resolve) => setTimeout(resolve, 15));
+async function waitFor(
+  predicate: () => boolean,
+  timeout = 1000,
+): Promise<void> {
+  const start = Date.now();
+
+  while (!predicate()) {
+    if (Date.now() - start >= timeout) {
+      throw new Error(
+        `Timed out waiting for condition.\nDOM:\n${document.body.innerHTML}`,
+      );
+    }
+
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, 5);
+    });
+  }
+}
 
 let container: HTMLDivElement | null = null;
-let root: any = null;
+let root: ReturnType<typeof createRoot> | null = null;
 
 beforeEach(() => {
   container = document.createElement("div");
@@ -81,41 +109,58 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  if (root) root.unmount();
-  if (container) container.remove();
-  document.body.innerHTML = "";
-  mock.reset();
+  root?.unmount();
+  container?.remove();
+
+  root = null;
+  container = null;
+
+  // Restore fetch and other function mocks.
+  mock.restoreAll();
 });
 
 test("shows loading state initially and renders data after successful fetch", async () => {
   const { default: ModelGenerator } = await import("./ModelGenerator.tsx");
 
-  let resolveFetch: any;
+  let resolveFetch!: (value: unknown) => void;
+
   const fetchPromise = new Promise((resolve) => {
-    resolveFetch = () =>
-      resolve({
-        ok: true,
-        json: async () => mockConfigPayload,
-      });
+    resolveFetch = resolve;
   });
 
   mock.method(globalThis, "fetch", () => fetchPromise);
 
-  root.render(
-    React.createElement(ModelGenerator, { configUrl: "http://api/config" }),
+  root!.render(
+    React.createElement(ModelGenerator, {
+      configUrl: "http://api/config",
+    }),
   );
 
-  await flushMacroTasks();
-  assert.match(container!.innerHTML, /Loading file configuration\.\.\./);
+  await waitFor(
+    () =>
+      container!.textContent?.includes("Loading file configuration...") ===
+      true,
+  );
 
-  resolveFetch();
+  assert.match(
+    container!.textContent ?? "",
+    /Loading file configuration\.\.\./,
+  );
 
-  await flushMacroTasks();
+  resolveFetch({
+    ok: true,
+    json: async () => mockConfigPayload,
+  });
 
-  assert.ok(container!.querySelector('[data-testid="ollama-output"]'));
+  await waitFor(() =>
+    Boolean(container!.querySelector('[data-testid="ollama-output"]')),
+  );
+
   const modelInput = container!.querySelector(
     '[data-testid="input-base-model"]',
-  ) as HTMLInputElement;
+  ) as HTMLInputElement | null;
+
+  assert.ok(modelInput);
   assert.strictEqual(modelInput.value, "test-model");
 });
 
@@ -127,14 +172,21 @@ test("shows error message if fetch requests fail", async () => {
     statusText: "Internal Server Error",
   }));
 
-  root.render(
-    React.createElement(ModelGenerator, { configUrl: "http://api/config" }),
+  root!.render(
+    React.createElement(ModelGenerator, {
+      configUrl: "http://api/config",
+    }),
   );
 
-  await flushMacroTasks();
+  await waitFor(
+    () =>
+      container!.textContent?.includes(
+        "Error: Failed to load file: Internal Server Error",
+      ) === true,
+  );
 
   assert.match(
-    container!.innerHTML,
+    container!.textContent ?? "",
     /Error: Failed to load file: Internal Server Error/,
   );
 });
@@ -147,20 +199,28 @@ test("switches output panel when changing pills configuration", async () => {
     json: async () => mockConfigPayload,
   }));
 
-  root.render(
-    React.createElement(ModelGenerator, { configUrl: "http://api/config" }),
+  root!.render(
+    React.createElement(ModelGenerator, {
+      configUrl: "http://api/config",
+    }),
   );
-  await flushMacroTasks();
 
-  assert.ok(container!.querySelector('[data-testid="ollama-output"]'));
+  await waitFor(() =>
+    Boolean(container!.querySelector('[data-testid="ollama-output"]')),
+  );
 
   const openAiPill = container!.querySelector(
     '[data-testid="pill-openai"]',
-  ) as HTMLButtonElement;
+  ) as HTMLButtonElement | null;
+
+  assert.ok(openAiPill);
+
   openAiPill.click();
 
-  await flushMacroTasks();
+  await waitFor(() =>
+    Boolean(container!.querySelector('[data-testid="openai-output"]')),
+  );
 
   assert.ok(container!.querySelector('[data-testid="openai-output"]'));
-  assert.ok(!container!.querySelector('[data-testid="ollama-output"]'));
+  assert.equal(container!.querySelector('[data-testid="ollama-output"]'), null);
 });
