@@ -34,6 +34,7 @@
     "@happy-dom/global-registrator": "^20.11.6",
     "@storybook/addon-a11y": "^10.5.10",
     "@storybook/addon-docs": "^10.5.10",
+    "@storybook/addon-themes": "^10.6.0",
     "@storybook/addon-vitest": "^10.5.10",
     "@storybook/react-vite": "^10.5.10",
     "@testing-library/jest-dom": "^6.0.0",

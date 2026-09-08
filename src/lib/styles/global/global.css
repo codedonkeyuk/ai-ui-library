@@ -1,118 +1,64 @@
 :root {
+  color-scheme: light dark;
+
   /*Main Colours */
-  --main-bg-color: #121212;
-  --main-fg-color: #ffffff;
-  --main-bdr-color: #2d2d2d;
-  --main-hover-color: #2a2a2a;
+  --main-bg-color: light-dark(#121212, #000000);
+  --main-fg-color: light-dark(#ffffff, #ffffff);
+  --main-bdr-color: light-dark(#2d2d2d, #ffffff);
+  --main-hover-color: light-dark(#2a2a2a, #2a2a2a);
 
-  --card-bg-color: #1e1e1e;
-  --card-fg-color: #f4f4f5;
+  --card-bg-color: light-dark(#1e1e1e, #000000);
+  --card-fg-color: light-dark(#f4f4f5, #ffffff);
 
-  --dialog-bg-color: #252525;
-  --dialog-fg-color: #ffffff;
+  --dialog-bg-color: light-dark(#ffffff, #000000);
+  --dialog-fg-color: light-dark(#000000, #ffffff);
 
-  --alt1-bg-color: #1a1a1a;
-  --alt2-bg-color: #222222;
+  --alt1-bg-color: light-dark(#1a1a1a, #1e1e1e);
+  --alt2-bg-color: light-dark(#222222, #252525);
 
   /* Button Colours */
-  --prim-btn-bg-color: #007bff;
-  --prim-btn-fg-color: #ffffff;
-  --prim-btn-hvr-color: #0056b3;
-  --prim-btn-bdr-color: transparent;
+  --prim-btn-bg-color: light-dark(#007bff, #3b82f6);
+  --prim-btn-fg-color: light-dark(#ffffff, #ffffff);
+  --prim-btn-hvr-color: light-dark(#0056b3, #2563eb);
+  --prim-btn-bdr-color: light-dark(transparent, transparent);
 
-  --sec-btn-bg-color: #ccc;
-  --sec-btn-fg-color: #000000;
-  --sec-btn-hvr-color: #999;
-  --sec-btn-bdr-color: transparent;
+  --sec-btn-bg-color: light-dark(#ccc, #27272a);
+  --sec-btn-fg-color: light-dark(#000000, #f4f4f5);
+  --sec-btn-hvr-color: light-dark(#999, #3f3f46);
+  --sec-btn-bdr-color: light-dark(transparent, #ffffff);
 
-  --dis-btn-bg-color: transparent;
-  --dis-btn-fg-color: transparent;
+  --dis-btn-bg-color: light-dark(transparent, #ffffff0d);
+  --dis-btn-fg-color: light-dark(transparent, #ffffff61);
+  --dis-btn-hvr-color: light-dark(transparent, #ffffff0d);
+  --dis-btn-bdr-color: light-dark(transparent, transparent);
 
   /*TextField Colours */
-  --field-bg-color: #fff;
-  --field-fg-color: #000000;
-  --field-warning-color: #a33a3a;
-  --field-desc-color: #666;
-  --field-placeholder-color: #8996a3;
-  --field-dis-bg-color: #f2f4f5;
-  --field-dis-fg-color: #7b8790;
+  --field-bg-color: light-dark(#fff, #1a1a1a);
+  --field-fg-color: light-dark(#000000, #ffffff);
+  --field-warning-color: light-dark(#a33a3a, #ef4444);
+  --field-desc-color: light-dark(#666, #a1a1aa);
+  --field-placeholder-color: light-dark(#8996a3, #71717a);
+  --field-dis-bg-color: light-dark(#f2f4f5, #121212);
+  --field-dis-fg-color: light-dark(#7b8790, #52525b);
 
   /* Main Navigation */
-  --main-nav-bg-color: #ffffff;
+  --main-nav-bg-color: light-dark(#ffffff, #000000);
 
   /* Toast */
-  --toast-bg-success-color: #28a745;
-  --toast-bg-warning-color: #ffc107;
-  --toast-bg-error-color: #dc3545;
-  --toast-bg-info-color: #007bff;
+  --toast-bg-success-color: light-dark(#28a745, #1e4620);
+  --toast-bg-warning-color: light-dark(#ffc107, #855d00);
+  --toast-bg-error-color: light-dark(#dc3545, #661a21);
+  --toast-bg-info-color: light-dark(#007bff, #0c3a66;);
 
-  --toast-fg-light-color: #fff;
-  --toast-fg-dark-color: #000;
-
-  --font-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
-  --font-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem);
-  --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);
-  --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);
-  --line-height-body: 1.6;
-  --line-height-heading: 1.25;
+  --toast-fg-light-color: light-dark(#fff, #ffffff);
+  --toast-fg-dark-color: light-dark(#000, #ffffff);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --main-bg-color: #000000;
-    --main-fg-color: #ffffff;
-    --main-bdr-color: #ffffff;
-    --main-hover-color: #2a2a2a;
-
-    --card-bg-color: #000000;
-    --card-fg-color: #ffffff;
-
-    --dialog-bg-color: #000000;
-    --dialog-fg-color: #ffffff;
-
-    --alt1-bg-color: #1e1e1e;
-    --alt2-bg-color: #252525;
-
-    /* Button Colours */
-    --prim-btn-bg-color: #3b82f6;
-    --prim-btn-fg-color: #ffffff;
-    --prim-btn-hvr-color: #2563eb;
-    --prim-btn-bdr-color: transparent;
-
-    --sec-btn-bg-color: #27272a;
-    --sec-btn-fg-color: #f4f4f5;
-    --sec-btn-hvr-color: #3f3f46;
-    --sec-btn-bdr-color: #ffffff;
-
-    --dis-btn-bg-color: rgba(255, 255, 255, 0.05);
-    --dis-btn-fg-color: rgba(255, 255, 255, 0.38);
-    --dis-btn-hvr-color: rgba(255, 255, 255, 0.05);
-    --dis-btn-bdr-color: transparent;
-
-    /*TextField Colours */
-    --field-bg-color: #1a1a1a;
-    --field-fg-color: #ffffff;
-
-    --field-warning-color: #ef4444;
-    --field-desc-color: #a1a1aa;
-    --field-placeholder-color: #71717a;
-
-    --field-dis-bg-color: #121212;
-    --field-dis-fg-color: #52525b;
-
-    /* Main Navigation */
-    --main-nav-bg-color: #000000;
-
-    /* Toast Backgrounds */
-    --toast-bg-success-color: #1e4620;
-    --toast-bg-warning-color: #855d00;
-    --toast-bg-error-color: #661a21;
-    --toast-bg-info-color: #0c3a66;
-
-    /* Text Colors */
-    --toast-fg-light-color: #ffffff;
-    --toast-fg-dark-color: #ffffff;
-  }
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 body {
