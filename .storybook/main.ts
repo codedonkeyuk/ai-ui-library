@@ -1,3 +1,4 @@
+// .storybook/main.ts
 import type { StorybookConfig } from "@storybook/react-vite";
 
 const config: StorybookConfig = {
@@ -14,5 +15,16 @@ const config: StorybookConfig = {
       to: "/",
     },
   ],
+
+  viteFinal: async (config) => {
+    return {
+      ...config,
+      build: {
+        ...config.build,
+        cssMinify: "esbuild",
+      },
+    };
+  },
 };
+
 export default config;
