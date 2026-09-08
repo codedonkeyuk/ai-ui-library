@@ -15,9 +15,9 @@ describe("Loading Component", () => {
   it("applies the correct CSS classes for your shared stylesheet", () => {
     const { container } = render(<Loading />);
 
-    const containerDiv = container.querySelector(".spinner-container");
+    const containerDiv = container.querySelector(".message-container");
     assert.ok(containerDiv, "Container div should exist");
-    assert.strictEqual(containerDiv.className, "spinner-container");
+    assert.strictEqual(containerDiv.className, "message-container");
 
     const spinnerDiv = container.querySelector(".loading-spinner");
     assert.ok(spinnerDiv, "Spinner div should exist");

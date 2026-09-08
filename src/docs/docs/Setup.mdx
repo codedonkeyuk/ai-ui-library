@@ -1,0 +1,126 @@
+# Setup
+
+This file has been written to get you up and running as quickly as possible. It can be used in two ways either in a SPA, or as part of a multi-page application.
+
+## Initial Setup - Add to existing NPM project
+
+This library is not distributed on NPM. So you will need to check it out from github first
+
+In your workspace (directory containing existing project) do the following
+
+```bash
+git clone https://github.com/codedonkeyuk/ai-ui-library.git
+cd ai-ui-library
+npm link
+cd ../your-project # <- Change to your actual project name
+npm link ai-ui-library
+```
+
+or you can mad directly to it in package.json
+
+```json
+{
+  ...
+  "dependencies": {
+    "library-name": "file:../path-to-your-library"
+  }
+  ...
+}
+```
+
+## Add to a Single Page application
+
+### Setup SPA
+
+Add the following changes to your index file.
+This will give you access to the loading styles which will be shown when the app is initially loading.
+
+I've assumed "id=root" is where you are hooking your SPA too.
+Change this id to whatever you prefer.
+The HTML within main is the loading div.
+This is also used internally by the Loading.tsx component for dynamic loads etc.
+
+```html
+<html>
+  <head>
+    ...
+    <link rel="stylesheet" href="simple-component-library/loading.css" />
+    ...
+  </head>
+  <body>
+    <main id="root">
+      <div class="message-container">
+        <div class="loading-spinner" role="status" aria-label="Loading"></div>
+      </div>
+    </main>
+  </body>
+</html>
+```
+
+You will next need to load the global styles that is used by all the components. For SPAs only, you should load the GlobalStyle Component.
+
+Within your main app component, that is the component that is directly loaded by React/ReactDom. Add the following
+
+```tsx
+import React from "react";
+import GlobalStyle from "../src/styles/global/GlobalStyle"; // <- this line
+
+export default function App(): React.JSX.Element {
+  return (
+    <>
+      <GlobalStyle /> {"<- this line"}
+      <div>Hello World!</div>
+    </>
+  );
+}
+```
+
+### Setup multi-page site
+
+You simply need to import global.css along side loading.css. You do not need to add GlobalStyle.tx
+
+The code below shows a very basic way of loading a react component. It assumes you have JS libraries in the web app in a lib folder. There a better approaches than this, this is just a simple example.
+
+```html
+<html>
+  <head>
+    ...
+    <link rel="stylesheet" href="simple-component-library/loading.css" />
+    <link rel="stylesheet" href="simple-component-library/global.css" /> <!-- This file -->
+    ...
+  </head>
+  <body>
+    <main>
+      <h1> Hello world </h1>
+      <p>
+        Now we are cooking! Like my component
+
+        <div id="my-component"></div>
+      </p>
+    </main>
+    <script type="module">
+      import React from './lib/React.js';
+      import { Pills } from './lib/ai-ui-library.js';
+
+      const container = document.getElementById('react-root');
+      const root = ReactDOM.createRoot(<>);
+      root.render(React.createElement(Pills, {
+          items: [
+              { id: 1, label: 'React', selected: true },
+              { id: 2, label: 'TypeScript', selected: false },
+          ],
+          onChange: (id) => console.log('Clicked pill ID:', id),
+          position: 'start'
+      }));
+    </script>
+  </body>
+</html>
+```
+
+### Access the components
+
+You can access your components anywhere in the app using the following import. Usage instructions for each component can be found on this storybook site.
+
+```tsx
+import { Dialog, Input, InputCheckboxGroup } from "ai-ui-library";
+```

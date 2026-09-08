@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import type { JSX } from "react/jsx-runtime";
-import { Input } from "../lib/index.ts";
+import { Input } from "../../lib/index.ts";
 import styled from "styled-components";
-import Pills from "../lib/components/Pills.tsx";
+import Pills from "../../lib/components/Pills.tsx";
 import OpenAiOutput from "./OpenAiOutput.tsx";
 import OllamaOutput from "./OllamaOutput.tsx";
-import GlobalStyle from "../lib/styles/global/GlobalStyle.tsx";
+import GlobalStyle from "../../lib/styles/global/GlobalStyle.tsx";
 
 const Container = styled.div`
   display: flex;

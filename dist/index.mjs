@@ -3,10 +3,14 @@ import { Component, createContext, useCallback, useContext, useEffect, useId, us
 import styled, { createGlobalStyle, styled as styled$1 } from "styled-components";
 import { Link, NavLink } from "react-router";
 //#region src/lib/components/Loading.tsx
-/** Renders a accessible loading div. Necessary for dynamic import react suspend logic*/
+/**
+* Accessible loading spinner for use when components are loading. Pulls css from Loading.css.
+*
+* Loading.css is a separate CSS file as it needed pfor when the app is loading.
+* */
 function Loading() {
 	return /* @__PURE__ */ jsx("div", {
-		className: "spinner-container",
+		className: "message-container",
 		children: /* @__PURE__ */ jsx("div", {
 			className: "loading-spinner",
 			role: "status",
@@ -48,14 +52,14 @@ const StyledToast = styled.div`
 
   background-color: ${(props) => {
 	switch (props.variant) {
-		case "success": return "#28a745";
-		case "warning": return "#ffc107";
-		case "error": return "#dc3545";
-		default: return "#007bff";
+		case "success": return "var(--toast-bg-success-color)";
+		case "warning": return "var(--toast-bg-warning-color)";
+		case "error": return "var(--toast-bg-error-color)";
+		default: return "var(--toast-bg-info-color)";
 	}
 }};
 
-  color: ${(props) => props.variant === "warning" ? "#000" : "#fff"};
+  color: ${(props) => props.variant === "warning" ? "var(--toast-fg-dark-color)" : "var(--toast-fg-light-color)"};
 
   transition: all 0.3s ease-in-out;
   animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
@@ -918,7 +922,7 @@ function Tabs({ tabs, activeTabId, onTabChange, children }) {
 }
 //#endregion
 //#region src/lib/styles/global/GlobalStyle.tsx
-const GlobalStyle = createGlobalStyle`${":root {\n  --main-bg-color: #fff;\n  --main-fg-color: #000;\n  --main-bdr-color: #000;\n  --main-hover-color: #f1f3f5;\n  --card-bg-color: #fff;\n  --card-fg-color: #000;\n  --dialog-bg-color: #fff;\n  --dialog-fg-color: #000;\n  --alt1-bg-color: #f8f9fa;\n  --alt2-bg-color: #fafafa;\n  --prim-btn-bg-color: #007bff;\n  --prim-btn-fg-color: #fff;\n  --prim-btn-hvr-color: #0056b3;\n  --prim-btn-bdr-color: transparent;\n  --sec-btn-bg-color: #ccc;\n  --sec-btn-fg-color: #000;\n  --sec-btn-hvr-color: #999;\n  --sec-btn-bdr-color: transparent;\n  --dis-btn-bg-color: transparent;\n  --dis-btn-fg-color: transparent;\n  --field-bg-color: #fff;\n  --field-fg-color: #000;\n  --field-warning-color: #a33a3a;\n  --field-desc-color: #666;\n  --field-placeholder-color: #8996a3;\n  --field-dis-bg-color: #f2f4f5;\n  --field-dis-fg-color: #7b8790;\n  --main-nav-bg-color: #fff;\n  --font-body: clamp(1rem, .95rem + .2vw, 1.125rem);\n  --font-h3: clamp(1.25rem, 1.1rem + .6vw, 1.75rem);\n  --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);\n  --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);\n  --line-height-body: 1.6;\n  --line-height-heading: 1.25;\n}\n\n@media (prefers-color-scheme: dark) {\n  :root {\n    --main-bg-color: ;\n  }\n}\n\nbody {\n  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;\n  font-size: var(--font-body);\n  line-height: var(--line-height-body);\n  color: #1a1a1a;\n  -webkit-font-smoothing: antialiased;\n}\n\nh1 {\n  font-size: var(--font-h1);\n  line-height: var(--line-height-heading);\n  font-weight: 800;\n}\n\nh2 {\n  font-size: var(--font-h2);\n  line-height: var(--line-height-heading);\n  font-weight: 700;\n}\n\nh3 {\n  font-size: var(--font-h3);\n  line-height: var(--line-height-heading);\n  font-weight: 600;\n}\n\n.container {\n  background-color: var(--container-bg);\n  justify-content: center;\n  align-items: flex-start;\n  width: 100%;\n  height: 100%;\n  display: flex;\n}\n\n.page {\n  width: 1200px;\n}\n\n@media (width <= 1200px) {\n  .page {\n    width: 100%;\n  }\n}\n\n.error-info {\n  border: 2px solid var(--main-bdr-color);\n  background-color: var(--dialog-bg-color);\n  color: var(--dialog-fg-color);\n  padding: 15px;\n}\n\n.button-bar {\n  flex-wrap: wrap;\n  justify-content: flex-end;\n  gap: 12px;\n  width: 100%;\n  display: flex;\n}\n\n.button-bar.start {\n  justify-content: flex-start;\n}\n\n.button-bar.center {\n  justify-content: center;\n}\n\n@media (width <= 600px) {\n  .button-bar {\n    flex-direction: column;\n  }\n\n  .btn {\n    width: 100%;\n    display: flex;\n  }\n}\n"}`;
+const GlobalStyle = createGlobalStyle`${":root {\n  --main-bg-color: #fff;\n  --main-fg-color: #000;\n  --main-bdr-color: #000;\n  --main-hover-color: #f1f3f5;\n  --card-bg-color: #fff;\n  --card-fg-color: #000;\n  --dialog-bg-color: #fff;\n  --dialog-fg-color: #000;\n  --alt1-bg-color: #f8f9fa;\n  --alt2-bg-color: #fafafa;\n  --prim-btn-bg-color: #007bff;\n  --prim-btn-fg-color: #fff;\n  --prim-btn-hvr-color: #0056b3;\n  --prim-btn-bdr-color: transparent;\n  --sec-btn-bg-color: #ccc;\n  --sec-btn-fg-color: #000;\n  --sec-btn-hvr-color: #999;\n  --sec-btn-bdr-color: transparent;\n  --dis-btn-bg-color: transparent;\n  --dis-btn-fg-color: transparent;\n  --field-bg-color: #fff;\n  --field-fg-color: #000;\n  --field-warning-color: #a33a3a;\n  --field-desc-color: #666;\n  --field-placeholder-color: #8996a3;\n  --field-dis-bg-color: #f2f4f5;\n  --field-dis-fg-color: #7b8790;\n  --main-nav-bg-color: #fff;\n  --toast-bg-success-color: #28a745;\n  --toast-bg-warning-color: #ffc107;\n  --toast-bg-error-color: #dc3545;\n  --toast-bg-info-color: #007bff;\n  --toast-fg-light-color: #fff;\n  --toast-fg-dark-color: #000;\n  --font-body: clamp(1rem, .95rem + .2vw, 1.125rem);\n  --font-h3: clamp(1.25rem, 1.1rem + .6vw, 1.75rem);\n  --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);\n  --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);\n  --line-height-body: 1.6;\n  --line-height-heading: 1.25;\n}\n\n@media (prefers-color-scheme: dark) {\n  :root {\n    --main-bg-color: ;\n  }\n}\n\nbody {\n  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;\n  font-size: var(--font-body);\n  line-height: var(--line-height-body);\n  color: #1a1a1a;\n  -webkit-font-smoothing: antialiased;\n}\n\nh1 {\n  font-size: var(--font-h1);\n  line-height: var(--line-height-heading);\n  font-weight: 800;\n}\n\nh2 {\n  font-size: var(--font-h2);\n  line-height: var(--line-height-heading);\n  font-weight: 700;\n}\n\nh3 {\n  font-size: var(--font-h3);\n  line-height: var(--line-height-heading);\n  font-weight: 600;\n}\n\n.container {\n  background-color: var(--container-bg);\n  justify-content: center;\n  align-items: flex-start;\n  width: 100%;\n  height: 100%;\n  display: flex;\n}\n\n.page {\n  width: 1200px;\n}\n\n@media (width <= 1200px) {\n  .page {\n    width: 100%;\n  }\n}\n\n.error-info {\n  border: 2px solid var(--main-bdr-color);\n  background-color: var(--dialog-bg-color);\n  color: var(--dialog-fg-color);\n  padding: 15px;\n}\n\n.button-bar {\n  flex-wrap: wrap;\n  justify-content: flex-end;\n  gap: 12px;\n  width: 100%;\n  display: flex;\n}\n\n.button-bar.start {\n  justify-content: flex-start;\n}\n\n.button-bar.center {\n  justify-content: center;\n}\n\n@media (width <= 600px) {\n  .button-bar {\n    flex-direction: column;\n  }\n\n  .btn {\n    width: 100%;\n    display: flex;\n  }\n}\n"}`;
 //#endregion
 export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Table, Tabs, Toast, ToastProvider, handleJsError, useToast };
 

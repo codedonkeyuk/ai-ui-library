@@ -1,9 +1,12 @@
-import test, { describe } from "node:test";
+import test, { afterEach, describe } from "node:test";
 import assert from "node:assert";
-import { render, screen } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import Table, { type HeaderCell, type DataCell } from "./Table";
 
 describe("Table Component - Native Node Tests", () => {
+  afterEach(() => {
+    cleanup();
+  });
   const mockThead: HeaderCell[][] = [
     [
       { data: "Product", type: "header" },
@@ -83,7 +86,9 @@ describe("Table Component - Native Node Tests", () => {
   test("provides keyboard focus accessibility properties on the outer container wrapper", () => {
     render(<Table data={mockData} id="5" />);
 
-    const scrollContainer = screen.getByRole("region", { name: "Data Table" });
+    const scrollContainer = screen.getByRole("region", {
+      name: "Data Table Scroll Container",
+    });
     assert.ok(scrollContainer);
     assert.strictEqual(scrollContainer.getAttribute("tabindex"), "0");
   });

@@ -3,7 +3,7 @@ import assert from "node:assert";
 import React from "react";
 import { createRoot } from "react-dom/client";
 
-mock.module("../lib/index.ts", {
+mock.module("../../lib/index.ts", {
   namedExports: {
     Input: ({ label, value, onChange }: any) =>
       React.createElement("input", {
@@ -14,7 +14,7 @@ mock.module("../lib/index.ts", {
   },
 });
 
-mock.module("../lib/components/Pills.tsx", {
+mock.module("../../lib/components/Pills.tsx", {
   defaultExport: ({ items, onChange }: any) =>
     React.createElement(
       "div",
@@ -52,7 +52,7 @@ mock.module("./OllamaOutput.tsx", {
     ),
 });
 
-mock.module("../lib/styles/global/GlobalStyle.tsx", {
+mock.module("../../lib/styles/global/GlobalStyle.tsx", {
   defaultExport: () =>
     React.createElement("div", { "data-testid": "global-style" }),
 });

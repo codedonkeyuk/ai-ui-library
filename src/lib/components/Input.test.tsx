@@ -71,12 +71,14 @@ test("renders required field with correct attributes and label marker", () => {
   const label = screen.getByText(/Username \*/);
   assert.ok(label, "Label should include an asterisk when required is true");
 
-  const input = screen.getByRole("textbox", { name: "Username" });
+  const input = screen.getByRole("textbox", {
+    name: /Username/i,
+  }) as HTMLInputElement;
 
   // Verify the HTML attributes
-  assert.equal(
-    input.getAttribute("required"),
-    "true",
+  assert.strictEqual(
+    input.required,
+    true,
     "HTML required attribute should be present",
   );
   assert.equal(
@@ -194,10 +196,14 @@ test("passes through standard HTML attributes", () => {
     />,
   );
 
-  const input = screen.getByRole("textbox", { name: "Standard Props" });
+  const input = screen.getByRole("textbox", {
+    name: "Standard Props",
+  }) as HTMLInputElement;
 
   assert.equal(input.getAttribute("placeholder"), "Enter your name");
-  assert.equal(input.getAttribute("disabled"), "true");
+
+  assert.equal(input.disabled, true);
+
   assert.equal(input.getAttribute("autocomplete"), "off");
 });
 

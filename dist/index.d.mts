@@ -1,7 +1,11 @@
 import { JSX } from "react/jsx-runtime";
 import React, { Component, ComponentPropsWithoutRef, ErrorInfo, JSX as JSX$1, ReactNode } from "react";
 //#region src/lib/components/Loading.d.ts
-/** Renders a accessible loading div. Necessary for dynamic import react suspend logic*/
+/**
+ * Accessible loading spinner for use when components are loading. Pulls css from Loading.css.
+ *
+ * Loading.css is a separate CSS file as it needed pfor when the app is loading.
+ * */
 declare function Loading(): JSX.Element;
 //#endregion
 //#region src/lib/components/Toast.d.ts

@@ -163,7 +163,9 @@ describe("Button System Suite", () => {
         </ButtonLink>,
       );
       assert.strictEqual(
-        screen.getByRole("link").getAttribute("aria-label"),
+        screen
+          .getByRole("link", { name: /Search/i })
+          .getAttribute("aria-label"),
         "External Search",
       );
 
@@ -176,7 +178,9 @@ describe("Button System Suite", () => {
         </MemoryRouter>,
       );
       assert.strictEqual(
-        screen.getByRole("link").getAttribute("aria-label"),
+        screen
+          .getByRole("link", { name: /Profile/i })
+          .getAttribute("aria-label"),
         "Go to Profile",
       );
     });
