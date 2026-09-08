@@ -5,7 +5,7 @@ const TableContainer = styled.div`
   width: 100%;
   overflow-x: auto;
   margin: 16px 0;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--main-bdr-color);
   border-radius: 8px;
 
   &:focus-visible {
@@ -36,42 +36,40 @@ const StyledTable = styled.table`
 `;
 
 const StyledTableHead = styled.thead`
-  background-color: #f8f9fa;
-  border-bottom: 2px solid #e0e0e0;
+  background-color: var(--alt1-bg-color);
+  border-bottom: 2px solid var(--main-bdr-color);
 `;
 
 const StyledTableBody = styled.tbody`
   & > tr:not(:last-child) {
-    border-bottom: 1px solid #ebdcdc;
+    border-bottom: 1px solid var(--main-bdr-color);
   }
   & > tr:nth-child(even) {
-    background-color: #fafafa;
+    background-color: var(--alt2-bg-color);
   }
 `;
 
 const StyledTableFooter = styled.tfoot`
-  background-color: #f8f9fa;
-  border-top: 2px solid #e0e0e0;
+  background-color: var(--alt1-bg-color);
+  border-top: 2px solid var(--main-bdr-color);
   font-weight: bold;
 `;
 
 const StyledTR = styled.tr`
   transition: background-color 0.2s ease;
   &:hover {
-    background-color: #f1f3f5;
+    background-color: var(--main-hover-color);
   }
 `;
 
 const StyledTH = styled.th`
   padding: 12px 16px;
   font-weight: 600;
-  color: #1a1a1a;
   background-color: inherit;
 `;
 
 const StyledTD = styled.td`
   padding: 12px 16px;
-  color: #2b2b2b;
 `;
 
 type BaseCell = {

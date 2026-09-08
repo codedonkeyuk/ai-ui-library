@@ -1,4 +1,43 @@
 :root {
+  /*Main Colours */
+  --main-bg-color: #ffffff;
+  --main-fg-color: #000000;
+  --main-bdr-color: #000000;
+  --main-hover-color: #f1f3f5;
+
+  --card-bg-color: #ffffff;
+  --card-fg-color: #000000;
+
+  --dialog-bg-color: #ffffff;
+  --dialog-fg-color: #000000;
+
+  --alt1-bg-color: #f8f9fa;
+  --alt2-bg-color: #fafafa;
+
+  /* Button Colours */
+  --prim-btn-bg-color: #007bff;
+  --prim-btn-fg-color: #ffffff;
+  --prim-btn-hvr-color: #0056b3;
+  --prim-btn-bdr-color: transparent;
+  --sec-btn-bg-color: #ccc;
+  --sec-btn-fg-color: #000000;
+  --sec-btn-hvr-color: #999;
+  --sec-btn-bdr-color: transparent;
+  --dis-btn-bg-color: transparent;
+  --dis-btn-fg-color: transparent;
+
+  /*TextField Colours */
+  --field-bg-color: #fff;
+  --field-fg-color: #000000;
+  --field-warning-color: #a33a3a;
+  --field-desc-color: #666;
+  --field-placeholder-color: #8996a3;
+  --field-dis-bg-color: #f2f4f5;
+  --field-dis-fg-color: #7b8790;
+
+  /* Main Navigation */
+  --main-nav-bg-color: #ffffff;
+
   --font-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
   --font-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem);
   --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);
@@ -9,6 +48,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --main-bg-color: ;
+    --main-bg-color: ;
   }
 }
 
@@ -56,7 +97,9 @@ h3 {
 }
 
 .error-info {
-  border: 2px solid black;
+  border: 2px solid var(--main-bdr-color);
+  background-color: var(--dialog-bg-color);
+  color: var(--dialog-fg-color);
   padding: 15px;
 }
 

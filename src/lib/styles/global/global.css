@@ -1,11 +1,20 @@
 :root {
+  /*Main Colours */
   --main-bg-color: #ffffff;
   --main-fg-color: #000000;
   --main-bdr-color: #000000;
+  --main-hover-color: #f1f3f5;
+
   --card-bg-color: #ffffff;
   --card-fg-color: #000000;
+
   --dialog-bg-color: #ffffff;
   --dialog-fg-color: #000000;
+
+  --alt1-bg-color: #f8f9fa;
+  --alt2-bg-color: #fafafa;
+
+  /* Button Colours */
   --prim-btn-bg-color: #007bff;
   --prim-btn-fg-color: #ffffff;
   --prim-btn-hvr-color: #0056b3;
@@ -17,6 +26,7 @@
   --dis-btn-bg-color: transparent;
   --dis-btn-fg-color: transparent;
 
+  /*TextField Colours */
   --field-bg-color: #fff;
   --field-fg-color: #000000;
   --field-warning-color: #a33a3a;
@@ -25,6 +35,7 @@
   --field-dis-bg-color: #f2f4f5;
   --field-dis-fg-color: #7b8790;
 
+  /* Main Navigation */
   --main-nav-bg-color: #ffffff;
 
   --font-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
