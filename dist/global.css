@@ -1,28 +1,30 @@
 :root {
   /*Main Colours */
-  --main-bg-color: #ffffff;
-  --main-fg-color: #000000;
-  --main-bdr-color: #000000;
-  --main-hover-color: #f1f3f5;
+  --main-bg-color: #121212;
+  --main-fg-color: #ffffff;
+  --main-bdr-color: #2d2d2d;
+  --main-hover-color: #2a2a2a;
 
-  --card-bg-color: #ffffff;
-  --card-fg-color: #000000;
+  --card-bg-color: #1e1e1e;
+  --card-fg-color: #f4f4f5;
 
-  --dialog-bg-color: #ffffff;
-  --dialog-fg-color: #000000;
+  --dialog-bg-color: #252525;
+  --dialog-fg-color: #ffffff;
 
-  --alt1-bg-color: #f8f9fa;
-  --alt2-bg-color: #fafafa;
+  --alt1-bg-color: #1a1a1a;
+  --alt2-bg-color: #222222;
 
   /* Button Colours */
   --prim-btn-bg-color: #007bff;
   --prim-btn-fg-color: #ffffff;
   --prim-btn-hvr-color: #0056b3;
   --prim-btn-bdr-color: transparent;
+
   --sec-btn-bg-color: #ccc;
   --sec-btn-fg-color: #000000;
   --sec-btn-hvr-color: #999;
   --sec-btn-bdr-color: transparent;
+
   --dis-btn-bg-color: transparent;
   --dis-btn-fg-color: transparent;
 
@@ -57,8 +59,59 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --main-bg-color: ;
-    --main-bg-color: ;
+    --main-bg-color: #000000;
+    --main-fg-color: #ffffff;
+    --main-bdr-color: #ffffff;
+    --main-hover-color: #2a2a2a;
+
+    --card-bg-color: #000000;
+    --card-fg-color: #ffffff;
+
+    --dialog-bg-color: #000000;
+    --dialog-fg-color: #ffffff;
+
+    --alt1-bg-color: #1e1e1e;
+    --alt2-bg-color: #252525;
+
+    /* Button Colours */
+    --prim-btn-bg-color: #3b82f6;
+    --prim-btn-fg-color: #ffffff;
+    --prim-btn-hvr-color: #2563eb;
+    --prim-btn-bdr-color: transparent;
+
+    --sec-btn-bg-color: #27272a;
+    --sec-btn-fg-color: #f4f4f5;
+    --sec-btn-hvr-color: #3f3f46;
+    --sec-btn-bdr-color: #ffffff;
+
+    --dis-btn-bg-color: rgba(255, 255, 255, 0.05);
+    --dis-btn-fg-color: rgba(255, 255, 255, 0.38);
+    --dis-btn-hvr-color: rgba(255, 255, 255, 0.05);
+    --dis-btn-bdr-color: transparent;
+
+    /*TextField Colours */
+    --field-bg-color: #1a1a1a;
+    --field-fg-color: #ffffff;
+
+    --field-warning-color: #ef4444;
+    --field-desc-color: #a1a1aa;
+    --field-placeholder-color: #71717a;
+
+    --field-dis-bg-color: #121212;
+    --field-dis-fg-color: #52525b;
+
+    /* Main Navigation */
+    --main-nav-bg-color: #000000;
+
+    /* Toast Backgrounds */
+    --toast-bg-success-color: #1e4620;
+    --toast-bg-warning-color: #855d00;
+    --toast-bg-error-color: #661a21;
+    --toast-bg-info-color: #0c3a66;
+
+    /* Text Colors */
+    --toast-fg-light-color: #ffffff;
+    --toast-fg-dark-color: #ffffff;
   }
 }
 
@@ -66,7 +119,7 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: var(--font-body);
   line-height: var(--line-height-body);
-  color: #1a1a1a;
+  color: var(--main-fg-color);
   -webkit-font-smoothing: antialiased;
 }
 

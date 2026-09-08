@@ -13,7 +13,8 @@ interface StyledButtonProps {
 const StyledButton = styled.button<StyledButtonProps>`
   background-color: ${(props) => (props.$primary ? "var(--prim-btn-bg-color)" : "var(--sec-btn-bg-color)")};
   color: ${(props) => (props.$primary ? "var(--prim-btn-fg-color)" : "var(--sec-btn-fg-color)")};
-  border: none;
+  border: 1px solid
+    ${(props) => (props.$primary ? "var(--prim-btn-bdr-color)" : "var(--sec-btn-bdr-color)")};
   padding: ${(props) => {
     switch (props.$size) {
       case "small":
