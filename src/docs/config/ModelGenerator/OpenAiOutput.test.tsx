@@ -27,7 +27,7 @@ const mockConfigData = {
 let OpenAiOutput: React.ComponentType<any>;
 
 before(async () => {
-  const module = await import("./OpenAiOutput.js");
+  const module = await import("./OpenAiOutput.tsx");
   OpenAiOutput = module.default;
 });
 

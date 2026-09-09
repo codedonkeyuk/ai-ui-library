@@ -44,7 +44,7 @@ before(async () => {
     };
   });
 
-  const module = await import("./ModelGenerator.js");
+  const module = await import("./ModelGenerator.tsx");
   ModelGenerator = module.default;
 });
 
