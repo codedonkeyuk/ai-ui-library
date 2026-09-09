@@ -24,7 +24,6 @@ const FieldsRow = styled.div`
   box-sizing: border-box;
 `;
 
-/** My own components bleed into page needed to keep code style consistent with other storybook blocks*/
 const IgnoreMyStyles = styled.div`
   &,
   & *:not(button) {
@@ -96,7 +95,6 @@ export default function ModelGenerator({ configUrl }: Props): JSX.Element {
 
   const selectedPlatform = pills.find((pill) => pill.selected === true);
 
-  // Directly append the raw minified TypeScript definitions without parsing them as JSON
   const fullSystemPrompt = `${configData.systemSettings.trim()}\n\n## AVAILABLE COMPONENTS INVENTORY (TYPESCRIPT DEFINITIONS)\n${configData.componentInventory.trim()}`;
 
   return (
