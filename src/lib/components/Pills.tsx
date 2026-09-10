@@ -31,7 +31,7 @@ const pillPositionMap = {
   end: "flex-end",
 } as const;
 
-type Pill = {
+export type Pill = {
   id: string | number;
   label: string;
   selected?: boolean;

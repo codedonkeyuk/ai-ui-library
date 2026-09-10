@@ -1,7 +1,10 @@
-import type { ColorConfig } from "./Types";
+import type { ColorConfigGroup } from "./Types";
 
-const generateModernVariables = (config: ColorConfig): string => {
-  return Object.entries(config)
+export const generateModernVariables = (
+  configGroup: ColorConfigGroup,
+): string => {
+  return Object.values(configGroup)
+    .flatMap((group) => Object.entries(group.properties))
     .map(([key, variants]) => {
       const lightVal = variants.light || "transparent";
       const darkVal = variants.dark || "transparent";
@@ -10,7 +13,7 @@ const generateModernVariables = (config: ColorConfig): string => {
     .join("\n  ");
 };
 
-export const modernCss = (config: ColorConfig) => `
+export const modernCss = (config: ColorConfigGroup) => `
 :root {
   color-scheme: light dark;
 
