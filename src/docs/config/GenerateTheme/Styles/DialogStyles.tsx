@@ -1,3 +1,4 @@
+import Dialog from "../../../../lib/components/Dialog";
 import type { ColorConfigItem } from "../Types";
 
 const dialogStyles: ColorConfigItem = {
@@ -11,7 +12,14 @@ const dialogStyles: ColorConfigItem = {
       dark: "#ffffff",
     },
   },
-  example: () => <div>Dialog Example</div>,
+  example: () => (
+    <div className="container">
+      <Dialog isOpen={true} onClose={() => {}}>
+        <h2>Im a dialog</h2>
+        <p>If you see me I am working</p>
+      </Dialog>
+    </div>
+  ),
 };
 
 export default dialogStyles;

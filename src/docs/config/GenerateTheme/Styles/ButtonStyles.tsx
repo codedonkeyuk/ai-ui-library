@@ -53,8 +53,27 @@ const buttonStyles: ColorConfigItem = {
     },
   },
   example: () => (
-    <div>
-      <Button>Moo</Button>
+    <div className="container">
+      <div className="page">
+        <div className="button-bar start">
+          <Button size="small">Small Secondary Button</Button>
+          <Button size="small" primary>
+            Small Primary Button
+          </Button>
+        </div>
+        <div className="button-bar start">
+          <Button size="medium">Medium Secondary Button</Button>
+          <Button size="medium" primary>
+            Medium Primary Button
+          </Button>
+        </div>
+        <div className="button-bar start">
+          <Button size="large">Large Secondary Button</Button>
+          <Button size="large" primary>
+            Large Primary Button
+          </Button>
+        </div>
+      </div>
     </div>
   ),
 };

@@ -1,4 +1,5 @@
 import basicStyles from "./BasicStyles";
+import loadingStyles from "./LoadingStyles";
 import buttonStyles from "./ButtonStyles";
 import dialogStyles from "./DialogStyles";
 import navigationStyles from "./NavigationStyles";
@@ -8,6 +9,7 @@ import type { ColorConfigGroup } from "../Types";
 
 const styles: ColorConfigGroup = {
   "Basic Styles": basicStyles,
+  "Loading Styles": loadingStyles,
   Dialog: dialogStyles,
   Buttons: buttonStyles,
   "Text Fields": textfieldStyles,

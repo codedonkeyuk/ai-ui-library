@@ -17,15 +17,18 @@ export const modernCss = (config: ColorConfigGroup) => `
 :root {
   color-scheme: light dark;
 
-  --container-bg: #f9f9f9;
+  ${generateModernVariables(config)}
 
   --spinner-size: 50px;
   --spinner-thickness: 5px;
-  --spinner-track-color: #e0e0e0;
-  --spinner-accent-color: #3498db;
   --spinner-speed: 1s;
 
-  ${generateModernVariables(config)}
+  --font-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --font-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem);
+  --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);
+  --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);
+  --line-height-body: 1.6;
+  --line-height-heading: 1.25;
 }
 :root[data-theme="light"] {
   color-scheme: light;

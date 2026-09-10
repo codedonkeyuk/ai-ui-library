@@ -1,4 +1,6 @@
+import { Toast } from "../../../../lib";
 import type { ColorConfigItem } from "../Types";
+import { Rows } from "./Common";
 
 const toastStyles: ColorConfigItem = {
   properties: {
@@ -27,7 +29,18 @@ const toastStyles: ColorConfigItem = {
       dark: "#ffffff",
     },
   },
-  example: () => <div>Toast Example</div>,
+  example: () => (
+    <Rows className="container">
+      <Toast
+        variant="info"
+        isVisible={true}
+        message="Im an information toast"
+      />
+      <Toast variant="warning" isVisible={true} message="Im an warning toast" />
+      <Toast variant="success" isVisible={true} message="Im an success toast" />
+      <Toast variant="error" isVisible={true} message="Im an error toast" />
+    </Rows>
+  ),
 };
 
 export default toastStyles;

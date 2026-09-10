@@ -1,4 +1,6 @@
+import { Input } from "../../../../lib";
 import type { ColorConfigItem } from "../Types";
+import { Rows } from "./Common";
 
 const textfieldStyles: ColorConfigItem = {
   properties: {
@@ -31,7 +33,43 @@ const textfieldStyles: ColorConfigItem = {
       dark: "#52525b",
     },
   },
-  example: () => <div>Textfields Example</div>,
+  example: () => (
+    <div className="container">
+      <Rows className="container">
+        <Input type="text" required label="Im a required field" />
+        <Input
+          type="text"
+          description="I am a description"
+          label="Im a field with a description"
+        />
+        <Input
+          type="text"
+          warningMessage="I am a warning"
+          label="Im a field with a warning"
+        />
+        <Input type="text" label="Im a text type input field" />
+        <Input type="password" label="Im a password type input field" />
+        <Input type="email" label="Im an email type input field" />
+        <Input type="url" label="Im a URL type input field" />
+        <Input type="search" label="Im a search type input field" />
+        <Input type="tel" label="Im a telephone type input field" />
+        <Input type="number" label="Im a number type input field" />
+        <Input type="range" label="Im a range slider type input field" />
+        <Input type="date" label="Im a date type input field" />
+        <Input type="time" label="Im a time type input field" />
+        <Input
+          type="datetime-local"
+          label="Im a date and time type input field"
+        />
+        <Input type="month" label="Im a month type input field" />
+        <Input type="week" label="Im a week type input field" />
+        <Input type="checkbox" label="Im a checkbox type input field" />
+        <Input type="radio" label="Im a radio button type input field" />
+        <Input type="color" label="Im a color picker type input field" />
+        <Input type="file" label="Im a file upload type input field" />
+      </Rows>
+    </div>
+  ),
 };
 
 export default textfieldStyles;
