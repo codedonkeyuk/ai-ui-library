@@ -262,8 +262,6 @@ const FormInput = styled.input`
     background-color: var(--field-dis-bg-color);
   }
 `;
-//#endregion
-//#region src/lib/components/Input.tsx
 const FormDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -291,6 +289,49 @@ const FormDescription = styled.p`
   font-size: 0.825rem;
   line-height: 1.4;
 `;
+const FormSelect = styled.select`
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 100%;
+  padding: 0.7rem 2.5rem 0.7rem 0.8rem;
+
+  color: var(--field-fg-color);
+  background-color: var(--field-bg-color);
+  border: 1px solid var(--main-bdr-color);
+  border-radius: 0.35rem;
+
+  font: inherit;
+  line-height: 1.4;
+  height: auto;
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1rem;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover {
+    border-color: var(--prim-btn-bg-color);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--prim-btn-bg-color);
+    box-shadow: 0 0 0 3px rgb(52 120 197 / 16%);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--field-dis-fg-color);
+    background-color: var(--field-dis-bg-color);
+  }
+`;
+//#endregion
+//#region src/lib/components/Input.tsx
 function Input({ id, label, name, type, description, warningMessage, required, ...inputProps }) {
 	const descriptionId = useId();
 	const warningId = useId();
@@ -796,6 +837,45 @@ function Pills({ items, onChange, position = "start" }) {
 	});
 }
 //#endregion
+//#region src/lib/components/SelectList.tsx
+function SelectList({ id, name, label, onChange, value, children, required = false, description, warningMessage, ...rest }) {
+	const defaultId = useId();
+	const selectId = id || defaultId;
+	const descriptionId = `${selectId}-description`;
+	const warningId = `${selectId}-error`;
+	const describedBy = [description ? descriptionId : null, warningMessage ? warningId : null].filter(Boolean).join(" ");
+	return /* @__PURE__ */ jsxs(FormDiv, { children: [
+		/* @__PURE__ */ jsxs(FormLabel, {
+			htmlFor: selectId,
+			children: [label, required && /* @__PURE__ */ jsx("span", {
+				"aria-hidden": "true",
+				children: " *"
+			})]
+		}),
+		/* @__PURE__ */ jsx(FormSelect, {
+			...rest,
+			name,
+			value,
+			onChange,
+			id: selectId,
+			required,
+			"aria-required": required,
+			"aria-describedby": describedBy || void 0,
+			"aria-invalid": !!warningMessage,
+			children
+		}),
+		description && /* @__PURE__ */ jsx(FormDescription, {
+			id: descriptionId,
+			children: description
+		}),
+		warningMessage && /* @__PURE__ */ jsx(FormWarning, {
+			id: warningId,
+			role: "alert",
+			children: warningMessage
+		})
+	] });
+}
+//#endregion
 //#region src/lib/components/Button.tsx
 const StyledButton = styled.button`
   background-color: ${(props) => props.$primary ? "var(--prim-btn-bg-color)" : "var(--sec-btn-bg-color)"};
@@ -964,6 +1044,6 @@ function Tabs({ tabs, activeTabId, onTabChange, children }) {
 //#region src/lib/styles/global/GlobalStyle.tsx
 const GlobalStyle = createGlobalStyle`${"body {\n  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;\n  font-size: var(--font-body);\n  line-height: var(--line-height-body);\n  color: var(--main-fg-color);\n  -webkit-font-smoothing: antialiased;\n}\n\nh1 {\n  font-size: var(--font-h1);\n  line-height: var(--line-height-heading);\n  color: var(--main-fg-color);\n  font-weight: 800;\n}\n\nh2 {\n  font-size: var(--font-h2);\n  line-height: var(--line-height-heading);\n  color: var(--main-fg-color);\n  font-weight: 700;\n}\n\nh3 {\n  font-size: var(--font-h3);\n  line-height: var(--line-height-heading);\n  color: var(--main-fg-color);\n  font-weight: 600;\n}\n\n.container {\n  background-color: var(--container-bg);\n  justify-content: center;\n  align-items: flex-start;\n  width: 100%;\n  height: 100%;\n  display: flex;\n}\n\n.page {\n  background-color: var(--card-bg-color);\n  color: var(--card-fg-color);\n  width: 1200px;\n  padding: 10px;\n}\n\n@media (width <= 1200px) {\n  .page {\n    width: 100%;\n  }\n}\n\n.error-info {\n  border: 2px solid var(--main-bdr-color);\n  background-color: var(--dialog-bg-color);\n  color: var(--dialog-fg-color);\n  padding: 15px;\n}\n\n.button-bar {\n  flex-wrap: wrap;\n  justify-content: flex-end;\n  gap: 12px;\n  width: 100%;\n  display: flex;\n}\n\n.button-bar.start {\n  justify-content: flex-start;\n}\n\n.button-bar.center {\n  justify-content: center;\n}\n\n@media (width <= 600px) {\n  .button-bar {\n    flex-direction: column;\n  }\n\n  .btn {\n    width: 100%;\n    display: flex;\n  }\n}\n"}`;
 //#endregion
-export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Pills, Table, Tabs, Toast, ToastProvider, handleJsError, useToast };
+export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Pills, SelectList, Table, Tabs, Toast, ToastProvider, handleJsError, useToast };
 
 //# sourceMappingURL=index.mjs.map

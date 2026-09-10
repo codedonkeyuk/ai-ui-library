@@ -1,4 +1,4 @@
-import { Input } from "../../../../lib";
+import { Input, SelectList } from "../../../../lib";
 import type { ColorConfigItem } from "../Types";
 import { Rows } from "./Common";
 
@@ -67,6 +67,21 @@ const textfieldStyles: ColorConfigItem = {
         <Input type="radio" label="Im a radio button type input field" />
         <Input type="color" label="Im a color picker type input field" />
         <Input type="file" label="Im a file upload type input field" />
+
+        <SelectList
+          name="Select List"
+          label="Select List"
+          value={"uk"}
+          onChange={() => {}}
+          description="This is Description"
+          warningMessage="this is a warning message"
+        >
+          <option value="">-- Please choose an option --</option>
+          <option value="uk">United Kingdom</option>
+          <option value="us">United States</option>
+          <option value="ca">Canada</option>
+          <option value="au">Australia</option>
+        </SelectList>
       </Rows>
     </div>
   ),

@@ -9,6 +9,7 @@ export { default as InputRadioGroup } from "./components/InputRadioGroup.tsx";
 export { default as MainNavigation } from "./components/MainNavigation.tsx";
 export { default as Table } from "./components/Table.tsx";
 export { default as Pills } from "./components/Pills.tsx";
+export { default as SelectList } from "./components/SelectList.tsx";
 export {
   default as Button,
   ButtonLink,
