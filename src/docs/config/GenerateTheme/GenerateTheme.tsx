@@ -1,26 +1,21 @@
 import type { JSX } from "react/jsx-runtime";
-import { Form, SyntaxHighlighter } from "storybook/internal/components";
 import { useEffect, useState, useMemo } from "react";
 import React from "react";
-import type { ColorConfigGroup, ThemeVariants } from "./Types";
-import { DefaultStyles } from "./BasicPallete";
+import type { ColorConfigGroup } from "./Types";
+import styles from "./Styles/Styles";
 import { modernCss } from "./GenerateCss";
 import { GlobalStyle, Pills } from "../../../lib";
 import styled from "styled-components";
 import type { Pill } from "../../../lib/components/Pills";
-
-const PropertyStyle = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-`;
+import RenderDemo from "./RenderDemo";
+import RenderCode from "./RenderCode";
+import { ConfigRow } from "./ConfigRow";
 
 const PageStyled = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
   padding: 10px;
-  color-scheme: light !important;
 `;
 
 const CardStyled = styled.div`
@@ -41,91 +36,14 @@ const GridStyle = styled.div`
   }
 `;
 
-const IgnoreMyStyles = styled.div`
-  &,
-  & *:not(button) {
-    font-size: 13px !important;
-    line-height: 1.5 !important;
-    font-family:
-      ui-monospace, Menlo, Monaco, "Roboto Mono", "Oxygen Mono",
-      "Ubuntu Monospace", "Source Code Pro", "Droid Sans Mono", "Courier New",
-      monospace !important;
-  }
-`;
-
-const ConfigRow = React.memo(
-  ({
-    cssKey,
-    variants,
-    onChange,
-  }: {
-    cssKey: string;
-    variants: ThemeVariants;
-    onChange: (cssKey: string, mode: "light" | "dark", value: string) => void;
-  }) => {
-    return (
-      <PropertyStyle>
-        <center>
-          <h3>--{cssKey}</h3>
-        </center>
-
-        <div style={{ display: "flex", gap: "12px" }}>
-          <div style={{ flex: 1 }}>
-            <label
-              htmlFor={`${cssKey}-light`}
-              style={{
-                fontSize: "12px",
-                fontWeight: "bold",
-                color: "var(--main-fg-color)",
-              }}
-            >
-              Light
-            </label>
-            <Form.Input
-              id={`${cssKey}-light`}
-              type="text"
-              value={variants.light}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                onChange(cssKey, "light", e.target.value)
-              }
-            />
-          </div>
-          <div style={{ flex: 1 }}>
-            <label
-              htmlFor={`${cssKey}-dark`}
-              style={{
-                fontSize: "12px",
-                fontWeight: "bold",
-                color: "var(--main-fg-color)",
-              }}
-            >
-              Light
-            </label>
-            <Form.Input
-              id={`${cssKey}-dark`}
-              type="text"
-              value={variants.dark}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                onChange(cssKey, "dark", e.target.value)
-              }
-            />
-          </div>
-        </div>
-      </PropertyStyle>
-    );
-  },
-);
-
-ConfigRow.displayName = "ConfigRow";
-
 export default function GenerateTheme(): JSX.Element {
-  const [stylesConfig, setStylesConfig] =
-    useState<ColorConfigGroup>(DefaultStyles);
+  const [stylesConfig, setStylesConfig] = useState<ColorConfigGroup>(styles);
 
-  // State tracking whether the user is viewing the "preview" or "code" section
   const [activeSection, setActiveSection] = useState<"preview" | "code">(
     "preview",
   );
+
+  const [demoTheme, setDemoTheme] = useState<"light" | "dark">("light");
 
   const groupKeys = useMemo(() => Object.keys(stylesConfig), [stylesConfig]);
   const [activeGroup, setActiveGroup] = useState<string>(groupKeys[0] || "");
@@ -140,7 +58,6 @@ export default function GenerateTheme(): JSX.Element {
     }));
   }, [groupKeys, activeGroup]);
 
-  // Memoized pill configuration options for switching sections
   const sectionPillItems = useMemo<Pill[]>(
     () => [
       {
@@ -153,13 +70,24 @@ export default function GenerateTheme(): JSX.Element {
     [activeSection],
   );
 
+  const themePillItems = useMemo<Pill[]>(
+    () => [
+      { id: "light", label: "Light Mode", selected: demoTheme === "light" },
+      { id: "dark", label: "Dark Mode", selected: demoTheme === "dark" },
+    ],
+    [demoTheme],
+  );
+
   const handlePillChange = React.useCallback((id: string | number) => {
     setActiveGroup(String(id));
   }, []);
 
-  // Callback to execute view section swapping updates
   const handleSectionChange = React.useCallback((id: string | number) => {
     setActiveSection(id as "preview" | "code");
+  }, []);
+
+  const handleThemeChange = React.useCallback((id: string | number) => {
+    setDemoTheme(id as "light" | "dark");
   }, []);
 
   const handleInputChange = React.useCallback(
@@ -225,37 +153,24 @@ export default function GenerateTheme(): JSX.Element {
             onChange={handleSectionChange}
             position="center"
           />
-          {/* Conditional rendering depending on your active selection pill */}
+          {activeSection === "preview" && (
+            <Pills
+              items={themePillItems}
+              onChange={handleThemeChange}
+              position="center"
+            />
+          )}
           {activeSection === "preview" && (
             <>
               {ActiveExample && (
-                <div
-                  style={{
-                    marginTop: "12px",
-                    padding: "12px",
-                    border: "1px dashed #ccc",
-                  }}
-                >
+                <RenderDemo theme={demoTheme} generatedCss={colorCss}>
                   <ActiveExample />
-                </div>
+                </RenderDemo>
               )}
             </>
           )}
 
-          {activeSection === "code" && (
-            <>
-              <IgnoreMyStyles>
-                <SyntaxHighlighter
-                  language="css"
-                  bordered={true}
-                  copyable
-                  format={true}
-                >
-                  {colorCss}
-                </SyntaxHighlighter>
-              </IgnoreMyStyles>
-            </>
-          )}
+          {activeSection === "code" && <RenderCode colorCss={colorCss} />}
         </CardStyled>
       </PageStyled>
     </>

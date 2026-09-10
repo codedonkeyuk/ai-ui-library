@@ -9,11 +9,13 @@ export interface ColorConfig {
   [key: string]: ThemeVariants;
 }
 
-export interface ColorConfigGroup {
-  [key: string]: {
-    example: () => JSX.Element;
-    properties: {
-      [key: string]: ThemeVariants;
-    };
+export interface ColorConfigItem {
+  example: () => JSX.Element;
+  properties: {
+    [key: string]: ThemeVariants;
   };
+}
+
+export interface ColorConfigGroup {
+  [key: string]: ColorConfigItem;
 }

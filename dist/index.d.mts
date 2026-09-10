@@ -36,7 +36,7 @@ declare const ToastProvider: React.FC<{
 declare const useToast: () => ToastContextType;
 //#endregion
 //#region src/lib/components/ErrorBoundary.d.ts
-interface Props$8 {
+interface Props$9 {
   children: ReactNode;
 }
 interface State {
@@ -46,7 +46,7 @@ interface State {
  * @class ErrorBoundary
  * @description A React component that catches and displays errors within its children.
  */
-declare class ErrorBoundary extends Component<Props$8, State> {
+declare class ErrorBoundary extends Component<Props$9, State> {
   state: State;
   /**
    * @static getDerivedStateFromError(error)
@@ -72,7 +72,7 @@ declare class ErrorBoundary extends Component<Props$8, State> {
  * @interface Props
  * @description Properties for the ErrorPage component.
  */
-interface Props$7 {
+interface Props$8 {
   error: Error;
 }
 /**
@@ -81,7 +81,7 @@ interface Props$7 {
  * @param {Props} props - The properties of the component, including the error object.
  * @returns {React.FC<Props>} The rendered component.
  */
-declare const ErrorPage: React.FC<Props$7>;
+declare const ErrorPage: React.FC<Props$8>;
 /**
  * @function handleJsError
  * @description Handles JavaScript errors by displaying an error page in the specified target element.
@@ -91,14 +91,14 @@ declare const ErrorPage: React.FC<Props$7>;
 declare const handleJsError: (error: Error, target: HTMLElement) => void;
 //#endregion
 //#region src/lib/components/Input.d.ts
-interface Props$6 extends ComponentPropsWithoutRef<"input"> {
+interface Props$7 extends ComponentPropsWithoutRef<"input"> {
   label: string;
   description?: string;
   warningMessage?: string;
   /** If true, adds a * to the label and sets aria-required/required */
   required?: boolean;
 }
-declare function Input({ id, label, name, type, description, warningMessage, required, ...inputProps }: Props$6): JSX.Element;
+declare function Input({ id, label, name, type, description, warningMessage, required, ...inputProps }: Props$7): JSX.Element;
 //#endregion
 //#region src/lib/components/InputCheckboxGroup.d.ts
 type Checkbox = {
@@ -106,7 +106,7 @@ type Checkbox = {
   label: string;
   selected: boolean;
 };
-interface Props$5 {
+interface Props$6 {
   /** Title of group of checkboxes*/
   legend: string;
   /** checkbox data including slected state*/
@@ -115,7 +115,7 @@ interface Props$5 {
   checkboxSelected: (id: string, selected: boolean) => void;
 }
 /** Renders a groupd of checkboxes */
-declare function InputCheckboxGroup({ legend, checkboxes, checkboxSelected }: Props$5): JSX.Element;
+declare function InputCheckboxGroup({ legend, checkboxes, checkboxSelected }: Props$6): JSX.Element;
 //#endregion
 //#region src/lib/components/InputRadioGroup.d.ts
 type Radio = {
@@ -123,7 +123,7 @@ type Radio = {
   label: string;
   selected: boolean;
 };
-interface Props$4 {
+interface Props$5 {
   /** Name of the group of fields, becomes the fieldsets legend */
   legend: string;
   /** The array of radios which are rendered, from which state is kept */
@@ -132,7 +132,7 @@ interface Props$4 {
   radioSelected: (id: string) => void;
 }
 /** Renders a Fieldset containing multiple radio buttons */
-declare function InputRadioGroup({ legend, radios, radioSelected }: Props$4): JSX.Element;
+declare function InputRadioGroup({ legend, radios, radioSelected }: Props$5): JSX.Element;
 //#endregion
 //#region src/lib/components/MainNavigation.d.ts
 interface NavigationLink {
@@ -140,14 +140,14 @@ interface NavigationLink {
   name: string;
   sublinks?: NavigationLink[];
 }
-interface Props$3 {
+interface Props$4 {
   /** Nesed array representing the links for the menu. Level one shows on tool bar. AQll other levels are grouped popovers */
   links: NavigationLink[];
 }
 /**
  * Main navigation for use on a website, which should be added ot a page header. Its been designed to be responsive and respect every platform. So it renders the menu options on a desktop and hamburger on a mobile device.
  */
-declare function MainNavigation({ links }: Props$3): JSX.Element;
+declare function MainNavigation({ links }: Props$4): JSX.Element;
 //#endregion
 //#region src/lib/components/Table.d.ts
 type BaseCell = {
@@ -161,13 +161,26 @@ type HeaderCell = BaseCell & {
 type DataCell = BaseCell & {
   type: "header" | "data";
 };
-interface Props$2 {
+interface Props$3 {
   data: DataCell[][];
   thead?: HeaderCell[][];
   tfoot?: DataCell[][];
   id: string;
 }
-declare function Table({ data, thead, tfoot, id }: Props$2): JSX.Element;
+declare function Table({ data, thead, tfoot, id }: Props$3): JSX.Element;
+//#endregion
+//#region src/lib/components/Pills.d.ts
+type Pill = {
+  id: string | number;
+  label: string;
+  selected?: boolean;
+};
+interface Props$2 {
+  items: Pill[];
+  onChange: (id: string | number) => void;
+  position?: "start" | "center" | "end";
+}
+declare function Pills({ items, onChange, position }: Props$2): React.JSX.Element;
 //#endregion
 //#region src/lib/components/Button.d.ts
 type AriaCurrentTypes = "page" | "location" | "date";
@@ -209,5 +222,5 @@ declare function Tabs({ tabs, activeTabId, onTabChange, children }: Props): JSX$
 //#region src/lib/styles/global/GlobalStyle.d.ts
 declare const GlobalStyle: React.ComponentType;
 //#endregion
-export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Table, Tabs, Toast, ToastProvider, handleJsError, useToast };
+export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Pills, Table, Tabs, Toast, ToastProvider, handleJsError, useToast };
 //# sourceMappingURL=index.d.mts.map

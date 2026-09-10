@@ -19,10 +19,9 @@
   ],
   "scripts": {
     "prebuild": "prettier . --check && tsc --noEmit",
-    "build": "tsdown src/lib/index.ts --format esm --dts --clean --external styled-components,react && npm run model:generate",
-    "storybook": "storybook dev -p 6006",
-    "buildStorybook": "storybook build",
-    "serveStorybook": "npx http-server storybook-static",
+    "build": "tsdown src/lib/index.ts --format esm --dts --clean --external styled-components,react && npm run model:generate && storybook build",
+    "serveDev": "storybook dev -p 6006",
+    "serveProd": "npx http-server storybook-static",
     "clean": "prettier . --write",
     "validate": "prettier . --check && tsc --noEmit && npx cspell README.md && npx cspell \"src/docs/**/*.mdx\"",
     "test": "node --import tsx --experimental-test-module-mocks --import ./src/test-setup.ts --test src/**/*.test.{ts,tsx}",

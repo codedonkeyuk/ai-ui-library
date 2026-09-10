@@ -9,37 +9,6 @@ Its does this through a process known as Context Injection were you stuff inform
 
 [You can download that from here](./assets/Modelfile)
 
-## Why is the library a mix of CSS and Components
-
-This library has been designed to componentize the hard stuff (Forms, Toast, Error Handling, etc) but only share styles for the basic stuff (headers, body, typography).
-Its for use on both single page websites, and multiple page web sites that use multiple React components.
-
-Here is a typical example of most commercial component libraries. Steep learning curve, hard coded logic which is terrible for accessibility.
-
-```JSX
-<Toast></Toast>
-<Container>
-  <Page>
-    <Card>
-      <HeadingOne> Hello World</HeadingOne>
-    </Card>
-  </Page>
-</Container>
-```
-
-My library does it this way, much simpler, not as steep a learning curve, great for accessibility.
-
-```JSX
-<Toast></Toast>
-<div className="container">
-  <main className="page">
-    <section className="card">
-      <h1> Hello World</h1>
-    </section>
-  </main>
-</div>
-```
-
 ## Usage Instructions
 
 ### Installing the Project
@@ -123,5 +92,5 @@ Using a single global.css is more efficient than adding a tag to each of the pro
 | `npm run storybook` | runs storybook which shows the components                                  |
 | `npm run clean`     | Cleans the code with prettier                                              |
 | `npm run validate`  | Validates the project using typescript compiler, prettier and spellchecker |
-| `buildStorybook`    | Build a storybook demo static site                                         |
-| `serveStorybook`    | Serve the which has been built by `buildStorybook`                         |
+| `npm run serveDev`  | Serve storybook in dev mode                                                |
+| `npm run serveProd` | Serve storybook in prod mode. Run `npm run build` to build the site        |

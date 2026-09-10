@@ -757,6 +757,45 @@ function Table({ data, thead = [], tfoot = [], id }) {
 	})] });
 }
 //#endregion
+//#region src/lib/components/Pills.tsx
+const StyledButton$1 = styled.button`
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid
+    ${(props) => props.$isSelected ? "var(--prim-btn-bdr-color)" : "var(--sec-btn-bdr-color)"};
+  background-color: ${(props) => props.$isSelected ? "var(--prim-btn-bg-color)" : "var(--sec-btn-bg-color)"};
+  color: ${(props) => props.$isSelected ? "var(--prim-btn-fg-color)" : "var(--sec-btn-fg-color)"};
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    background-color: var(--prim-btn-hvr-color);
+    color: var(--prim-btn-fg-color);
+  }
+`;
+const Container = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: ${(props) => props.$position};
+`;
+const pillPositionMap = {
+	start: "flex-start",
+	center: "center",
+	end: "flex-end"
+};
+function Pills({ items, onChange, position = "start" }) {
+	return /* @__PURE__ */ jsx(Container, {
+		$position: pillPositionMap[position],
+		children: items.map((item) => /* @__PURE__ */ jsx(StyledButton$1, {
+			type: "button",
+			$isSelected: item.selected,
+			"aria-pressed": item.selected,
+			onClick: () => onChange(item.id),
+			children: item.label
+		}, item.id))
+	});
+}
+//#endregion
 //#region src/lib/components/Button.tsx
 const StyledButton = styled.button`
   background-color: ${(props) => props.$primary ? "var(--prim-btn-bg-color)" : "var(--sec-btn-bg-color)"};
@@ -923,8 +962,8 @@ function Tabs({ tabs, activeTabId, onTabChange, children }) {
 }
 //#endregion
 //#region src/lib/styles/global/GlobalStyle.tsx
-const GlobalStyle = createGlobalStyle`${":root {\n  color-scheme: light dark;\n  --main-bg-color: light-dark(#121212, #000);\n  --main-fg-color: #fff;\n  --main-bdr-color: light-dark(#2d2d2d, #fff);\n  --main-hover-color: #2a2a2a;\n  --card-bg-color: light-dark(#1e1e1e, #000);\n  --card-fg-color: light-dark(#f4f4f5, #fff);\n  --dialog-bg-color: light-dark(#fff, #000);\n  --dialog-fg-color: light-dark(#000, #fff);\n  --alt1-bg-color: light-dark(#1a1a1a, #1e1e1e);\n  --alt2-bg-color: light-dark(#222, #252525);\n  --prim-btn-bg-color: light-dark(#007bff, #3b82f6);\n  --prim-btn-fg-color: #fff;\n  --prim-btn-hvr-color: light-dark(#0056b3, #2563eb);\n  --prim-btn-bdr-color: #0000;\n  --sec-btn-bg-color: light-dark(#ccc, #27272a);\n  --sec-btn-fg-color: light-dark(#000, #f4f4f5);\n  --sec-btn-hvr-color: light-dark(#999, #3f3f46);\n  --sec-btn-bdr-color: light-dark(#0000, #fff);\n  --dis-btn-bg-color: light-dark(#0000, #ffffff0d);\n  --dis-btn-fg-color: light-dark(#0000, #ffffff61);\n  --dis-btn-hvr-color: light-dark(#0000, #ffffff0d);\n  --dis-btn-bdr-color: #0000;\n  --field-bg-color: light-dark(#fff, #1a1a1a);\n  --field-fg-color: light-dark(#000, #fff);\n  --field-warning-color: light-dark(#a33a3a, #ef4444);\n  --field-desc-color: light-dark(#666, #a1a1aa);\n  --field-placeholder-color: light-dark(#8996a3, #71717a);\n  --field-dis-bg-color: light-dark(#f2f4f5, #121212);\n  --field-dis-fg-color: light-dark(#7b8790, #52525b);\n  --main-nav-bg-color: light-dark(#fff, #000);\n  --toast-bg-success-color: light-dark(#28a745, #1e4620);\n  --toast-bg-warning-color: light-dark(#ffc107, #855d00);\n  --toast-bg-error-color: light-dark(#dc3545, #661a21);\n  --toast-bg-info-color: light-dark(#007bff, #0c3a66;);\n  --toast-fg-light-color: #fff;\n  --toast-fg-dark-color: light-dark(#000, #fff);\n}\n\n:root[data-theme=\"light\"] {\n  color-scheme: light;\n}\n\n:root[data-theme=\"dark\"] {\n  color-scheme: dark;\n}\n\nbody {\n  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;\n  font-size: var(--font-body);\n  line-height: var(--line-height-body);\n  color: var(--main-fg-color);\n  -webkit-font-smoothing: antialiased;\n}\n\nh1 {\n  font-size: var(--font-h1);\n  line-height: var(--line-height-heading);\n  font-weight: 800;\n}\n\nh2 {\n  font-size: var(--font-h2);\n  line-height: var(--line-height-heading);\n  font-weight: 700;\n}\n\nh3 {\n  font-size: var(--font-h3);\n  line-height: var(--line-height-heading);\n  font-weight: 600;\n}\n\n.container {\n  background-color: var(--container-bg);\n  justify-content: center;\n  align-items: flex-start;\n  width: 100%;\n  height: 100%;\n  display: flex;\n}\n\n.page {\n  width: 1200px;\n}\n\n@media (width <= 1200px) {\n  .page {\n    width: 100%;\n  }\n}\n\n.error-info {\n  border: 2px solid var(--main-bdr-color);\n  background-color: var(--dialog-bg-color);\n  color: var(--dialog-fg-color);\n  padding: 15px;\n}\n\n.button-bar {\n  flex-wrap: wrap;\n  justify-content: flex-end;\n  gap: 12px;\n  width: 100%;\n  display: flex;\n}\n\n.button-bar.start {\n  justify-content: flex-start;\n}\n\n.button-bar.center {\n  justify-content: center;\n}\n\n@media (width <= 600px) {\n  .button-bar {\n    flex-direction: column;\n  }\n\n  .btn {\n    width: 100%;\n    display: flex;\n  }\n}\n"}`;
+const GlobalStyle = createGlobalStyle`${"body {\n  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;\n  font-size: var(--font-body);\n  line-height: var(--line-height-body);\n  color: var(--main-fg-color);\n  -webkit-font-smoothing: antialiased;\n}\n\nh1 {\n  font-size: var(--font-h1);\n  line-height: var(--line-height-heading);\n  color: var(--main-fg-color);\n  font-weight: 800;\n}\n\nh2 {\n  font-size: var(--font-h2);\n  line-height: var(--line-height-heading);\n  color: var(--main-fg-color);\n  font-weight: 700;\n}\n\nh3 {\n  font-size: var(--font-h3);\n  line-height: var(--line-height-heading);\n  color: var(--main-fg-color);\n  font-weight: 600;\n}\n\n.container {\n  background-color: var(--container-bg);\n  justify-content: center;\n  align-items: flex-start;\n  width: 100%;\n  height: 100%;\n  display: flex;\n}\n\n.page {\n  background-color: var(--card-bg-color);\n  color: var(--card-fg-color);\n  width: 1200px;\n}\n\n@media (width <= 1200px) {\n  .page {\n    width: 100%;\n  }\n}\n\n.error-info {\n  border: 2px solid var(--main-bdr-color);\n  background-color: var(--dialog-bg-color);\n  color: var(--dialog-fg-color);\n  padding: 15px;\n}\n\n.button-bar {\n  flex-wrap: wrap;\n  justify-content: flex-end;\n  gap: 12px;\n  width: 100%;\n  display: flex;\n}\n\n.button-bar.start {\n  justify-content: flex-start;\n}\n\n.button-bar.center {\n  justify-content: center;\n}\n\n@media (width <= 600px) {\n  .button-bar {\n    flex-direction: column;\n  }\n\n  .btn {\n    width: 100%;\n    display: flex;\n  }\n}\n"}`;
 //#endregion
-export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Table, Tabs, Toast, ToastProvider, handleJsError, useToast };
+export { Button, ButtonLink, ButtonRouterLink, ErrorBoundary, ErrorPage, GlobalStyle, Input, InputCheckboxGroup, InputRadioGroup, Loading, MainNavigation, Pills, Table, Tabs, Toast, ToastProvider, handleJsError, useToast };
 
 //# sourceMappingURL=index.mjs.map
