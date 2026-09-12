@@ -71,11 +71,17 @@ mock.module("./GenerateCss", {
   namedExports: {
     modernCss: (stylesConfig: any) => {
       // Look up the active properties state block dynamically so user mutations calculate
-      const props = stylesConfig.colors?.properties["main-bg-color"] || { light: "#ffffff", dark: "#111111" };
+      const props = stylesConfig.colors?.properties["main-bg-color"] || {
+        light: "#ffffff",
+        dark: "#111111",
+      };
       return `--main-bg-color: light-dark(${props.light}, ${props.dark});`;
     },
     renderStorybookCss: (stylesConfig: any) => {
-      const props = stylesConfig.colors?.properties["main-bg-color"] || { light: "#ffffff", dark: "#111111" };
+      const props = stylesConfig.colors?.properties["main-bg-color"] || {
+        light: "#ffffff",
+        dark: "#111111",
+      };
       return `#storybook-root { --main-bg-color: light-dark(${props.light}, ${props.dark}); }`;
     },
   },
@@ -193,7 +199,9 @@ describe("GenerateTheme", () => {
     assert.ok(screen.getByTestId("render-code"));
     assert.equal(screen.queryByTestId("render-demo"), null);
 
-    assert.ok(screen.getByText(/If you want to update the storybook site styles/));
+    assert.ok(
+      screen.getByText(/If you want to update the storybook site styles/),
+    );
     assert.ok(screen.getByText(/\/src\/lib\/styles\/storybook-loading\.css/));
 
     await waitFor(() => {
