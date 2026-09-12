@@ -1,17 +1,5 @@
 import type { ChangeEvent, JSX } from "react";
-import { Input } from "../../../lib/index";
-import styled from "styled-components";
-
-const FieldsRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 16px;
-  width: 100%;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-`;
+import { Form } from "storybook/internal/components";
 
 type ModelFieldsProps = {
   modelName: string;
@@ -38,39 +26,38 @@ export default function ModelFields({
     };
 
   return (
-    <FieldsRow>
-      <div>
-        <Input
-          label="Base Model"
+    <Form>
+      <Form.Field label="Base Model">
+        <Form.Input
           type="text"
           value={modelName}
-          onChange={(event) => onModelNameChange(event.target.value)}
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            onModelNameChange(event.target.value)
+          }
         />
-      </div>
+      </Form.Field>
 
-      <div>
-        <Input
-          label="Temperature"
+      <Form.Field label="Temperature">
+        <Form.Input
           type="number"
-          min="0"
-          max="1"
-          step="0.05"
+          min={0}
+          max={1}
+          step={0.05}
           value={temperature}
           onChange={handleNumberChange(onTemperatureChange)}
         />
-      </div>
+      </Form.Field>
 
-      <div>
-        <Input
-          label="Top P"
+      <Form.Field label="Top P">
+        <Form.Input
           type="number"
-          min="0"
-          max="1"
-          step="0.05"
+          min={0}
+          max={1}
+          step={0.05}
           value={topP}
           onChange={handleNumberChange(onTopPChange)}
         />
-      </div>
-    </FieldsRow>
+      </Form.Field>
+    </Form>
   );
 }

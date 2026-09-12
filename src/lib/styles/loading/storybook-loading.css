@@ -1,0 +1,90 @@
+#storybook-root,
+.sb-unstyled {
+  color-scheme: light dark;
+
+  --main-bg-color: light-dark(#ffffff, #000000);
+  --main-fg-color: light-dark(#000000, #ffffff);
+  --main-bdr-color: light-dark(#2d2d2d, #ffffff);
+  --main-hover-color: light-dark(#2a2a2a, #2a2a2a);
+  --card-bg-color: light-dark(#ffffff, #000000);
+  --card-fg-color: light-dark(#000000, #ffffff);
+  --alt1-bg-color: light-dark(#1a1a1a, #1e1e1e);
+  --alt2-bg-color: light-dark(#222222, #252525);
+  --spinner-track-color: light-dark(#e0e0e0, #e0e0e0);
+  --spinner-accent-color: light-dark(#3498db, #3498db);
+  --dialog-bg-color: light-dark(#ffffff, #000000);
+  --dialog-fg-color: light-dark(#000000, #ffffff);
+  --prim-btn-bg-color: light-dark(#007bff, #3b82f6);
+  --prim-btn-fg-color: light-dark(#ffffff, #ffffff);
+  --prim-btn-hvr-color: light-dark(#0056b3, #2563eb);
+  --prim-btn-bdr-color: light-dark(transparent, transparent);
+  --sec-btn-bg-color: light-dark(#ccc, #27272a);
+  --sec-btn-fg-color: light-dark(#000000, #f4f4f5);
+  --sec-btn-hvr-color: light-dark(#999, #3f3f46);
+  --sec-btn-bdr-color: light-dark(transparent, #ffffff);
+  --dis-btn-bg-color: light-dark(transparent, #ffffff0d);
+  --dis-btn-fg-color: light-dark(transparent, #ffffff61);
+  --dis-btn-hvr-color: light-dark(transparent, #ffffff0d);
+  --dis-btn-bdr-color: light-dark(transparent, transparent);
+  --field-bg-color: light-dark(#fff, #1a1a1a);
+  --field-fg-color: light-dark(#000000, #ffffff);
+  --field-warning-color: light-dark(#a33a3a, #ef4444);
+  --field-desc-color: light-dark(#666, #a1a1aa);
+  --field-placeholder-color: light-dark(#8996a3, #71717a);
+  --field-dis-bg-color: light-dark(#f2f4f5, #121212);
+  --field-dis-fg-color: light-dark(#7b8790, #52525b);
+  --main-nav-bg-color: light-dark(#ffffff, #000000);
+  --toast-bg-success-color: light-dark(#28a745, #1e4620);
+  --toast-bg-warning-color: light-dark(#ffc107, #855d00);
+  --toast-bg-error-color: light-dark(#dc3545, #661a21);
+  --toast-bg-info-color: light-dark(#007bff, #0c3a66);
+  --toast-fg-light-color: light-dark(#fff, #ffffff);
+  --toast-fg-dark-color: light-dark(#000, #ffffff);
+
+  --spinner-size: 50px;
+  --spinner-thickness: 5px;
+  --spinner-speed: 1s;
+
+  --font-body: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --font-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem);
+  --font-h2: clamp(1.5rem, 1.3rem + 1vw, 2.25rem);
+  --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);
+  --line-height-body: 1.6;
+  --line-height-heading: 1.25;
+}
+
+#storybook-root[data-theme="light"],
+.sb-unstyled[data-theme="light"] {
+  color-scheme: light;
+}
+
+#storybook-root[data-theme="dark"],
+.sb-unstyled[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+.message-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.loading-spinner {
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  border: var(--spinner-thickness) solid var(--spinner-track-color);
+  border-top: var(--spinner-thickness) solid var(--spinner-accent-color);
+  border-radius: 50%;
+  animation: spin var(--spinner-speed) linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

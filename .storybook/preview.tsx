@@ -1,20 +1,20 @@
-// .storybook/preview.ts
 import type { Preview } from "@storybook/react-vite";
-import "../src/lib/styles/loading/loading.css";
+import "../src/lib/styles/loading/storybook-loading.css";
 import GlobalStyle from "../src/lib/styles/global/GlobalStyle";
 
 const preview: Preview = {
   globalTypes: {
     theme: {
       description: "Global theme for components",
-      defaultValue: "system",
+      defaultValue: window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light",
       toolbar: {
         title: "Theme",
         icon: "circlehollow",
         items: [
-          { value: "system", title: "Browser Theme", icon: "mirror" },
-          { value: "light", title: "Light Mode", icon: "sun" },
-          { value: "dark", title: "Dark Mode", icon: "moon" },
+          { value: "light", title: "Component Light Mode", icon: "sun" },
+          { value: "dark", title: "Component Dark Mode", icon: "moon" },
         ],
         dynamicTitle: true,
       },
@@ -35,18 +35,25 @@ const preview: Preview = {
 
   decorators: [
     (Story, context) => {
-      const selectedTheme = context.globals.theme || "system";
-      const htmlElement = document.documentElement;
+      const selectedTheme = context.globals.theme;
 
-      if (selectedTheme === "system") {
-        // 3. For System: remove data-theme completely so it falls back to system rules
-        htmlElement.removeAttribute("data-theme");
-        htmlElement.style.colorScheme = "light dark"; // Tells browser to evaluate system preference
-      } else {
-        // For Light/Dark: explicitly override everything
-        htmlElement.setAttribute("data-theme", selectedTheme);
-        htmlElement.style.colorScheme = selectedTheme;
+      const canvasContainer =
+        context.canvasElement || document.getElementById("storybook-root");
+      const unstyledContainers = document.querySelectorAll(".sb-unstyled");
+
+      const applyThemeToElement = (el: Element) => {
+        const htmlEl = el as HTMLElement;
+        htmlEl.setAttribute("data-theme", selectedTheme);
+        htmlEl.style.colorScheme = selectedTheme;
+      };
+
+      if (canvasContainer) {
+        applyThemeToElement(canvasContainer);
       }
+
+      unstyledContainers.forEach((panel) => {
+        applyThemeToElement(panel);
+      });
 
       return (
         <>

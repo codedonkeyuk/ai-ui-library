@@ -1,8 +1,8 @@
 import type { JSX } from "react/jsx-runtime";
 import type { OutputProps } from "./Types";
-import { SyntaxHighlighter } from "storybook/internal/components";
 import { useState } from "react";
 import ModelControls from "./ModelControls";
+import CodeBlock from "../common/CodeBlock";
 
 export default function OllamaOutput({
   configData,
@@ -32,10 +32,7 @@ ${fullSystemPrompt}
         onTemperatureChange={setTemperature}
         onTopPChange={setTopP}
       />
-
-      <SyntaxHighlighter language="json" bordered={true} copyable format={true}>
-        {code}
-      </SyntaxHighlighter>
+      <CodeBlock code={code} />
     </>
   );
 }

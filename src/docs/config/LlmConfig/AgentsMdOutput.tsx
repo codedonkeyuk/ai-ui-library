@@ -1,9 +1,9 @@
 import type { JSX } from "react/jsx-runtime";
 import { useState } from "react";
 import styled from "styled-components";
-import { SyntaxHighlighter } from "storybook/internal/components";
 import PackageJson from "../../../../package.json";
 import type { OutputProps } from "./Types";
+import CodeBlock from "../common/CodeBlock";
 
 const Container = styled.div`
   margin-top: 20px;
@@ -104,9 +104,7 @@ Run the appropriate formatting, linting, type-checking, test, and build commands
         />
       </FormCard>
 
-      <SyntaxHighlighter language="md" bordered={true} copyable format={true}>
-        {markdown}
-      </SyntaxHighlighter>
+      <CodeBlock code={markdown} />
     </Container>
   );
 }

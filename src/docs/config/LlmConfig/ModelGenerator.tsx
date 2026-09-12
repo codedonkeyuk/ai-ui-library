@@ -1,28 +1,27 @@
 import type { JSX } from "react/jsx-runtime";
-import { Pills } from "../../../lib";
 import type { OutputProps } from "./Types";
 import { useState } from "react";
+import { Button } from "storybook/internal/components";
+import styled from "styled-components";
 import OpenAiOutput from "./OpenAiOutput";
 import OllamaOutput from "./OllamaOutput";
+
+const ButtonBar = styled.div`
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 8px;
+`;
 
 export default function ModelGenerator({
   configData,
   fullSystemPrompt,
 }: OutputProps): JSX.Element {
-  const [modelPills, setModelPills] = useState<
-    { id: string; label: string; selected: boolean }[]
-  >([
-    { id: "ollama", label: "Ollama", selected: true },
-    { id: "openai", label: "openai", selected: false },
-  ]);
+  const [selectedModel, setSelectedModel] = useState<"ollama" | "openai">(
+    "ollama",
+  );
 
-  const modelPillSelect = (clickedId: string | number) => {
-    setModelPills((prev) =>
-      prev.map((item) => ({ ...item, selected: item.id === clickedId })),
-    );
-  };
-
-  const selectedModel = modelPills.find((pill) => pill.selected === true);
   return (
     <>
       <p>
@@ -32,14 +31,32 @@ export default function ModelGenerator({
         you make a dedicated Library LLM for UI work, and use other agents for
         other stuff.
       </p>
-      <Pills items={modelPills} onChange={modelPillSelect} position="center" />
-      {selectedModel?.id === "openai" && (
+
+      {/* OPTION A: Native Row-Level Variant Buttons (Matches Pill Layout behavior) */}
+      <ButtonBar>
+        <Button
+          variant={selectedModel === "ollama" ? "solid" : "outline"}
+          onClick={() => setSelectedModel("ollama")}
+          size="small"
+        >
+          Ollama
+        </Button>
+        <Button
+          variant={selectedModel === "openai" ? "solid" : "outline"}
+          onClick={() => setSelectedModel("openai")}
+          size="small"
+        >
+          OpenAI
+        </Button>
+      </ButtonBar>
+
+      {selectedModel === "openai" && (
         <OpenAiOutput
           configData={configData}
           fullSystemPrompt={fullSystemPrompt}
         />
       )}
-      {selectedModel?.id === "ollama" && (
+      {selectedModel === "ollama" && (
         <OllamaOutput
           configData={configData}
           fullSystemPrompt={fullSystemPrompt}
