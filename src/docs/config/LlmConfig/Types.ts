@@ -10,9 +10,6 @@ export interface ConfigPayload {
 }
 
 export interface OutputProps {
-  modelName: string;
   configData: ConfigPayload;
-  temperature: number;
-  topP: number;
   fullSystemPrompt: string;
 }
