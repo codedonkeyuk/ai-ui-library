@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from "react";
 import React from "react";
 import type { ColorConfigGroup } from "./Types";
 import styles from "./Styles/Styles";
-import { modernCss } from "./GenerateCss";
+import { modernCss, renderStorybookCss } from "./GenerateCss";
 import { Button, H2 } from "storybook/internal/components";
 import styled from "styled-components";
 import RenderDemo from "./RenderDemo";
@@ -35,7 +35,6 @@ const GridStyle = styled.div`
   }
 `;
 
-// Clean, theme-aware layout bar for native buttons
 const ButtonBar = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -48,9 +47,9 @@ const ButtonBar = styled.div`
 export default function GenerateTheme(): JSX.Element {
   const [stylesConfig, setStylesConfig] = useState<ColorConfigGroup>(styles);
 
-  const [activeSection, setActiveSection] = useState<"preview" | "code">(
-    "preview",
-  );
+  const [activeSection, setActiveSection] = useState<
+    "preview" | "css" | "storybook-css"
+  >("preview");
 
   const [demoTheme, setDemoTheme] = useState<"light" | "dark">("light");
 
@@ -58,6 +57,7 @@ export default function GenerateTheme(): JSX.Element {
   const [activeGroup, setActiveGroup] = useState<string>(groupKeys[0] || "");
 
   const [colorCss, setColorCss] = useState<string>("");
+  const [storybookCss, setStorybookCss] = useState<string>("");
 
   const handleInputChange = React.useCallback(
     (cssKey: string, mode: "light" | "dark", value: string) => {
@@ -85,6 +85,7 @@ export default function GenerateTheme(): JSX.Element {
 
   useEffect(() => {
     setColorCss(modernCss(stylesConfig));
+    setStorybookCss(renderStorybookCss(stylesConfig));
   }, [stylesConfig]);
 
   const activeProperties = stylesConfig[activeGroup]?.properties || {};
@@ -93,7 +94,6 @@ export default function GenerateTheme(): JSX.Element {
   return (
     <PageStyled className="sb-unstyled">
       <CardStyled>
-        {/* Swapped raw h2 for Storybook's native theme-aware H2 */}
         <H2>Select Controls</H2>
         <ButtonBar>
           {groupKeys.map((key) => (
@@ -110,7 +110,6 @@ export default function GenerateTheme(): JSX.Element {
       </CardStyled>
 
       <CardStyled>
-        {/* Swapped raw h2 for Storybook's native theme-aware H2 */}
         <H2>Updated Related Properties</H2>
         <GridStyle>
           {Object.entries(activeProperties).map(([cssKey, variants]) => (
@@ -125,7 +124,6 @@ export default function GenerateTheme(): JSX.Element {
       </CardStyled>
 
       <CardStyled>
-        {/* Swapped raw h2 for Storybook's native theme-aware H2 */}
         <H2>Preview</H2>
         <ButtonBar>
           <Button
@@ -136,11 +134,18 @@ export default function GenerateTheme(): JSX.Element {
             Preview
           </Button>
           <Button
-            variant={activeSection === "code" ? "solid" : "outline"}
-            onClick={() => setActiveSection("code")}
+            variant={activeSection === "css" ? "solid" : "outline"}
+            onClick={() => setActiveSection("css")}
             size="small"
           >
-            Code
+            CSS
+          </Button>
+          <Button
+            variant={activeSection === "storybook-css" ? "solid" : "outline"}
+            onClick={() => setActiveSection("storybook-css")}
+            size="small"
+          >
+            Storybook Css
           </Button>
         </ButtonBar>
 
@@ -169,7 +174,28 @@ export default function GenerateTheme(): JSX.Element {
           </RenderDemo>
         )}
 
-        {activeSection === "code" && <RenderCode colorCss={colorCss} />}
+        {activeSection === "css" && (
+          <>
+            <p>
+              You can use this code directly in a live project, or within this
+              project by overwriting{" "}
+              <strong>/src/lib/styles/loading.css</strong>. If you want to see
+              these styles live in storybook you will also have to update
+              storybook css. See 'Storybook CSS' button above.
+            </p>
+            <RenderCode colorCss={colorCss} />
+          </>
+        )}
+
+        {activeSection === "storybook-css" && (
+          <>
+            <p>
+              If you want to update the storybook site styles to need to
+              overwrite <strong>/src/lib/styles/storybook-loading.css</strong>.
+            </p>
+            <RenderCode colorCss={storybookCss} />
+          </>
+        )}
       </CardStyled>
     </PageStyled>
   );

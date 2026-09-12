@@ -66,6 +66,21 @@ mock.module("./RenderCode", {
   ),
 });
 
+// FIX: Make the mock dynamic by checking the active component state parameters
+mock.module("./GenerateCss", {
+  namedExports: {
+    modernCss: (stylesConfig: any) => {
+      // Look up the active properties state block dynamically so user mutations calculate
+      const props = stylesConfig.colors?.properties["main-bg-color"] || { light: "#ffffff", dark: "#111111" };
+      return `--main-bg-color: light-dark(${props.light}, ${props.dark});`;
+    },
+    renderStorybookCss: (stylesConfig: any) => {
+      const props = stylesConfig.colors?.properties["main-bg-color"] || { light: "#ffffff", dark: "#111111" };
+      return `#storybook-root { --main-bg-color: light-dark(${props.light}, ${props.dark}); }`;
+    },
+  },
+});
+
 mock.module("./Styles/Styles", {
   defaultExport: {
     colors: {
@@ -151,14 +166,16 @@ describe("GenerateTheme", () => {
     assert.equal(screen.queryByText("--main-fg-color"), null);
   });
 
-  it("switches from preview to code", async () => {
+  it("switches from preview to css code view", async () => {
     render(<GenerateTheme />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Code" }));
+    fireEvent.click(screen.getByRole("button", { name: "CSS" }));
 
     assert.ok(screen.getByTestId("render-code"));
-
     assert.equal(screen.queryByTestId("render-demo"), null);
+
+    assert.ok(screen.getByText(/overwriting/));
+    assert.ok(screen.getByText(/\/src\/lib\/styles\/loading\.css/));
 
     await waitFor(() => {
       assert.match(
@@ -168,17 +185,33 @@ describe("GenerateTheme", () => {
     });
   });
 
-  it("switches back from code to preview", () => {
+  it("switches from preview to storybook css view", async () => {
     render(<GenerateTheme />);
 
-    fireEvent.click(screen.getByRole("button", { name: "Code" }));
+    fireEvent.click(screen.getByRole("button", { name: "Storybook Css" }));
 
+    assert.ok(screen.getByTestId("render-code"));
+    assert.equal(screen.queryByTestId("render-demo"), null);
+
+    assert.ok(screen.getByText(/If you want to update the storybook site styles/));
+    assert.ok(screen.getByText(/\/src\/lib\/styles\/storybook-loading\.css/));
+
+    await waitFor(() => {
+      assert.match(
+        screen.getByTestId("render-code").textContent ?? "",
+        /#storybook-root/,
+      );
+    });
+  });
+
+  it("switches back from code view modes back to preview", () => {
+    render(<GenerateTheme />);
+
+    fireEvent.click(screen.getByRole("button", { name: "CSS" }));
     assert.ok(screen.getByTestId("render-code"));
 
     fireEvent.click(screen.getByRole("button", { name: "Preview" }));
-
     assert.ok(screen.getByTestId("render-demo"));
-
     assert.equal(screen.queryByTestId("render-code"), null);
   });
 

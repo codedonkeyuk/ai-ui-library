@@ -13,12 +13,7 @@ export const generateModernVariables = (
     .join("\n  ");
 };
 
-export const modernCss = (config: ColorConfigGroup) => `
-:root {
-  color-scheme: light dark;
-
-  ${generateModernVariables(config)}
-
+const additionalVariables = `
   --spinner-size: 50px;
   --spinner-thickness: 5px;
   --spinner-speed: 1s;
@@ -29,13 +24,9 @@ export const modernCss = (config: ColorConfigGroup) => `
   --font-h1: clamp(2rem, 1.6rem + 1.8vw, 3.5rem);
   --line-height-body: 1.6;
   --line-height-heading: 1.25;
-}
-:root[data-theme="light"] {
-  color-scheme: light;
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
-}
+`;
+
+const loadingCss = `
 .message-container {
   display: flex;
   justify-content: center;
@@ -61,4 +52,45 @@ export const modernCss = (config: ColorConfigGroup) => `
     transform: rotate(360deg);
   }
 }
+`;
+
+export const modernCss = (config: ColorConfigGroup) => `
+:root {
+  color-scheme: light dark;
+
+  ${generateModernVariables(config)}
+
+${additionalVariables}
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+${loadingCss}
+`;
+
+export const renderStorybookCss = (config: ColorConfigGroup) => `
+#storybook-root,
+.sb-unstyled {
+  color-scheme: light dark;
+
+  ${generateModernVariables(config)}
+
+${additionalVariables}
+}
+
+#storybook-root[data-theme="light"],
+.sb-unstyled[data-theme="light"] {
+  color-scheme: light;
+}
+
+#storybook-root[data-theme="dark"],
+.sb-unstyled[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+${loadingCss}
 `;
