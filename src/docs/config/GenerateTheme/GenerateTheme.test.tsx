@@ -66,11 +66,9 @@ mock.module("./RenderCode", {
   ),
 });
 
-// FIX: Make the mock dynamic by checking the active component state parameters
 mock.module("./GenerateCss", {
   namedExports: {
     modernCss: (stylesConfig: any) => {
-      // Look up the active properties state block dynamically so user mutations calculate
       const props = stylesConfig.colors?.properties["main-bg-color"] || {
         light: "#ffffff",
         dark: "#111111",
@@ -83,6 +81,14 @@ mock.module("./GenerateCss", {
         dark: "#111111",
       };
       return `#storybook-root { --main-bg-color: light-dark(${props.light}, ${props.dark}); }`;
+    },
+    // Added mock for renderLegacyCss
+    renderLegacyCss: (stylesConfig: any) => {
+      const props = stylesConfig.colors?.properties["main-bg-color"] || {
+        light: "#ffffff",
+        dark: "#111111",
+      };
+      return `:root { --main-bg-color: ${props.light}; } @media (prefers-color-scheme: dark) { :root { --main-bg-color: ${props.dark}; } }`;
     },
   },
 });
@@ -127,27 +133,14 @@ describe("GenerateTheme", () => {
   it("renders the initial group and preview", async () => {
     render(<GenerateTheme />);
 
+    assert.ok(screen.getByRole("heading", { name: "Select Controls" }));
     assert.ok(
-      screen.getByRole("heading", {
-        name: "Select Controls",
-      }),
+      screen.getByRole("heading", { name: "Updated Related Properties" }),
     );
-
-    assert.ok(
-      screen.getByRole("heading", {
-        name: "Updated Related Properties",
-      }),
-    );
-
-    assert.ok(
-      screen.getByRole("heading", {
-        name: "Preview",
-      }),
-    );
+    assert.ok(screen.getByRole("heading", { name: "Preview" }));
 
     assert.ok(screen.getByText("--main-bg-color"));
     assert.ok(screen.getByText("--main-fg-color"));
-
     assert.ok(screen.getByTestId("render-demo"));
 
     assert.equal(screen.getByTestId("demo-theme").textContent, "light");
@@ -166,9 +159,7 @@ describe("GenerateTheme", () => {
     fireEvent.click(screen.getByRole("button", { name: "spacing" }));
 
     assert.ok(screen.getByText("--spacing-small"));
-
     assert.equal(screen.queryByText("--main-bg-color"), null);
-
     assert.equal(screen.queryByText("--main-fg-color"), null);
   });
 
@@ -187,6 +178,31 @@ describe("GenerateTheme", () => {
       assert.match(
         screen.getByTestId("render-code").textContent ?? "",
         /--main-bg-color: light-dark\(#ffffff, #111111\);/,
+      );
+    });
+  });
+
+  it("switches from preview to legacy css view", async () => {
+    render(<GenerateTheme />);
+
+    // Click the newly introduced Legacy CSS button option
+    fireEvent.click(screen.getByRole("button", { name: "Legacy CSS" }));
+
+    assert.ok(screen.getByTestId("render-code"));
+    assert.equal(screen.queryByTestId("render-demo"), null);
+
+    // Verify both legacy description guidelines are visible
+    assert.ok(
+      screen.getByText(
+        /This is for older browsers that do not support light-dark css/,
+      ),
+    );
+    assert.ok(screen.getByText(/\/src\/lib\/styles\/loading\.css/));
+
+    await waitFor(() => {
+      assert.match(
+        screen.getByTestId("render-code").textContent ?? "",
+        /@media \(prefers-color-scheme: dark\)/,
       );
     });
   });

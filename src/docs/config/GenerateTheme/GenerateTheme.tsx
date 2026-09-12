@@ -1,9 +1,9 @@
 import type { JSX } from "react/jsx-runtime";
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import React from "react";
 import type { ColorConfigGroup } from "./Types";
 import styles from "./Styles/Styles";
-import { modernCss, renderStorybookCss } from "./GenerateCss";
+import { modernCss, renderLegacyCss, renderStorybookCss } from "./GenerateCss";
 import { Button, H2 } from "storybook/internal/components";
 import styled from "styled-components";
 import RenderDemo from "./RenderDemo";
@@ -48,16 +48,13 @@ export default function GenerateTheme(): JSX.Element {
   const [stylesConfig, setStylesConfig] = useState<ColorConfigGroup>(styles);
 
   const [activeSection, setActiveSection] = useState<
-    "preview" | "css" | "storybook-css"
+    "preview" | "css" | "legacy-css" | "storybook-css"
   >("preview");
 
   const [demoTheme, setDemoTheme] = useState<"light" | "dark">("light");
 
   const groupKeys = useMemo(() => Object.keys(stylesConfig), [stylesConfig]);
   const [activeGroup, setActiveGroup] = useState<string>(groupKeys[0] || "");
-
-  const [colorCss, setColorCss] = useState<string>("");
-  const [storybookCss, setStorybookCss] = useState<string>("");
 
   const handleInputChange = React.useCallback(
     (cssKey: string, mode: "light" | "dark", value: string) => {
@@ -82,11 +79,6 @@ export default function GenerateTheme(): JSX.Element {
     },
     [activeGroup],
   );
-
-  useEffect(() => {
-    setColorCss(modernCss(stylesConfig));
-    setStorybookCss(renderStorybookCss(stylesConfig));
-  }, [stylesConfig]);
 
   const activeProperties = stylesConfig[activeGroup]?.properties || {};
   const ActiveExample = stylesConfig[activeGroup]?.example;
@@ -141,6 +133,13 @@ export default function GenerateTheme(): JSX.Element {
             CSS
           </Button>
           <Button
+            variant={activeSection === "legacy-css" ? "solid" : "outline"}
+            onClick={() => setActiveSection("legacy-css")}
+            size="small"
+          >
+            Legacy CSS
+          </Button>
+          <Button
             variant={activeSection === "storybook-css" ? "solid" : "outline"}
             onClick={() => setActiveSection("storybook-css")}
             size="small"
@@ -168,8 +167,12 @@ export default function GenerateTheme(): JSX.Element {
           </ButtonBar>
         )}
 
+        {/* 
+          FIX: Compute strings directly inside individual layout nodes on-the-fly.
+          If the tab isn't open, the string generator function never executes.
+        */}
         {activeSection === "preview" && ActiveExample && (
-          <RenderDemo theme={demoTheme} generatedCss={colorCss}>
+          <RenderDemo theme={demoTheme} generatedCss={modernCss(stylesConfig)}>
             <ActiveExample />
           </RenderDemo>
         )}
@@ -183,7 +186,24 @@ export default function GenerateTheme(): JSX.Element {
               these styles live in storybook you will also have to update
               storybook css. See 'Storybook CSS' button above.
             </p>
-            <RenderCode colorCss={colorCss} />
+            <RenderCode colorCss={modernCss(stylesConfig)} />
+          </>
+        )}
+
+        {activeSection === "legacy-css" && (
+          <>
+            <p>
+              This is for older browsers that do not support light-dark css,
+              released 2024.
+            </p>
+            <p>
+              You can use this code directly in a live project, or within this
+              project by overwriting{" "}
+              <strong>/src/lib/styles/loading.css</strong>. If you want to see
+              these styles live in storybook you will also have to update
+              storybook css. See 'Storybook CSS' button above.
+            </p>
+            <RenderCode colorCss={renderLegacyCss(stylesConfig)} />
           </>
         )}
 
@@ -193,7 +213,7 @@ export default function GenerateTheme(): JSX.Element {
               If you want to update the storybook site styles to need to
               overwrite <strong>/src/lib/styles/storybook-loading.css</strong>.
             </p>
-            <RenderCode colorCss={storybookCss} />
+            <RenderCode colorCss={renderStorybookCss(stylesConfig)} />
           </>
         )}
       </CardStyled>

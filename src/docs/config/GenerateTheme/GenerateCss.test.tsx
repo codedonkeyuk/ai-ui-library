@@ -1,7 +1,12 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 
-import { generateModernVariables, modernCss } from "./GenerateCss"; // Adjust the path if needed
+import {
+  generateModernVariables,
+  modernCss,
+  renderStorybookCss,
+  renderLegacyCss,
+} from "./GenerateCss";
 
 import type { ColorConfigGroup } from "./Types";
 
@@ -151,16 +156,6 @@ describe("modernCss", () => {
     assert.match(result, /:root\s*{[\s\S]*color-scheme: light dark;/);
   });
 
-  it("includes light and dark theme selectors", () => {
-    const result = modernCss({} as ColorConfigGroup);
-
-    assert.match(result, /:root\[data-theme="light"\]/);
-    assert.match(result, /color-scheme: light;/);
-
-    assert.match(result, /:root\[data-theme="dark"\]/);
-    assert.match(result, /color-scheme: dark;/);
-  });
-
   it("includes the spinner variables", () => {
     const result = modernCss({} as ColorConfigGroup);
 
@@ -178,5 +173,73 @@ describe("modernCss", () => {
       /animation: spin var\(--spinner-speed\) linear infinite;/,
     );
     assert.match(result, /@keyframes spin/);
+  });
+});
+
+describe("renderStorybookCss", () => {
+  it("scopes styles to storybook root and unstyled containers", () => {
+    const result = renderStorybookCss({} as ColorConfigGroup);
+
+    assert.match(result, /#storybook-root,\s*\.sb-unstyled/);
+    assert.match(result, /color-scheme: light dark;/);
+  });
+
+  it("includes localized storybook theme attribute overrides", () => {
+    const result = renderStorybookCss({} as ColorConfigGroup);
+
+    assert.match(
+      result,
+      /#storybook-root\[data-theme="light"\],\s*\.sb-unstyled\[data-theme="light"\]/,
+    );
+    assert.match(
+      result,
+      /#storybook-root\[data-theme="dark"\],\s*\.sb-unstyled\[data-theme="dark"\]/,
+    );
+  });
+
+  it("includes shared spinner assets and animations", () => {
+    const result = renderStorybookCss({} as ColorConfigGroup);
+
+    assert.match(result, /--spinner-size: 50px;/);
+    assert.match(result, /\.loading-spinner\s*{/);
+  });
+});
+
+describe("renderLegacyCss", () => {
+  it("renders explicit light variable values by default under the root", () => {
+    const config: ColorConfigGroup = {
+      colors: {
+        properties: {
+          "main-bg-color": {
+            light: "#ffffff",
+            dark: "#111111",
+          },
+        },
+        example: () => <>Hello</>,
+      },
+    };
+
+    const result = renderLegacyCss(config);
+
+    assert.match(result, /:root\s*{[\s\S]*--main-bg-color:\s*#ffffff;/);
+  });
+
+  it("contains media queries for automatic dark system preferences matching", () => {
+    const config: ColorConfigGroup = {
+      colors: {
+        properties: {
+          "main-bg-color": {
+            light: "#ffffff",
+            dark: "#111111",
+          },
+        },
+        example: () => <>Hello</>,
+      },
+    };
+
+    const result = renderLegacyCss(config);
+
+    assert.match(result, /@media\s*\(prefers-color-scheme:\s*dark\)/);
+    assert.match(result, /:root\s*{[\s\S]*--main-bg-color:\s*#111111;/);
   });
 });

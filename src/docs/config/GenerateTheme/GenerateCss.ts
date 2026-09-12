@@ -13,6 +13,19 @@ export const generateModernVariables = (
     .join("\n  ");
 };
 
+const generateVariablesForMode = (
+  configGroup: ColorConfigGroup,
+  mode: "light" | "dark",
+): string => {
+  return Object.values(configGroup)
+    .flatMap((group) => Object.entries(group.properties))
+    .map(([key, variants]) => {
+      const val = variants[mode] || "transparent";
+      return `--${key}: ${val};`;
+    })
+    .join("\n  ");
+};
+
 const additionalVariables = `
   --spinner-size: 50px;
   --spinner-thickness: 5px;
@@ -62,12 +75,6 @@ export const modernCss = (config: ColorConfigGroup) => `
 
 ${additionalVariables}
 }
-:root[data-theme="light"] {
-  color-scheme: light;
-}
-:root[data-theme="dark"] {
-  color-scheme: dark;
-}
 
 ${loadingCss}
 `;
@@ -90,6 +97,22 @@ ${additionalVariables}
 #storybook-root[data-theme="dark"],
 .sb-unstyled[data-theme="dark"] {
   color-scheme: dark;
+}
+
+${loadingCss}
+`;
+
+export const renderLegacyCss = (config: ColorConfigGroup) => `
+:root {
+  ${generateVariablesForMode(config, "light")}
+
+${additionalVariables}
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    ${generateVariablesForMode(config, "dark")}
+  }
 }
 
 ${loadingCss}
