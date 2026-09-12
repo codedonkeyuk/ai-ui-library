@@ -35,7 +35,7 @@ const textfieldStyles: ColorConfigItem = {
   },
   example: () => (
     <div className="container">
-      <Rows className="container">
+      <Rows className="page">
         <Input type="text" required label="Im a required field" />
         <Input
           type="text"

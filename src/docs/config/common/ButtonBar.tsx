@@ -5,7 +5,7 @@ import type {
   CSSPropertiesWithVars,
 } from "styled-components/dist/types";
 
-export const Rows: IStyledComponentBase<
+export const ButtonBar: IStyledComponentBase<
   "web",
   Omit<
     DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
@@ -15,13 +15,9 @@ export const Rows: IStyledComponentBase<
   }
 > &
   string = styled.div`
-  padding: 10px;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
+  display: flex;
+  gap: 4px;
+  justify-content: center;
   width: 100%;
-  box-sizing: border-box;
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  margin-bottom: 8px;
 `;

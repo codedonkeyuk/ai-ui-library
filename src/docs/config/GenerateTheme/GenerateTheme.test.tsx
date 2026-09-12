@@ -24,6 +24,19 @@ mock.module("storybook/internal/components", {
         onChange: React.ChangeEventHandler<HTMLInputElement>;
       }) => <input id={id} type={type} value={value} onChange={onChange} />,
     },
+    Button: ({
+      children,
+      onClick,
+    }: {
+      children: React.ReactNode;
+      onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    }) => (
+      <button type="button" onClick={onClick}>
+        {children}
+      </button>
+    ),
+    H2: ({ children }: { children: React.ReactNode }) => <h2>{children}</h2>,
+    H3: ({ children }: { children: React.ReactNode }) => <h3>{children}</h3>,
   },
 });
 
@@ -51,39 +64,6 @@ mock.module("./RenderCode", {
   defaultExport: ({ colorCss }: { colorCss: string }) => (
     <pre data-testid="render-code">{colorCss}</pre>
   ),
-});
-
-mock.module("../../../lib", {
-  namedExports: {
-    GlobalStyle: () => null,
-
-    Pills: ({
-      items,
-      onChange,
-    }: {
-      items: Array<{
-        id: string;
-        label: string;
-        selected: boolean;
-      }>;
-      onChange: (id: string) => void;
-      position?: string;
-    }) => (
-      <div>
-        {items.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            data-testid={`pill-${item.id}`}
-            data-selected={String(item.selected)}
-            onClick={() => onChange(item.id)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
-    ),
-  },
 });
 
 mock.module("./Styles/Styles", {
@@ -162,7 +142,7 @@ describe("GenerateTheme", () => {
   it("changes the active group", () => {
     render(<GenerateTheme />);
 
-    fireEvent.click(screen.getByTestId("pill-spacing"));
+    fireEvent.click(screen.getByRole("button", { name: "spacing" }));
 
     assert.ok(screen.getByText("--spacing-small"));
 
@@ -174,7 +154,7 @@ describe("GenerateTheme", () => {
   it("switches from preview to code", async () => {
     render(<GenerateTheme />);
 
-    fireEvent.click(screen.getByTestId("pill-code"));
+    fireEvent.click(screen.getByRole("button", { name: "Code" }));
 
     assert.ok(screen.getByTestId("render-code"));
 
@@ -191,11 +171,11 @@ describe("GenerateTheme", () => {
   it("switches back from code to preview", () => {
     render(<GenerateTheme />);
 
-    fireEvent.click(screen.getByTestId("pill-code"));
+    fireEvent.click(screen.getByRole("button", { name: "Code" }));
 
     assert.ok(screen.getByTestId("render-code"));
 
-    fireEvent.click(screen.getByTestId("pill-preview"));
+    fireEvent.click(screen.getByRole("button", { name: "Preview" }));
 
     assert.ok(screen.getByTestId("render-demo"));
 
@@ -207,7 +187,7 @@ describe("GenerateTheme", () => {
 
     assert.equal(screen.getByTestId("demo-theme").textContent, "light");
 
-    fireEvent.click(screen.getByTestId("pill-dark"));
+    fireEvent.click(screen.getByRole("button", { name: "Dark Mode" }));
 
     assert.equal(screen.getByTestId("demo-theme").textContent, "dark");
   });

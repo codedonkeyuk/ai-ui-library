@@ -5,6 +5,8 @@ import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 mock.module("storybook/internal/components", {
   namedExports: {
+    // FIX: Add the missing H3 mock component so heading queries work perfectly
+    H3: ({ children }: { children: React.ReactNode }) => <h3>{children}</h3>,
     Form: {
       Input: ({
         id,

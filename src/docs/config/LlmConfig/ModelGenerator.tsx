@@ -2,17 +2,9 @@ import type { JSX } from "react/jsx-runtime";
 import type { OutputProps } from "./Types";
 import { useState } from "react";
 import { Button } from "storybook/internal/components";
-import styled from "styled-components";
 import OpenAiOutput from "./OpenAiOutput";
 import OllamaOutput from "./OllamaOutput";
-
-const ButtonBar = styled.div`
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 8px;
-`;
+import { ButtonBar } from "../common/ButtonBar";
 
 export default function ModelGenerator({
   configData,
@@ -32,7 +24,6 @@ export default function ModelGenerator({
         other stuff.
       </p>
 
-      {/* OPTION A: Native Row-Level Variant Buttons (Matches Pill Layout behavior) */}
       <ButtonBar>
         <Button
           variant={selectedModel === "ollama" ? "solid" : "outline"}

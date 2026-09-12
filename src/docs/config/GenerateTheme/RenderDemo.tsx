@@ -16,9 +16,7 @@ const ContainerBackground = styled.div`
   align-items: center;
   background: var(--main-bg-color);
   color: var(--main-fg-color);
-  border: 1px solid var(--main-bdr-color);
   width: 100%;
-  min-height: 100%;
   box-sizing: border-box;
 `;
 

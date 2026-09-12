@@ -1,6 +1,7 @@
 import type { JSX } from "react/jsx-runtime";
 import { Form } from "storybook/internal/components";
 import type { ThemeVariants } from "./Types";
+import { H3 } from "storybook/internal/components";
 import styled from "styled-components";
 import React from "react";
 
@@ -22,7 +23,7 @@ export const ConfigRow: React.MemoExoticComponent<
   return (
     <PropertyStyle>
       <center>
-        <h3>--{cssKey}</h3>
+        <H3>--{cssKey}</H3>
       </center>
 
       <div style={{ display: "flex", gap: "12px" }}>

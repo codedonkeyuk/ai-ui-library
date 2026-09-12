@@ -4,20 +4,13 @@ import { Button } from "storybook/internal/components";
 import styled from "styled-components";
 import AgentsMdOutput from "./AgentsMdOutput.tsx";
 import ModelGenerator from "./ModelGenerator.tsx";
+import { ButtonBar } from "../common/ButtonBar.tsx";
 
 const PanelContainer = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 16px;
   padding: 1rem;
-`;
-
-const ButtonBar = styled.div`
-  display: flex;
-  gap: 4px;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 8px;
 `;
 
 interface Props {
