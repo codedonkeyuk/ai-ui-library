@@ -1,5 +1,4 @@
 {
-  "keychainService": "codedonkey-sftp-deploy",
   "localSource": "./storybook-static",
   "remoteDestination": "/ai-ui-library"
 }
